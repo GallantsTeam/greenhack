@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
     const items: FaqSidebarNavItem[] = results.map((item: any) => ({
       ...item,
       is_active: Boolean(item.is_active),
+      content: item.content || null, // Ensure content is included
     }));
     return NextResponse.json(items);
   } catch (error: any) {
@@ -26,9 +27,10 @@ export async function POST(request: NextRequest) {
   // TODO: Add admin authentication check
   try {
     const body = await request.json();
-    const { 
-      title, href, image_url, image_alt_text, data_ai_hint, 
-      item_order = 0, is_active = true 
+    const {
+      title, href, image_url, image_alt_text, data_ai_hint,
+      content, // Added content
+      item_order = 0, is_active = true
     } = body as Partial<Omit<FaqSidebarNavItem, 'id' | 'created_at' | 'updated_at'>>;
 
     if (!title || !href || !image_url) {
@@ -36,14 +38,15 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await query(
-      'INSERT INTO faq_sidebar_nav_items (title, href, image_url, image_alt_text, data_ai_hint, item_order, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [title, href, image_url, image_alt_text || null, data_ai_hint || null, item_order, is_active]
+      'INSERT INTO faq_sidebar_nav_items (title, href, image_url, image_alt_text, data_ai_hint, content, item_order, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [title, href, image_url, image_alt_text || null, data_ai_hint || null, content || null, item_order, is_active]
     ) as OkPacket;
 
     if (result.insertId) {
       const newItem: FaqSidebarNavItem = {
         id: result.insertId,
         title, href, image_url, image_alt_text: image_alt_text || null, data_ai_hint: data_ai_hint || null,
+        content: content || null,
         item_order, is_active,
         created_at: new Date().toISOString(), // Approximate
       };
@@ -56,3 +59,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: `Failed to create FAQ sidebar item: ${error.message}` }, { status: 500 });
   }
 }
+

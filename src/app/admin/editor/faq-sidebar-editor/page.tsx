@@ -12,10 +12,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle as DialogTitlePrimitive, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, PlusCircle, Edit, Trash2, ListFilter, Eye, EyeOff, AlertTriangle, ImageIcon as ImageIconLucide, LinkIcon, Tag, ListOrdered } from 'lucide-react';
+import { Loader2, PlusCircle, Edit, Trash2, ListFilter, Eye, EyeOff, AlertTriangle, ImageIcon as ImageIconLucide, LinkIcon, Tag, ListOrdered, FileText } from 'lucide-react'; // Added FileText
 import type { FaqSidebarNavItem } from '@/types';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import Image from 'next/image';
+import { Textarea } from '@/components/ui/textarea'; // Import Textarea
 
 const faqSidebarItemSchema = z.object({
   id: z.number().optional(),
@@ -24,6 +25,7 @@ const faqSidebarItemSchema = z.object({
   image_url: z.string().url({ message: "Неверный URL изображения." }).max(512),
   image_alt_text: z.string().max(255).optional().nullable(),
   data_ai_hint: z.string().max(100).optional().nullable(),
+  content: z.string().optional().nullable(), // Added content field
   item_order: z.coerce.number().default(0),
   is_active: z.boolean().default(true),
 });
@@ -47,6 +49,7 @@ export default function AdminFaqSidebarEditorPage() {
       image_url: '',
       image_alt_text: '',
       data_ai_hint: '',
+      content: '',
       item_order: 0,
       is_active: true,
     },
@@ -82,12 +85,13 @@ export default function AdminFaqSidebarEditorPage() {
         image_url: item.image_url,
         image_alt_text: item.image_alt_text || '',
         data_ai_hint: item.data_ai_hint || '',
+        content: item.content || '', // Load content
         item_order: item.item_order || 0,
         is_active: item.is_active === undefined ? true : item.is_active,
       });
     } else {
       setEditingItem(null);
-      form.reset({ title: '', href: '#', image_url: '', image_alt_text: '', data_ai_hint: '', item_order: sidebarItems.length > 0 ? Math.max(...sidebarItems.map(i => i.item_order || 0)) + 1 : 0, is_active: true });
+      form.reset({ title: '', href: '#', image_url: '', image_alt_text: '', data_ai_hint: '', content: '', item_order: sidebarItems.length > 0 ? Math.max(...sidebarItems.map(i => i.item_order || 0)) + 1 : 0, is_active: true });
     }
     setIsModalOpen(true);
   };
@@ -144,7 +148,7 @@ export default function AdminFaqSidebarEditorPage() {
               <ListFilter className="mr-2 h-5 w-5" />
               Редактор Сайдбара FAQ
           </CardTitle>
-          <CardDescription className="text-muted-foreground">Управление навигационными блоками в боковой панели страницы FAQ.</CardDescription>
+          <CardDescription className="text-muted-foreground">Управление навигационными блоками и их содержимым в боковой панели страницы FAQ.</CardDescription>
         </div>
         <Button onClick={() => handleOpenModal()} variant="outline" className="border-primary text-primary hover:bg-primary/10">
             <PlusCircle className="mr-2 h-4 w-4"/> Добавить блок
@@ -172,7 +176,7 @@ export default function AdminFaqSidebarEditorPage() {
                 </div>
                 <div className="flex items-center gap-2">
                     {item.is_active ? <Eye className="h-4 w-4 text-primary/70" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
-                    <Input type="number" value={item.item_order} onChange={(e) => {/* TODO: Implement order change via API */}} className="w-16 h-8 text-xs" disabled={isLoading} />
+                    <Input type="number" defaultValue={item.item_order} onChange={(e) => {/* TODO: Implement order change via API */}} className="w-16 h-8 text-xs" disabled={isLoading} />
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-primary/80 hover:text-primary" onClick={() => handleOpenModal(item)} disabled={isLoading}><Edit className="h-4 w-4"/></Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive/80" onClick={() => setItemToDelete(item)} disabled={isLoading}><Trash2 className="h-4 w-4"/></Button>
                 </div>
@@ -183,7 +187,7 @@ export default function AdminFaqSidebarEditorPage() {
       </CardContent>
 
       <Dialog open={isModalOpen} onOpenChange={(open) => { if (!open && !isLoading) { setIsModalOpen(false); setEditingItem(null); form.reset(); } else if (open) {setIsModalOpen(true); }}}>
-        <DialogContent className="sm:max-w-lg bg-card border-border">
+        <DialogContent className="sm:max-w-lg md:max-w-2xl bg-card border-border"> {/* Increased width for content */}
             <DialogHeader>
                 <DialogTitlePrimitive className="text-primary">{editingItem ? 'Редактировать блок сайдбара' : 'Добавить новый блок'}</DialogTitlePrimitive>
             </DialogHeader>
@@ -194,7 +198,7 @@ export default function AdminFaqSidebarEditorPage() {
                     {form.formState.errors.title && <p className="text-sm text-destructive mt-1">{form.formState.errors.title.message}</p>}
                 </div>
                 <div>
-                    <Label htmlFor="href" className="text-foreground flex items-center"><LinkIcon className="mr-1.5 h-4 w-4 text-primary/70"/>Ссылка (Href)</Label>
+                    <Label htmlFor="href" className="text-foreground flex items-center"><LinkIcon className="mr-1.5 h-4 w-4 text-primary/70"/>Ссылка (Href/Якорь)</Label>
                     <Input id="href" {...form.register("href")} placeholder="#economy-guide или /some-page" className="mt-1" disabled={isLoading} />
                     {form.formState.errors.href && <p className="text-sm text-destructive mt-1">{form.formState.errors.href.message}</p>}
                 </div>
@@ -210,6 +214,11 @@ export default function AdminFaqSidebarEditorPage() {
                 <div>
                     <Label htmlFor="data_ai_hint" className="text-foreground">Подсказка для AI (изображение)</Label>
                     <Input id="data_ai_hint" {...form.register("data_ai_hint")} placeholder="discount savings" className="mt-1" disabled={isLoading} />
+                </div>
+                <div>
+                    <Label htmlFor="content" className="text-foreground flex items-center"><FileText className="mr-1.5 h-4 w-4 text-primary/70"/>HTML Содержимое</Label>
+                    <Textarea id="content" {...form.register("content")} placeholder="<p>Ваш <b>HTML</b> контент здесь...</p>" className="mt-1 min-h-[150px]" disabled={isLoading} />
+                    {form.formState.errors.content && <p className="text-sm text-destructive mt-1">{form.formState.errors.content.message}</p>}
                 </div>
                 <div>
                     <Label htmlFor="item_order" className="text-foreground flex items-center"><ListOrdered className="mr-1.5 h-4 w-4 text-primary/70"/>Порядок сортировки</Label>
@@ -249,3 +258,4 @@ export default function AdminFaqSidebarEditorPage() {
     </Card>
   );
 }
+

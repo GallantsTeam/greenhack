@@ -7,19 +7,29 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Loader2, Search as SearchIcon, AlertTriangle, MessageSquareQuestion, Home, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
-import type { FaqItem, SiteSettings } from '@/types';
+import type { FaqItem, SiteSettings, FaqSidebarNavItem } from '@/types';
 import { useToast } from '@/hooks/use-toast';
-import FaqSidebarNav from '@/components/FaqSidebarNav'; 
+import FaqSidebarNav from '@/components/FaqSidebarNav';
+import { cn } from '@/lib/utils';
 
 export default function FaqPage() {
   const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
   const [isLoadingFaq, setIsLoadingFaq] = useState(true);
   const [errorFaq, setErrorFaq] = useState<string | null>(null);
+  
+  const [sidebarNavItems, setSidebarNavItems] = useState<FaqSidebarNavItem[]>([]);
+  const [isLoadingSidebar, setIsLoadingSidebar] = useState(true);
+  const [errorSidebar, setErrorSidebar] = useState<string | null>(null);
+  
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
 
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const [isLoadingSettings, setIsLoadingSettings] = useState(true);
+
+  const [selectedSidebarItemContent, setSelectedSidebarItemContent] = useState<string | null>(null);
+  const [activeSidebarHref, setActiveSidebarHref] = useState<string | null>(null);
+
 
   const fetchFaqItems = useCallback(async () => {
     setIsLoadingFaq(true);
@@ -39,6 +49,23 @@ export default function FaqPage() {
       setIsLoadingFaq(false);
     }
   }, [toast]);
+  
+  const fetchSidebarNavItems = useCallback(async () => {
+    setIsLoadingSidebar(true);
+    setErrorSidebar(null);
+    try {
+      const response = await fetch('/api/admin/faq-sidebar-items');
+      if (!response.ok) throw new Error('Не удалось загрузить навигацию для FAQ');
+      const data: FaqSidebarNavItem[] = await response.json();
+      setSidebarNavItems(data.filter(item => item.is_active).sort((a,b) => (a.item_order || 0) - (b.item_order || 0)));
+    } catch (err:any) {
+      setErrorSidebar(err.message);
+      toast({ title: "Ошибка загрузки навигации FAQ", description: err.message, variant: "destructive" });
+    } finally {
+      setIsLoadingSidebar(false);
+    }
+  }, [toast]);
+
 
   const fetchSiteSettings = useCallback(async () => {
     setIsLoadingSettings(true);
@@ -49,7 +76,6 @@ export default function FaqPage() {
       setSiteSettings(data);
     } catch (error) {
       console.error("FAQ Page: Error fetching site settings:", error);
-      // Use defaults if fetch fails so page can still render somewhat
       setSiteSettings({
         faq_page_main_title: 'Часто Задаваемые Вопросы',
         faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку',
@@ -61,21 +87,32 @@ export default function FaqPage() {
 
   useEffect(() => {
     fetchFaqItems();
+    fetchSidebarNavItems();
     fetchSiteSettings();
-  }, [fetchFaqItems, fetchSiteSettings]);
+  }, [fetchFaqItems, fetchSidebarNavItems, fetchSiteSettings]);
+
+  const handleSidebarItemClick = (item: FaqSidebarNavItem) => {
+    if (activeSidebarHref === item.href) { // If clicking the same item again, deselect it
+      setSelectedSidebarItemContent(null);
+      setActiveSidebarHref(null);
+    } else {
+      setSelectedSidebarItemContent(item.content || '<p>Содержимое для этого раздела еще не добавлено.</p>');
+      setActiveSidebarHref(item.href);
+    }
+  };
 
   const filteredFaqItems = useMemo(() => {
-    if (!searchTerm) return faqItems;
+    if (!searchTerm || selectedSidebarItemContent) return faqItems; // Don't filter accordion if sidebar content is shown
     return faqItems.filter(item =>
       item.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.answer.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [faqItems, searchTerm]);
+  }, [faqItems, searchTerm, selectedSidebarItemContent]);
   
   const pageTitle = siteSettings?.faq_page_main_title || 'Часто Задаваемые Вопросы';
   const contactPromptText = siteSettings?.faq_page_contact_prompt_text || 'Не нашли ответ на свой вопрос? Напишите в поддержку';
 
-  if (isLoadingFaq || isLoadingSettings) {
+  if (isLoadingFaq || isLoadingSettings || isLoadingSidebar) {
     return (
       <div className="container mx-auto px-4 py-8 space-y-8 text-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] flex flex-col justify-center">
         <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary mb-4" />
@@ -113,32 +150,45 @@ export default function FaqPage() {
               />
             </div>
 
-            {isLoadingFaq && filteredFaqItems.length === 0 ? (
-              <div className="flex justify-center items-center py-10">
-                <Loader2 className="h-10 w-10 animate-spin text-primary" />
-              </div>
-            ) : errorFaq ? (
-              <div className="text-center py-10 text-destructive">
-                <AlertTriangle className="mx-auto h-10 w-10 mb-2" />
-                <p>{errorFaq}</p>
-              </div>
-            ) : filteredFaqItems.length > 0 ? (
-              <Accordion type="multiple" className="w-full space-y-3">
-                {filteredFaqItems.map((item) => (
-                  <AccordionItem key={item.id} value={`item-${item.id}`} className="border border-border/50 rounded-lg bg-card shadow-sm transition-shadow hover:shadow-md">
-                    <AccordionTrigger className="px-4 py-3 text-left text-base font-medium text-foreground hover:text-primary hover:no-underline">
-                      {item.question}
-                    </AccordionTrigger>
-                    <AccordionContent className="px-4 pb-4 pt-0 text-sm text-muted-foreground whitespace-pre-wrap">
-                      {item.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+            {selectedSidebarItemContent ? (
+                <Card className="border border-border/50 rounded-lg bg-card shadow-sm">
+                    <CardContent className="p-4 md:p-6">
+                        <div 
+                            className="prose prose-sm dark:prose-invert max-w-none text-foreground/90" 
+                            dangerouslySetInnerHTML={{ __html: selectedSidebarItemContent }} 
+                        />
+                    </CardContent>
+                </Card>
             ) : (
-              <p className="text-center text-muted-foreground py-10">
-                {searchTerm ? 'По вашему запросу ничего не найдено.' : 'Вопросы и ответы еще не добавлены.'}
-              </p>
+                <>
+                    {isLoadingFaq && filteredFaqItems.length === 0 ? (
+                    <div className="flex justify-center items-center py-10">
+                        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                    </div>
+                    ) : errorFaq ? (
+                    <div className="text-center py-10 text-destructive">
+                        <AlertTriangle className="mx-auto h-10 w-10 mb-2" />
+                        <p>{errorFaq}</p>
+                    </div>
+                    ) : filteredFaqItems.length > 0 ? (
+                    <Accordion type="multiple" className="w-full space-y-3">
+                        {filteredFaqItems.map((item) => (
+                        <AccordionItem key={item.id} value={`item-${item.id}`} className="border border-border/50 rounded-lg bg-card shadow-sm transition-shadow hover:shadow-md">
+                            <AccordionTrigger className="px-4 py-3 text-left text-base font-medium text-foreground hover:text-primary hover:no-underline">
+                            {item.question}
+                            </AccordionTrigger>
+                            <AccordionContent className="px-4 pb-4 pt-0 text-sm text-muted-foreground whitespace-pre-wrap">
+                            {item.answer}
+                            </AccordionContent>
+                        </AccordionItem>
+                        ))}
+                    </Accordion>
+                    ) : (
+                    <p className="text-center text-muted-foreground py-10">
+                        {searchTerm ? 'По вашему запросу ничего не найдено.' : 'Вопросы и ответы еще не добавлены.'}
+                    </p>
+                    )}
+                </>
             )}
             <div className="mt-8 text-center">
               <p className="text-muted-foreground">
@@ -152,7 +202,13 @@ export default function FaqPage() {
           </div>
 
           <aside className="lg:col-span-4 xl:col-span-3">
-             <FaqSidebarNav />
+             <FaqSidebarNav 
+                items={sidebarNavItems} 
+                isLoading={isLoadingSidebar} 
+                error={errorSidebar}
+                onItemClick={handleSidebarItemClick}
+                activeItemHref={activeSidebarHref}
+             />
           </aside>
         </div>
       </div>

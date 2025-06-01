@@ -254,7 +254,9 @@ const getDefaultSettings = ()=>({
         footer_marketplace_text: 'Мы продаем на:',
         footer_marketplace_logo_url: 'https://yougame.biz/images/rlm/logo/logoconcept4.png',
         footer_marketplace_link_url: 'https://yougame.biz/members/263428/',
-        footer_marketplace_is_visible: true
+        footer_marketplace_is_visible: true,
+        faq_page_main_title: 'Часто Задаваемые Вопросы',
+        faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку'
     });
 async function GET(request) {
     console.log('[API GET /admin/site-settings] Attempting to fetch settings...');
@@ -298,7 +300,9 @@ async function GET(request) {
         ...settingsFromDb,
         id: SETTINGS_ROW_ID,
         // Ensure boolean fields are correctly typed if coming from DB (0/1)
-        footer_marketplace_is_visible: settingsFromDb.footer_marketplace_is_visible !== undefined ? Boolean(settingsFromDb.footer_marketplace_is_visible) : defaults.footer_marketplace_is_visible
+        footer_marketplace_is_visible: settingsFromDb.footer_marketplace_is_visible !== undefined ? Boolean(settingsFromDb.footer_marketplace_is_visible) : defaults.footer_marketplace_is_visible,
+        faq_page_main_title: settingsFromDb.faq_page_main_title || defaults.faq_page_main_title,
+        faq_page_contact_prompt_text: settingsFromDb.faq_page_contact_prompt_text || defaults.faq_page_contact_prompt_text
     };
     console.log('[API GET /admin/site-settings] Returning merged settings:', mergedSettings);
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(mergedSettings);
@@ -313,7 +317,6 @@ async function PUT(request) {
         console.log('[API PUT /admin/site-settings] Ensured settings row with id=1 exists.');
         const updateFields = [];
         const queryParams = [];
-        // Этот список теперь включает все поля, которые могут быть отредактированы через этот общий эндпоинт.
         const editableFields = [
             'site_name',
             'site_description',
@@ -328,7 +331,9 @@ async function PUT(request) {
             'footer_marketplace_text',
             'footer_marketplace_logo_url',
             'footer_marketplace_link_url',
-            'footer_marketplace_is_visible'
+            'footer_marketplace_is_visible',
+            'faq_page_main_title',
+            'faq_page_contact_prompt_text'
         ];
         editableFields.forEach((key)=>{
             if (body[key] !== undefined) {
@@ -351,7 +356,9 @@ async function PUT(request) {
                 currentSettings = {
                     ...currentSettings,
                     ...currentSettingsResult[0],
-                    footer_marketplace_is_visible: Boolean(currentSettingsResult[0].footer_marketplace_is_visible)
+                    footer_marketplace_is_visible: Boolean(currentSettingsResult[0].footer_marketplace_is_visible),
+                    faq_page_main_title: currentSettingsResult[0].faq_page_main_title || currentSettings.faq_page_main_title,
+                    faq_page_contact_prompt_text: currentSettingsResult[0].faq_page_contact_prompt_text || currentSettings.faq_page_contact_prompt_text
                 };
             }
             console.log('[API PUT /admin/site-settings] No fields to update. Returning current settings.');
@@ -376,7 +383,9 @@ async function PUT(request) {
             finalSettings = {
                 ...finalSettings,
                 ...updatedSettingsResult[0],
-                footer_marketplace_is_visible: Boolean(updatedSettingsResult[0].footer_marketplace_is_visible)
+                footer_marketplace_is_visible: Boolean(updatedSettingsResult[0].footer_marketplace_is_visible),
+                faq_page_main_title: updatedSettingsResult[0].faq_page_main_title || finalSettings.faq_page_main_title,
+                faq_page_contact_prompt_text: updatedSettingsResult[0].faq_page_contact_prompt_text || finalSettings.faq_page_contact_prompt_text
             };
         }
         console.log('[API PUT /admin/site-settings] Returning updated settings:', finalSettings);

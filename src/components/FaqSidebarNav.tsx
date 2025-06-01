@@ -2,42 +2,22 @@
 // src/components/FaqSidebarNav.tsx
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link'; // Keep Link for potential future use if href becomes a page path
+import React from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { FaqSidebarNavItem } from '@/types'; // Use the new type
+import type { FaqSidebarNavItem } from '@/types';
 import { Loader2, AlertTriangle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils'; // Added cn import
 
-const FaqSidebarNav: React.FC = () => {
-  const [items, setItems] = useState<FaqSidebarNavItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { toast } = useToast();
+interface FaqSidebarNavProps {
+  items: FaqSidebarNavItem[];
+  isLoading: boolean;
+  error: string | null;
+  onItemClick: (item: FaqSidebarNavItem) => void;
+  activeItemHref: string | null;
+}
 
-  const fetchSidebarItems = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('/api/admin/faq-sidebar-items'); // Fetch from the new API
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Не удалось загрузить элементы боковой панели' }));
-        throw new Error(errorData.message);
-      }
-      const data: FaqSidebarNavItem[] = await response.json();
-      setItems(data.filter(item => item.is_active).sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
-    } catch (err: any) {
-      setError(err.message);
-      toast({ title: "Ошибка загрузки навигации FAQ", description: err.message, variant: "destructive" });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [toast]);
-
-  useEffect(() => {
-    fetchSidebarItems();
-  }, [fetchSidebarItems]);
+const FaqSidebarNav: React.FC<FaqSidebarNavProps> = ({ items, isLoading, error, onItemClick, activeItemHref }) => {
 
   if (isLoading) {
     return (
@@ -82,22 +62,13 @@ const FaqSidebarNav: React.FC = () => {
       </CardHeader>
       <CardContent className="p-4 space-y-3">
         {items.map((item) => (
-          <a // Using <a> for anchor links, Link for page navigation
+          <button // Changed from <a> to <button> for click handling
             key={item.id}
-            href={item.href} // Direct anchor link or page path
-            className="block rounded-lg overflow-hidden shadow-md hover:shadow-primary/30 transition-shadow transform hover:scale-[1.02]"
-            onClick={(e) => {
-              if (item.href.startsWith('#')) {
-                e.preventDefault();
-                const targetElement = document.querySelector(item.href);
-                if (targetElement) {
-                  targetElement.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  console.warn(`Anchor target ${item.href} not found.`);
-                }
-              }
-              // If it's a full path, default browser navigation or Next Link (if wrapped) will handle it.
-            }}
+            onClick={() => onItemClick(item)}
+            className={cn(
+                "block w-full rounded-lg overflow-hidden shadow-md hover:shadow-primary/30 transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary/50",
+                activeItemHref === item.href ? "ring-2 ring-primary/70 scale-[1.01]" : ""
+            )}
           >
             <div className="relative w-full aspect-[3/1]">
               <Image
@@ -107,13 +78,19 @@ const FaqSidebarNav: React.FC = () => {
                 objectFit="cover"
                 data-ai-hint={item.data_ai_hint || 'sidebar item'}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-2.5">
-                <h4 className="text-white text-xs font-semibold uppercase tracking-wide leading-tight">
+              <div className={cn(
+                  "absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-2.5 transition-opacity duration-300",
+                  activeItemHref === item.href ? "opacity-100" : "opacity-80 group-hover:opacity-95"
+                )}>
+                <h4 className={cn(
+                    "text-white text-xs font-semibold uppercase tracking-wide leading-tight",
+                    activeItemHref === item.href ? "text-primary" : ""
+                )}>
                   {item.title}
                 </h4>
               </div>
             </div>
-          </a>
+          </button>
         ))}
       </CardContent>
     </Card>

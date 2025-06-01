@@ -44,7 +44,7 @@ export interface ProductPricingOption {
   price_rub: number;
   price_gh: number;
   payment_link?: string | null;
-  mode_label?: string | null; 
+  mode_label?: string | null;
   created_at?: string;
 }
 
@@ -76,7 +76,7 @@ export interface Product {
   glowColor?: 'primary' | 'orange' | 'red' | 'sky';
   mode?: 'PVE' | 'PVP' | 'BOTH' | null;
   gallery_image_urls?: string[] | null;
-  
+
   functions_aim_title?: string | null;
   functions_aim?: string[] | null;
   functions_aim_description?: string | null;
@@ -94,7 +94,7 @@ export interface Product {
   system_gpu?: string | null;
   system_cpu?: string | null;
   pricing_options?: ProductPricingOption[] | null;
-  
+
   retrieval_modal_intro_text?: string | null;
   retrieval_modal_antivirus_text?: string | null;
   retrieval_modal_antivirus_link_text?: string | null;
@@ -106,7 +106,7 @@ export interface Product {
   retrieval_modal_support_text?: string | null;
   retrieval_modal_support_link_text?: string | null;
   retrieval_modal_support_link_url?: string | null;
-  retrieval_modal_how_to_run_link?: string | null; 
+  retrieval_modal_how_to_run_link?: string | null;
 }
 
 
@@ -161,7 +161,7 @@ export interface Prize {
   product_name?: string; // Joined for display convenience
   uniqueKey?: string; // For client-side list rendering in roulette
   product_pricing_option_id?: number | null; // if prize is a specific product variant
-  mode_label?: string | null; 
+  mode_label?: string | null;
 }
 
 
@@ -266,7 +266,7 @@ export interface AdminTelegramNotificationPrefs {
   notify_admin_on_product_purchase: boolean;
   notify_admin_on_promo_code_creation: boolean;
   notify_admin_on_admin_login: boolean;
-  notify_admin_on_key_activation_request?: boolean; 
+  notify_admin_on_key_activation_request?: boolean;
   updated_at?: string;
 }
 
@@ -302,8 +302,8 @@ export interface PurchaseHistoryItem extends Purchase {
   user_username?: string;
   product_name?: string;
   product_pricing_option_duration_days?: number | null;
-  product_pricing_option_mode_label?: string | null; 
-  description?: string; 
+  product_pricing_option_mode_label?: string | null;
+  description?: string;
 }
 
 
@@ -337,7 +337,7 @@ export interface InventoryItem {
   product_name: string;
   product_image_url?: string | null;
   activation_code?: string | null;
-  expires_at?: string | null; 
+  expires_at?: string | null;
   acquired_at?: string;
   is_used?: boolean;
   purchase_id?: number | null;
@@ -347,8 +347,8 @@ export interface InventoryItem {
 }
 
 export interface InventoryItemWithDetails extends InventoryItem {
-    duration_days?: number | null; 
-    mode_label?: string | null; 
+    duration_days?: number | null;
+    mode_label?: string | null;
 }
 
 
@@ -395,14 +395,14 @@ export interface ReferredUsersCount {
 }
 
 export interface ActiveLicense {
-  id: string; 
+  id: string;
   productName: string;
   purchaseDate: Date | string;
   activated_at: Date | string | null;
-  expiryDate: string | null; 
+  expiryDate: string | null;
   productSlug: string;
   how_to_run_link?: string | null;
-  mode_label?: string | null; 
+  mode_label?: string | null;
 }
 
 export interface PromoCode {
@@ -411,16 +411,16 @@ export interface PromoCode {
   type: 'balance_gh' | 'product';
   value_gh?: number | null;
   related_product_id?: string | null;
-  product_pricing_option_id?: number | null; 
+  product_pricing_option_id?: number | null;
   max_uses: number;
   current_uses: number;
   expires_at?: string | null;
   is_active: boolean;
   created_at?: string;
   updated_at?: string;
-  product_name?: string; 
-  pricing_option_description?: string; 
-  pricing_option_mode_label?: string | null; 
+  product_name?: string;
+  pricing_option_description?: string;
+  pricing_option_mode_label?: string | null;
 }
 
 export interface PromoCodeActivator extends Pick<User, 'id' | 'username' | 'email'> {
@@ -470,7 +470,7 @@ export interface AdminStats {
   totalUsers: number;
   totalProducts: number;
   monthlySalesGh: number;
-  openTickets: number; 
+  openTickets: number;
 }
 
 export interface SoftwareRetrievalModalContent {
@@ -526,6 +526,7 @@ export interface FaqSidebarNavItem {
   image_url: string;
   image_alt_text?: string | null;
   data_ai_hint?: string | null;
+  content?: string | null; // Added content field
   item_order: number;
   is_active: boolean;
   created_at?: string;
