@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Package, ShoppingCart, Settings, LayoutDashboard, Layers, Palette, FileText, Ticket, ChevronRight, DollarSign, PercentSquare, HandCoins, CreditCard, Bot as BotIcon, MessageSquare as MessageSquareIcon, BarChart3, PencilRuler } from 'lucide-react'; // Added PencilRuler
+import { Home, Users, Package, ShoppingCart, Settings, LayoutDashboard, Layers, Palette, FileText, Ticket, ChevronRight, DollarSign, PercentSquare, HandCoins, CreditCard, Bot as BotIcon, MessageSquare as MessageSquareIcon, BarChart3, PencilRuler, KeyRound } from 'lucide-react'; // Added KeyRound
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -18,6 +18,7 @@ const adminNavItemsBase = [
   { href: '/admin/categories', label: 'Категории', icon: Layers, baseRoute: '/admin/categories' },
   { href: '/admin/cases', label: 'Кейсы', icon: Palette, baseRoute: '/admin/cases' },
   { href: '/admin/promocodes', label: 'Промокоды', icon: PercentSquare, baseRoute: '/admin/promocodes' },
+  { href: '/admin/key-activations', label: 'Активация Ключей', icon: KeyRound, baseRoute: '/admin/key-activations' }, // Added Key Activations link
   { href: '/admin/reviews', label: 'Отзывы', icon: MessageSquareIcon, baseRoute: '/admin/reviews', dataTestId: 'admin-reviews-link' },
   { href: '/admin/orders', label: 'Заказы', icon: ShoppingCart, baseRoute: '/admin/orders' },
   { href: '/admin/accounting', label: 'Бухгалтерия', icon: DollarSign, baseRoute: '/admin/accounting' },
@@ -26,7 +27,7 @@ const adminNavItemsBase = [
 ];
 
 const editorNavItem = {
-    href: '/admin/editor', // Redirects to /admin/editor/footer-contacts initially
+    href: '/admin/editor', 
     label: 'Редактор',
     icon: PencilRuler,
     baseRoute: '/admin/editor',
@@ -47,26 +48,42 @@ export default function AdminSidebar() {
   const [showTestPaymentsLink, setShowTestPaymentsLink] = useState(false);
   const [isLoadingSettings, setIsLoadingSettings] = useState(true);
   const [pendingReviewCount, setPendingReviewCount] = useState(0);
+  const [pendingKeyActivationCount, setPendingKeyActivationCount] = useState(0); // New state for key activations
 
-  const fetchPendingReviewCount = useCallback(async () => {
+  const fetchPendingCounts = useCallback(async () => {
     try {
-      const response = await fetch('/api/admin/reviews/pending-count');
-      if (response.ok) {
-        const data = await response.json();
-        setPendingReviewCount(data.count);
+      const [reviewResponse, keyActivationResponse] = await Promise.all([
+        fetch('/api/admin/reviews/pending-count'),
+        fetch('/api/admin/key-activation-requests?status=pending_admin_approval') // Assuming API supports status filter or returns all and we filter client-side (better to filter API-side if possible)
+      ]);
+
+      if (reviewResponse.ok) {
+        const reviewData = await reviewResponse.json();
+        setPendingReviewCount(reviewData.count);
       } else {
         console.warn("Failed to fetch pending review count.");
       }
+
+      if (keyActivationResponse.ok) {
+        const keyActivationData = await keyActivationResponse.json();
+        // If the API returns all requests, filter here. If it pre-filters, this is simpler.
+        // For now, assuming the API returns only pending or we count all returned as pending if no status filter.
+        setPendingKeyActivationCount(Array.isArray(keyActivationData) ? keyActivationData.length : 0);
+      } else {
+        console.warn("Failed to fetch pending key activation count.");
+      }
+
     } catch (error) {
-      console.error("Error fetching pending review count:", error);
+      console.error("Error fetching pending counts:", error);
     }
   }, []);
 
-  useEffect(() => {
-    fetchPendingReviewCount(); 
 
-    if (pathname.startsWith('/admin/reviews')) { // Refresh count when navigating to reviews page or its subpages
-        fetchPendingReviewCount();
+  useEffect(() => {
+    fetchPendingCounts(); 
+
+    if (pathname.startsWith('/admin/reviews') || pathname.startsWith('/admin/key-activations')) { 
+        fetchPendingCounts();
     }
 
     const fetchPaymentSettings = async () => {
@@ -86,7 +103,7 @@ export default function AdminSidebar() {
       }
     };
     fetchPaymentSettings();
-  }, [fetchPendingReviewCount, pathname]);
+  }, [fetchPendingCounts, pathname]);
 
 
   const isActive = (itemHref: string, itemBaseRoute?: string, exact?: boolean) => {
@@ -101,7 +118,7 @@ export default function AdminSidebar() {
   if (!isLoadingSettings && showTestPaymentsLink) {
     allNavItems.push(testPaymentsNavItem);
   }
-  allNavItems.push(editorNavItem); // Add Editor section
+  allNavItems.push(editorNavItem); 
   allNavItems.push(siteSettingsNavItem);
 
 
@@ -114,9 +131,11 @@ export default function AdminSidebar() {
       </div>
       <ScrollArea className="flex-1">
         <nav className="px-2 py-4 space-y-1">
-          {allNavItems.map((item) => {
+          {allNavItems.sort((a, b) => (adminNavItemsBase.indexOf(a) !== -1 && adminNavItemsBase.indexOf(b) !== -1) ? 0 : adminNavItemsBase.indexOf(a) === -1 ? 1 : -1) // Keep base items first, then others
+          .map((item) => {
             const active = isActive(item.href, item.baseRoute, (item as any).exact);
-            const isReviewsLink = item.dataTestId === 'admin-reviews-link';
+            const isReviewsLink = item.href === '/admin/reviews';
+            const isKeyActivationsLink = item.href === '/admin/key-activations';
             return (
               <Button
                 key={item.href}
@@ -137,9 +156,12 @@ export default function AdminSidebar() {
                       {pendingReviewCount}
                     </Badge>
                   )}
-                  {active && !isReviewsLink && <ChevronRight className="ml-auto h-4 w-4" />}
-                   {active && isReviewsLink && pendingReviewCount === 0 && <ChevronRight className="ml-auto h-4 w-4" />}
-
+                  {isKeyActivationsLink && pendingKeyActivationCount > 0 && (
+                    <Badge variant="destructive" className="ml-auto h-5 px-1.5 text-xs rounded-full">
+                      {pendingKeyActivationCount}
+                    </Badge>
+                  )}
+                  {active && !((isReviewsLink && pendingReviewCount > 0) || (isKeyActivationsLink && pendingKeyActivationCount > 0)) && <ChevronRight className="ml-auto h-4 w-4" />}
                 </Link>
               </Button>
             );
