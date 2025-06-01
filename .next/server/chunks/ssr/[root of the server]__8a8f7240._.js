@@ -1510,14 +1510,18 @@ const UserNotificationBell = ()=>{
         try {
             const response = await fetch(`/api/user/${currentUser.id}/notifications`);
             if (!response.ok) {
-                throw new Error('Не удалось загрузить уведомления.');
+                // Attempt to parse error message from API if available
+                const errorData = await response.json().catch(()=>({
+                        message: 'Не удалось загрузить уведомления (статус: ' + response.status + ').'
+                    }));
+                throw new Error(errorData.message || 'Не удалось загрузить уведомления.');
             }
             const data = await response.json();
             setNotifications(data);
             setUnreadCount(data.filter((n)=>!n.is_read).length);
         } catch (error) {
             console.error("Error fetching notifications:", error);
-        // toast({ variant: "destructive", title: "Ошибка", description: error.message });
+        // toast({ variant: "destructive", title: "Ошибка", description: error.message }); // Commented out to avoid spamming toasts for this common scenario
         } finally{
             setIsLoading(false);
         }
@@ -1550,7 +1554,10 @@ const UserNotificationBell = ()=>{
                 method: 'PUT'
             });
             if (!response.ok) {
-                throw new Error('Не удалось отметить уведомление как прочитанное.');
+                const errorData = await response.json().catch(()=>({
+                        message: 'Не удалось отметить уведомление как прочитанное.'
+                    }));
+                throw new Error(errorData.message);
             }
             fetchNotifications(); // Re-fetch to update list and count
         } catch (error) {
@@ -1574,7 +1581,10 @@ const UserNotificationBell = ()=>{
                 })
             });
             if (!response.ok) {
-                throw new Error('Не удалось отметить все уведомления как прочитанные.');
+                const errorData = await response.json().catch(()=>({
+                        message: 'Не удалось отметить все уведомления как прочитанные.'
+                    }));
+                throw new Error(errorData.message);
             }
             fetchNotifications(); // Re-fetch
         } catch (error) {
@@ -1614,7 +1624,7 @@ const UserNotificationBell = ()=>{
                             className: "h-4 w-4 sm:h-5 sm:w-5"
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 111,
+                            lineNumber: 115,
                             columnNumber: 11
                         }, this),
                         unreadCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1623,7 +1633,7 @@ const UserNotificationBell = ()=>{
                             children: unreadCount > 9 ? '9+' : unreadCount
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 113,
+                            lineNumber: 117,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1631,18 +1641,18 @@ const UserNotificationBell = ()=>{
                             children: "Открыть уведомления"
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 120,
+                            lineNumber: 124,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                    lineNumber: 110,
+                    lineNumber: 114,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                lineNumber: 109,
+                lineNumber: 113,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PopoverContent"], {
@@ -1657,7 +1667,7 @@ const UserNotificationBell = ()=>{
                                 children: "Уведомления"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                lineNumber: 125,
+                                lineNumber: 129,
                                 columnNumber: 11
                             }, this),
                             unreadCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1670,20 +1680,20 @@ const UserNotificationBell = ()=>{
                                         className: "mr-1.5 h-3.5 w-3.5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                        lineNumber: 128,
+                                        lineNumber: 132,
                                         columnNumber: 15
                                     }, this),
                                     "Прочитать все"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                lineNumber: 127,
+                                lineNumber: 131,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                        lineNumber: 124,
+                        lineNumber: 128,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$scroll$2d$area$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ScrollArea"], {
@@ -1694,19 +1704,19 @@ const UserNotificationBell = ()=>{
                                 className: "h-6 w-6 animate-spin text-primary"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                lineNumber: 136,
+                                lineNumber: 140,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 135,
+                            lineNumber: 139,
                             columnNumber: 13
                         }, this) : notifications.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             className: "text-center text-sm text-muted-foreground py-10",
                             children: "Нет новых уведомлений."
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 139,
+                            lineNumber: 143,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "divide-y divide-border",
@@ -1725,7 +1735,7 @@ const UserNotificationBell = ()=>{
                                                 children: notification.message
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                                lineNumber: 155,
+                                                lineNumber: 159,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1733,13 +1743,13 @@ const UserNotificationBell = ()=>{
                                                 children: formatNotificationDate(notification.created_at)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                                lineNumber: 156,
+                                                lineNumber: 160,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                        lineNumber: 151,
+                                        lineNumber: 155,
                                         columnNumber: 21
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         onClick: ()=>{
@@ -1751,7 +1761,7 @@ const UserNotificationBell = ()=>{
                                                 children: notification.message
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                                lineNumber: 160,
+                                                lineNumber: 164,
                                                 columnNumber: 24
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1759,40 +1769,40 @@ const UserNotificationBell = ()=>{
                                                 children: formatNotificationDate(notification.created_at)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                                lineNumber: 161,
+                                                lineNumber: 165,
                                                 columnNumber: 24
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                        lineNumber: 159,
+                                        lineNumber: 163,
                                         columnNumber: 21
                                     }, this)
                                 }, notification.id, false, {
                                     fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                    lineNumber: 143,
+                                    lineNumber: 147,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 141,
+                            lineNumber: 145,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                        lineNumber: 133,
+                        lineNumber: 137,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                lineNumber: 123,
+                lineNumber: 127,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-        lineNumber: 108,
+        lineNumber: 112,
         columnNumber: 5
     }, this);
 };

@@ -31,14 +31,16 @@ const UserNotificationBell: React.FC = () => {
     try {
       const response = await fetch(`/api/user/${currentUser.id}/notifications`);
       if (!response.ok) {
-        throw new Error('Не удалось загрузить уведомления.');
+        // Attempt to parse error message from API if available
+        const errorData = await response.json().catch(() => ({ message: 'Не удалось загрузить уведомления (статус: ' + response.status + ').' }));
+        throw new Error(errorData.message || 'Не удалось загрузить уведомления.');
       }
       const data: UserNotification[] = await response.json();
       setNotifications(data);
       setUnreadCount(data.filter(n => !n.is_read).length);
     } catch (error: any) {
       console.error("Error fetching notifications:", error);
-      // toast({ variant: "destructive", title: "Ошибка", description: error.message });
+      // toast({ variant: "destructive", title: "Ошибка", description: error.message }); // Commented out to avoid spamming toasts for this common scenario
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +65,8 @@ const UserNotificationBell: React.FC = () => {
     try {
       const response = await fetch(`/api/user/notifications/${notificationId}/read`, { method: 'PUT' });
       if (!response.ok) {
-        throw new Error('Не удалось отметить уведомление как прочитанное.');
+        const errorData = await response.json().catch(() => ({ message: 'Не удалось отметить уведомление как прочитанное.' }));
+        throw new Error(errorData.message);
       }
       fetchNotifications(); // Re-fetch to update list and count
     } catch (error: any) {
@@ -80,7 +83,8 @@ const UserNotificationBell: React.FC = () => {
         body: JSON.stringify({ userId: currentUser.id }) 
       });
       if (!response.ok) {
-        throw new Error('Не удалось отметить все уведомления как прочитанные.');
+        const errorData = await response.json().catch(() => ({ message: 'Не удалось отметить все уведомления как прочитанные.' }));
+        throw new Error(errorData.message);
       }
       fetchNotifications(); // Re-fetch
     } catch (error: any) {
