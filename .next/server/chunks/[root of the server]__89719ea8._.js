@@ -248,21 +248,24 @@ async function getProductBySlugForUpdate(slug) {
        FROM products p
        LEFT JOIN games g ON p.game_slug = g.slug
        WHERE p.slug = ?`, [
-        slug
-    ]);
+        String(slug).trim()
+    ]); // Trim slug for query
     if (!Array.isArray(productResults) || productResults.length === 0) return null;
     const productData = productResults[0];
-    productData.gallery_image_urls = productData.gallery_image_urls ? productData.gallery_image_urls.split(',').map((url)=>url.trim()) : [];
-    productData.functions_aim = productData.functions_aim ? productData.functions_aim.split(',').map((fn)=>fn.trim()) : [];
-    productData.functions_wallhack = productData.functions_wallhack ? productData.functions_wallhack.split(',').map((fn)=>fn.trim()) : [];
-    productData.functions_misc = productData.functions_misc ? productData.functions_misc.split(',').map((fn)=>fn.trim()) : [];
+    productData.id = String(productData.id).trim();
+    productData.slug = String(productData.slug).trim();
+    productData.game_slug = String(productData.game_slug).trim();
+    productData.gallery_image_urls = productData.gallery_image_urls ? String(productData.gallery_image_urls).split(',').map((url)=>url.trim()) : [];
+    productData.functions_aim = productData.functions_aim ? String(productData.functions_aim).split(',').map((fn)=>fn.trim()) : [];
+    productData.functions_wallhack = productData.functions_wallhack ? String(productData.functions_wallhack).split(',').map((fn)=>fn.trim()) : [];
+    productData.functions_misc = productData.functions_misc ? String(productData.functions_misc).split(',').map((fn)=>fn.trim()) : [];
     productData.functions_aim_title = productData.functions_aim_title || 'Aimbot Функции';
     productData.functions_esp_title = productData.functions_esp_title || 'ESP/Wallhack Функции';
     productData.functions_misc_title = productData.functions_misc_title || 'Прочие Функции';
     return productData;
 }
 async function GET(request, { params }) {
-    const productSlug = params.slug;
+    const productSlug = params.slug ? String(params.slug).trim() : null;
     if (!productSlug) {
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             message: 'Product slug is required'
@@ -284,6 +287,7 @@ async function GET(request, { params }) {
         ]);
         product.pricing_options = pricingOptionsResults.map((opt)=>({
                 ...opt,
+                product_id: String(opt.product_id).trim(),
                 price_rub: parseFloat(opt.price_rub),
                 price_gh: parseFloat(opt.price_gh),
                 is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : Boolean(opt.is_rub_payment_visible),
@@ -310,7 +314,7 @@ async function GET(request, { params }) {
     }
 }
 async function PUT(request, { params: routeParams }) {
-    const productSlug = routeParams.slug;
+    const productSlug = routeParams.slug ? String(routeParams.slug).trim() : null;
     if (!productSlug) {
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             message: 'Product slug is required'
@@ -321,7 +325,7 @@ async function PUT(request, { params: routeParams }) {
     let body;
     try {
         body = await request.json();
-        const { name, slug: newSlug, game_slug, status, status_text, short_description, long_description, image_url, data_ai_hint, mode, gallery_image_urls, functions_aim_title, functions_aim, functions_aim_description, functions_esp_title, functions_wallhack, functions_esp_description, functions_misc_title, functions_misc, functions_misc_description, system_os, system_build, system_gpu, system_cpu, price_text, retrieval_modal_intro_text, retrieval_modal_antivirus_text, retrieval_modal_antivirus_link_text, retrieval_modal_antivirus_link_url, retrieval_modal_launcher_text, retrieval_modal_launcher_link_text, retrieval_modal_launcher_link_url, retrieval_modal_key_paste_text, retrieval_modal_support_text, retrieval_modal_support_link_text, retrieval_modal_support_link_url, retrieval_modal_how_to_run_link, pricing_options } = body;
+        const { name, slug: newSlugRaw, game_slug: gameSlugRaw, status, status_text, short_description, long_description, image_url, data_ai_hint, mode, gallery_image_urls, functions_aim_title, functions_aim, functions_aim_description, functions_esp_title, functions_wallhack, functions_esp_description, functions_misc_title, functions_misc, functions_misc_description, system_os, system_build, system_gpu, system_cpu, price_text, retrieval_modal_intro_text, retrieval_modal_antivirus_text, retrieval_modal_antivirus_link_text, retrieval_modal_antivirus_link_url, retrieval_modal_launcher_text, retrieval_modal_launcher_link_text, retrieval_modal_launcher_link_url, retrieval_modal_key_paste_text, retrieval_modal_support_text, retrieval_modal_support_link_text, retrieval_modal_support_link_url, retrieval_modal_how_to_run_link, pricing_options } = body;
         const existingProduct = await getProductBySlugForUpdate(productSlug);
         if (!existingProduct) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -332,6 +336,8 @@ async function PUT(request, { params: routeParams }) {
         }
         const targetProductId = existingProduct.id;
         let effectiveSlug = productSlug;
+        const newSlug = newSlugRaw ? String(newSlugRaw).trim() : null;
+        const gameSlug = gameSlugRaw ? String(gameSlugRaw).trim() : null;
         if (newSlug && newSlug !== productSlug) {
             const anotherProductWithNewSlug = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT id FROM products WHERE slug = ? AND id != ?', [
                 newSlug,
@@ -355,7 +361,7 @@ async function PUT(request, { params: routeParams }) {
         };
         addFieldToUpdate('name', name);
         addFieldToUpdate('slug', effectiveSlug);
-        addFieldToUpdate('game_slug', game_slug);
+        addFieldToUpdate('game_slug', gameSlug); // Trimmed game_slug
         addFieldToUpdate('status', status);
         addFieldToUpdate('image_url', image_url);
         addFieldToUpdate('status_text', status_text);
@@ -452,8 +458,9 @@ async function PUT(request, { params: routeParams }) {
     } catch (error) {
         console.error(`API Admin Product PUT (slug: ${productSlug}) Error:`, error);
         if (error.code === 'ER_NO_REFERENCED_ROW_2' || error.message && error.message.includes('foreign key constraint fails')) {
+            const submittedGameSlug = body?.game_slug ? String(body.game_slug).trim() : 'не указан';
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: `Ошибка внешнего ключа: Убедитесь, что указанный 'game_slug' (${body?.game_slug}) существует в таблице категорий (games).`,
+                message: `Ошибка внешнего ключа: Убедитесь, что указанный 'game_slug' (${submittedGameSlug}) существует в таблице категорий (games).`,
                 error_details: error.toString()
             }, {
                 status: 400
@@ -468,7 +475,7 @@ async function PUT(request, { params: routeParams }) {
     }
 }
 async function DELETE(request, { params }) {
-    const productSlug = params.slug;
+    const productSlug = params.slug ? String(params.slug).trim() : null;
     if (!productSlug) {
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             message: 'Product slug is required'

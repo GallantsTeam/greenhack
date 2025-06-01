@@ -264,15 +264,15 @@ const getAllCategories = async ()=>{
         return results.map((row)=>({
                 id: row.id,
                 name: row.name,
-                slug: row.slug,
+                slug: String(row.slug).trim(),
                 description: row.description,
                 min_price: parseFloat(row.min_price) || 0,
                 imageUrl: (row.imageUrl || `https://placehold.co/800x400.png?text=${encodeURIComponent(row.name)}`).trim(),
                 logoUrl: (row.logoUrl || `https://placehold.co/150x150.png?text=${encodeURIComponent(row.name.substring(0, 3))}`).trim(),
-                banner_url: row.banner_url ? row.banner_url.trim() : null,
+                banner_url: row.banner_url ? String(row.banner_url).trim() : null,
                 platform: row.platform,
                 tags: typeof row.tags === 'string' ? row.tags.split(',').map((tag)=>tag.trim()).filter(Boolean) : [],
-                dataAiHint: `${row.dataAiHint || row.name.toLowerCase()} game icon`,
+                dataAiHint: `${row.dataAiHint || String(row.name).toLowerCase()} game icon`,
                 hero_bullet_points: typeof row.hero_bullet_points === 'string' ? row.hero_bullet_points.split('\n').map((bp)=>bp.trim()).filter(Boolean) : [],
                 product_count: parseInt(row.product_count) || 0
             }));
@@ -299,22 +299,23 @@ const getCategoryBySlug = async (slug)=>{
          (SELECT COUNT(*) FROM products p WHERE p.game_slug = g.slug) as product_count
        FROM games g
        WHERE g.slug = ?`, [
-            slug
-        ]);
+            slug.trim()
+        ] // Trim slug before query
+        );
         if (results.length === 0) return undefined;
         const row = results[0];
         return {
             id: row.id,
             name: row.name,
-            slug: row.slug,
+            slug: String(row.slug).trim(),
             description: row.description,
             min_price: parseFloat(row.min_price) || 0,
             imageUrl: (row.imageUrl || `https://placehold.co/800x400.png?text=${encodeURIComponent(row.name)}`).trim(),
             logoUrl: (row.logoUrl || `https://placehold.co/150x150.png?text=${encodeURIComponent(row.name.substring(0, 3))}`).trim(),
-            banner_url: row.banner_url ? row.banner_url.trim() : null,
+            banner_url: row.banner_url ? String(row.banner_url).trim() : null,
             platform: row.platform,
             tags: typeof row.tags === 'string' ? row.tags.split(',').map((tag)=>tag.trim()).filter((tag)=>tag) : [],
-            dataAiHint: `${row.dataAiHint || row.name.toLowerCase()} game icon`,
+            dataAiHint: `${row.dataAiHint || String(row.name).toLowerCase()} game icon`,
             hero_bullet_points: typeof row.hero_bullet_points === 'string' ? row.hero_bullet_points.split('\n').map((bp)=>bp.trim()).filter(Boolean) : [],
             product_count: parseInt(row.product_count) || 0
         };
@@ -348,8 +349,8 @@ const getAllProducts = async ()=>{
          p.retrieval_modal_support_link_url,
          p.retrieval_modal_how_to_run_link,
          p.created_at, p.updated_at,
-         (SELECT MIN(ppo.price_rub) FROM product_pricing_options ppo WHERE ppo.product_id = p.id) as min_price_rub_calculated,
-         (SELECT MIN(ppo.price_gh) FROM product_pricing_options ppo WHERE ppo.product_id = p.id) as min_price_gh_calculated,
+         (SELECT MIN(ppo.price_rub) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_rub_payment_visible = TRUE) as min_price_rub_calculated,
+         (SELECT MIN(ppo.price_gh) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_gh_payment_visible = TRUE) as min_price_gh_calculated,
          COALESCE(g.name, p.game_slug) as gameName,
          g.logo_url as gameLogoUrl,
          g.platform as gamePlatform
@@ -357,11 +358,11 @@ const getAllProducts = async ()=>{
        LEFT JOIN games g ON p.game_slug = g.slug 
        ORDER BY p.name ASC`);
         return results.map((row)=>({
-                id: row.id,
+                id: String(row.id).trim(),
                 name: row.name,
-                slug: row.slug,
-                game_slug: row.game_slug,
-                image_url: row.image_url ? row.image_url.trim() : null,
+                slug: String(row.slug).trim(),
+                game_slug: String(row.game_slug).trim(),
+                image_url: row.image_url ? String(row.image_url).trim() : null,
                 imageUrl: (row.image_url || `https://placehold.co/300x350.png?text=${encodeURIComponent(row.name)}`).trim(),
                 status: row.status ? String(row.status).toLowerCase() : 'unknown',
                 status_text: row.status_text,
@@ -371,17 +372,17 @@ const getAllProducts = async ()=>{
                 price_text: row.price_text,
                 short_description: row.short_description,
                 long_description: row.long_description,
-                data_ai_hint: row.data_ai_hint || `${row.name.toLowerCase()} product`,
+                data_ai_hint: row.data_ai_hint || `${String(row.name).toLowerCase()} product`,
                 mode: row.mode,
-                gallery_image_urls: row.gallery_image_urls ? row.gallery_image_urls.split(',').map((url)=>url.trim()).filter(Boolean) : [],
+                gallery_image_urls: row.gallery_image_urls ? String(row.gallery_image_urls).split(',').map((url)=>url.trim()).filter(Boolean) : [],
                 functions_aim_title: row.functions_aim_title,
-                functions_aim: row.functions_aim ? row.functions_aim.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_aim: row.functions_aim ? String(row.functions_aim).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_aim_description: row.functions_aim_description,
                 functions_esp_title: row.functions_esp_title,
-                functions_wallhack: row.functions_wallhack ? row.functions_wallhack.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_wallhack: row.functions_wallhack ? String(row.functions_wallhack).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_esp_description: row.functions_esp_description,
                 functions_misc_title: row.functions_misc_title,
-                functions_misc: row.functions_misc ? row.functions_misc.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_misc: row.functions_misc ? String(row.functions_misc).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_misc_description: row.functions_misc_description,
                 system_os: row.system_os,
                 system_build: row.system_build,
@@ -402,7 +403,7 @@ const getAllProducts = async ()=>{
                 created_at: row.created_at,
                 updated_at: row.updated_at,
                 gameName: row.gameName,
-                gameLogoUrl: row.gameLogoUrl ? row.gameLogoUrl.trim() : null,
+                gameLogoUrl: row.gameLogoUrl ? String(row.gameLogoUrl).trim() : null,
                 gamePlatform: row.gamePlatform
             }));
     } catch (error) {
@@ -441,51 +442,64 @@ const getProductBySlug = async (slug)=>{
        FROM products p
        LEFT JOIN games g ON p.game_slug = g.slug 
        WHERE p.slug = ?`, [
-            slug
-        ]);
+            slug.trim()
+        ] // Trim slug before query
+        );
         if (productResults.length === 0) return undefined;
         const row = productResults[0];
-        const pricingOptionsResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT id, product_id, duration_days, price_rub, price_gh, payment_link, mode_label, created_at FROM product_pricing_options WHERE product_id = ? ORDER BY duration_days ASC, mode_label ASC', [
-            row.id
-        ]);
+        const pricingOptionsResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT * FROM product_pricing_options WHERE product_id = ? ORDER BY duration_days ASC, mode_label ASC', [
+            String(row.id).trim()
+        ] // Trim product.id when fetching options
+        );
         const pricing_options = Array.isArray(pricingOptionsResults) ? pricingOptionsResults.map((opt)=>({
                 id: opt.id,
-                product_id: opt.product_id,
+                product_id: String(opt.product_id).trim(),
                 duration_days: parseInt(opt.duration_days, 10),
                 price_rub: parseFloat(opt.price_rub),
                 price_gh: parseFloat(opt.price_gh),
                 payment_link: opt.payment_link || null,
                 mode_label: opt.mode_label || null,
-                created_at: opt.created_at
+                created_at: opt.created_at,
+                // Added new fields with defaults
+                is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : Boolean(opt.is_rub_payment_visible),
+                is_gh_payment_visible: opt.is_gh_payment_visible === undefined ? true : Boolean(opt.is_gh_payment_visible),
+                custom_payment_1_label: opt.custom_payment_1_label || null,
+                custom_payment_1_price_rub: opt.custom_payment_1_price_rub ? parseFloat(opt.custom_payment_1_price_rub) : null,
+                custom_payment_1_link: opt.custom_payment_1_link || null,
+                custom_payment_1_is_visible: opt.custom_payment_1_is_visible === undefined ? false : Boolean(opt.custom_payment_1_is_visible),
+                custom_payment_2_label: opt.custom_payment_2_label || null,
+                custom_payment_2_price_rub: opt.custom_payment_2_price_rub ? parseFloat(opt.custom_payment_2_price_rub) : null,
+                custom_payment_2_link: opt.custom_payment_2_link || null,
+                custom_payment_2_is_visible: opt.custom_payment_2_is_visible === undefined ? false : Boolean(opt.custom_payment_2_is_visible)
             })) : [];
-        const minRubOption = pricing_options.length > 0 ? pricing_options.reduce((min, p)=>p.price_rub < min ? p.price_rub : min, pricing_options[0].price_rub) : 0;
-        const minGhOption = pricing_options.length > 0 ? pricing_options.reduce((min, p)=>p.price_gh < min ? p.price_gh : min, pricing_options[0].price_gh) : 0;
+        const minRubOption = pricing_options.length > 0 ? pricing_options.filter((o)=>o.is_rub_payment_visible).reduce((min, p)=>p.price_rub < min ? p.price_rub : min, pricing_options.filter((o)=>o.is_rub_payment_visible)[0]?.price_rub ?? Infinity) : 0;
+        const minGhOption = pricing_options.length > 0 ? pricing_options.filter((o)=>o.is_gh_payment_visible).reduce((min, p)=>p.price_gh < min ? p.price_gh : min, pricing_options.filter((o)=>o.is_gh_payment_visible)[0]?.price_gh ?? Infinity) : 0;
         return {
-            id: row.id,
+            id: String(row.id).trim(),
             name: row.name,
-            slug: row.slug,
-            game_slug: row.game_slug,
-            image_url: row.image_url ? row.image_url.trim() : null,
+            slug: String(row.slug).trim(),
+            game_slug: String(row.game_slug).trim(),
+            image_url: row.image_url ? String(row.image_url).trim() : null,
             imageUrl: (row.image_url || `https://placehold.co/600x400.png?text=${encodeURIComponent(row.name)}`).trim(),
             status: row.status ? String(row.status).toLowerCase() : 'unknown',
             status_text: row.status_text || 'Статус неизвестен',
-            price: minRubOption,
-            min_price_rub: minRubOption,
-            min_price_gh: minGhOption,
+            price: minRubOption === Infinity ? 0 : minRubOption,
+            min_price_rub: minRubOption === Infinity ? undefined : minRubOption,
+            min_price_gh: minGhOption === Infinity ? undefined : minGhOption,
             price_text: row.price_text,
             short_description: row.short_description,
             long_description: row.long_description,
-            data_ai_hint: row.data_ai_hint || `${row.name.toLowerCase()} product`,
+            data_ai_hint: row.data_ai_hint || `${String(row.name).toLowerCase()} product`,
             mode: row.mode,
-            gallery_image_urls: row.gallery_image_urls ? row.gallery_image_urls.split(',').map((url)=>url.trim()).filter(Boolean) : [],
+            gallery_image_urls: row.gallery_image_urls ? String(row.gallery_image_urls).split(',').map((url)=>url.trim()).filter(Boolean) : [],
             functions_aim_title: row.functions_aim_title,
-            functions_aim: row.functions_aim ? row.functions_aim.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+            functions_aim: row.functions_aim ? String(row.functions_aim).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
             functions_aim_description: row.functions_aim_description,
             functions_esp_title: row.functions_esp_title,
-            functions_wallhack: row.functions_wallhack ? row.functions_wallhack.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+            functions_wallhack: row.functions_wallhack ? String(row.functions_wallhack).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
             functions_esp_description: row.functions_esp_description,
             functions_misc_title: row.functions_misc_title,
-            functions_misc: row.functions_misc ? row.functions_misc.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+            functions_misc: row.functions_misc ? String(row.functions_misc).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
             functions_misc_description: row.functions_misc_description,
             system_os: row.system_os,
             system_build: row.system_build,
@@ -507,7 +521,7 @@ const getProductBySlug = async (slug)=>{
             created_at: row.created_at,
             updated_at: row.updated_at,
             gameName: row.gameName,
-            gameLogoUrl: row.gameLogoUrl ? row.gameLogoUrl.trim() : null,
+            gameLogoUrl: row.gameLogoUrl ? String(row.gameLogoUrl).trim() : null,
             gamePlatform: row.gamePlatform
         };
     } catch (error) {
@@ -521,8 +535,8 @@ const getProductsByCategorySlug = async (gameSlug)=>{
          p.id, p.name, p.slug, p.game_slug, p.image_url, 
          p.status, p.status_text, 
          p.short_description, p.long_description, p.data_ai_hint,
-         (SELECT MIN(ppo.price_rub) FROM product_pricing_options ppo WHERE ppo.product_id = p.id) as min_price_rub,
-         (SELECT MIN(ppo.price_gh) FROM product_pricing_options ppo WHERE ppo.product_id = p.id) as min_price_gh,
+         (SELECT MIN(ppo.price_rub) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_rub_payment_visible = TRUE) as min_price_rub,
+         (SELECT MIN(ppo.price_gh) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_gh_payment_visible = TRUE) as min_price_gh,
          p.price_text,
          COALESCE(g.name, p.game_slug) as gameName,
          g.logo_url as gameLogoUrl,
@@ -531,26 +545,27 @@ const getProductsByCategorySlug = async (gameSlug)=>{
        LEFT JOIN games g ON p.game_slug = g.slug 
        WHERE p.game_slug = ?
        ORDER BY p.name ASC`, [
-            gameSlug
-        ]);
+            gameSlug.trim()
+        ] // Trim gameSlug before query
+        );
         return results.map((row)=>({
-                id: row.id,
+                id: String(row.id).trim(),
                 name: row.name,
-                slug: row.slug,
-                game_slug: row.game_slug,
-                image_url: row.image_url ? row.image_url.trim() : null,
+                slug: String(row.slug).trim(),
+                game_slug: String(row.game_slug).trim(),
+                image_url: row.image_url ? String(row.image_url).trim() : null,
                 imageUrl: (row.image_url || `https://placehold.co/300x350.png?text=${encodeURIComponent(row.name)}`).trim(),
                 status: row.status ? String(row.status).toLowerCase() : 'unknown',
                 status_text: row.status_text || 'Статус неизвестен',
-                price: parseFloat(row.min_price_rub) || 0,
+                price: parseFloat(row.min_price_rub || '0'),
                 min_price_rub: row.min_price_rub ? parseFloat(row.min_price_rub) : undefined,
                 min_price_gh: row.min_price_gh ? parseFloat(row.min_price_gh) : undefined,
                 price_text: row.price_text,
                 short_description: row.short_description,
                 long_description: row.long_description,
-                data_ai_hint: row.data_ai_hint || `${row.name.toLowerCase()} product`,
+                data_ai_hint: row.data_ai_hint || `${String(row.name).toLowerCase()} product`,
                 gameName: row.gameName,
-                gameLogoUrl: row.gameLogoUrl ? row.gameLogoUrl.trim() : null,
+                gameLogoUrl: row.gameLogoUrl ? String(row.gameLogoUrl).trim() : null,
                 gamePlatform: row.gamePlatform
             }));
     } catch (error) {
@@ -561,41 +576,41 @@ const getProductsByCategorySlug = async (gameSlug)=>{
 const getCaseById = async (caseId)=>{
     try {
         const caseResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT * FROM cases WHERE id = ? AND is_active = TRUE', [
-            caseId
-        ]);
+            caseId.trim()
+        ]); // Trim caseId
         if (caseResults.length === 0) {
             console.warn(`Case with ID ${caseId} not found or not active.`);
             return null;
         }
         const caseRow = caseResults[0];
         const prizeResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT * FROM case_prizes WHERE case_id = ?', [
-            caseId
-        ]);
+            caseId.trim()
+        ]); // Trim caseId
         const prizes = prizeResults.map((pRow)=>({
-                id: pRow.id,
-                case_id: pRow.case_id,
+                id: String(pRow.id).trim(),
+                case_id: String(pRow.case_id).trim(),
                 name: pRow.name,
                 prize_type: pRow.prize_type,
-                related_product_id: pRow.related_product_id,
+                related_product_id: pRow.related_product_id ? String(pRow.related_product_id).trim() : null,
                 duration_days: pRow.duration_days ? parseInt(pRow.duration_days, 10) : null,
                 days: pRow.duration_days ? parseInt(pRow.duration_days, 10) : null,
                 balance_gh_amount: pRow.balance_gh_amount ? parseFloat(pRow.balance_gh_amount) : undefined,
-                image_url: pRow.image_url ? pRow.image_url.trim() : null,
+                image_url: pRow.image_url ? String(pRow.image_url).trim() : null,
                 imageUrl: (pRow.image_url || `https://placehold.co/120x120.png?text=${encodeURIComponent(pRow.id)}`).trim(),
                 chance: parseFloat(pRow.chance),
                 sell_value_gh: pRow.sell_value_gh ? parseFloat(pRow.sell_value_gh) : undefined,
-                data_ai_hint: pRow.data_ai_hint || `${pRow.name.toLowerCase()} prize`,
+                data_ai_hint: pRow.data_ai_hint || `${String(pRow.name).toLowerCase()} prize`,
                 mode_label: pRow.mode_label
             }));
         return {
-            id: caseRow.id,
+            id: String(caseRow.id).trim(),
             name: caseRow.name,
-            image_url: caseRow.image_url ? caseRow.image_url.trim() : null,
+            image_url: caseRow.image_url ? String(caseRow.image_url).trim() : null,
             imageUrl: (caseRow.image_url || `https://placehold.co/300x300.png?text=Case`).trim(),
             prizes: prizes,
             base_price_gh: parseFloat(caseRow.base_price_gh),
             description: caseRow.description,
-            data_ai_hint: caseRow.data_ai_hint || `${caseRow.name.toLowerCase()} case`,
+            data_ai_hint: caseRow.data_ai_hint || `${String(caseRow.name).toLowerCase()} case`,
             is_active: Boolean(caseRow.is_active),
             is_hot_offer: Boolean(caseRow.is_hot_offer),
             timer_enabled: Boolean(caseRow.timer_enabled),

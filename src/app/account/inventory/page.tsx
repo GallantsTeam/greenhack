@@ -45,8 +45,16 @@ export default function InventoryPage() {
     try {
       const response = await fetch(`/api/user/${currentUser.id}/inventory-items`);
       if (!response.ok) {
-        const errData = await response.json().catch(() => ({ message: 'Failed to fetch inventory items' }));
-        throw new Error(errData.message);
+        let errorDetailMessage = `Server error: ${response.status} ${response.statusText}`;
+        try {
+          const errorData = await response.json();
+          errorDetailMessage = errorData.message || JSON.stringify(errorData) || `Failed to fetch inventory items. Status: ${response.status}`;
+        } catch (jsonError) {
+          // If response.json() fails, it means the body was not valid JSON or empty.
+          // The initial errorDetailMessage or statusText might be the best we have.
+          errorDetailMessage = `HTTP ${response.status}: ${response.statusText || 'Failed to retrieve inventory items, and error response was not valid JSON.'}`;
+        }
+        throw new Error(errorDetailMessage);
       }
       const data: InventoryItemWithDetails[] = await response.json();
       setInventoryItems(data);

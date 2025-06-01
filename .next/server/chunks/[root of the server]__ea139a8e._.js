@@ -281,13 +281,13 @@ async function GET(request) {
             });
         }
         const products = productsData.map((row)=>({
-                id: row.id,
+                id: String(row.id).trim(),
                 name: row.name,
-                slug: row.slug,
-                game_slug: row.game_slug,
-                image_url: row.image_url ? row.image_url.trim() : null,
+                slug: String(row.slug).trim(),
+                game_slug: String(row.game_slug).trim(),
+                image_url: row.image_url ? String(row.image_url).trim() : null,
                 imageUrl: (row.image_url || `https://placehold.co/300x350.png?text=${encodeURIComponent(row.name)}`).trim(),
-                status: row.status || 'unknown',
+                status: row.status ? String(row.status).toLowerCase() : 'unknown',
                 status_text: row.status_text,
                 price: parseFloat(row.min_price_rub_calculated || '0'),
                 min_price_rub: row.min_price_rub_calculated ? parseFloat(row.min_price_rub_calculated) : undefined,
@@ -295,17 +295,17 @@ async function GET(request) {
                 price_text: row.price_text,
                 short_description: row.short_description,
                 long_description: row.long_description,
-                data_ai_hint: row.data_ai_hint || `${row.name.toLowerCase()} product`,
+                data_ai_hint: row.data_ai_hint || `${String(row.name).toLowerCase()} product`,
                 mode: row.mode,
-                gallery_image_urls: row.gallery_image_urls ? row.gallery_image_urls.split(',').map((url)=>url.trim()).filter(Boolean) : [],
+                gallery_image_urls: row.gallery_image_urls ? String(row.gallery_image_urls).split(',').map((url)=>url.trim()).filter(Boolean) : [],
                 functions_aim_title: row.functions_aim_title || 'Aimbot Функции',
-                functions_aim: row.functions_aim ? row.functions_aim.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_aim: row.functions_aim ? String(row.functions_aim).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_aim_description: row.functions_aim_description,
                 functions_esp_title: row.functions_esp_title || 'ESP/Wallhack Функции',
-                functions_wallhack: row.functions_wallhack ? row.functions_wallhack.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_wallhack: row.functions_wallhack ? String(row.functions_wallhack).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_esp_description: row.functions_esp_description,
                 functions_misc_title: row.functions_misc_title || 'Прочие Функции',
-                functions_misc: row.functions_misc ? row.functions_misc.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_misc: row.functions_misc ? String(row.functions_misc).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_misc_description: row.functions_misc_description,
                 system_os: row.system_os,
                 system_build: row.system_build,
@@ -326,7 +326,7 @@ async function GET(request) {
                 created_at: row.created_at,
                 updated_at: row.updated_at,
                 gameName: row.gameName,
-                gameLogoUrl: row.gameLogoUrl ? row.gameLogoUrl.trim() : null,
+                gameLogoUrl: row.gameLogoUrl ? String(row.gameLogoUrl).trim() : null,
                 gamePlatform: row.gamePlatform
             }));
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(products, {
@@ -346,15 +346,18 @@ async function POST(request) {
     let body;
     try {
         body = await request.json();
-        const { id, name, slug, game_slug, status, pricing_options, ...optionalFieldsData } = body;
-        if (!id || !name || !slug || !game_slug || !status) {
+        const { id, name, slug, game_slug: raw_game_slug, status, pricing_options, ...optionalFieldsData } = body;
+        const trimmedId = id ? String(id).trim() : null;
+        const trimmedSlug = slug ? String(slug).trim() : null;
+        const trimmedGameSlug = raw_game_slug ? String(raw_game_slug).trim() : null;
+        if (!trimmedId || !name || !trimmedSlug || !trimmedGameSlug || !status) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: 'ID, Name, Slug, Game Slug, and Status are required.'
             }, {
                 status: 400
             });
         }
-        if (id !== slug) {
+        if (trimmedId !== trimmedSlug) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: 'Product ID and Slug must match for new products.'
             }, {
@@ -362,8 +365,8 @@ async function POST(request) {
             });
         }
         const existingProduct = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT id FROM products WHERE id = ? OR slug = ?', [
-            id,
-            slug
+            trimmedId,
+            trimmedSlug
         ]);
         if (Array.isArray(existingProduct) && existingProduct.length > 0) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -373,10 +376,10 @@ async function POST(request) {
             });
         }
         const productFieldsToInsert = {
-            id,
+            id: trimmedId,
             name,
-            slug,
-            game_slug,
+            slug: trimmedSlug,
+            game_slug: trimmedGameSlug,
             status,
             created_at: new Date(),
             updated_at: new Date(),
@@ -437,7 +440,7 @@ async function POST(request) {
             productAffectedRows = productResult[0].affectedRows;
         }
         if (productAffectedRows > 0) {
-            const productIdForOptions = id;
+            const productIdForOptions = trimmedId;
             if (pricing_options && Array.isArray(pricing_options) && pricing_options.length > 0) {
                 for (const option of pricing_options){
                     const { duration_days, price_rub, price_gh, mode_label, is_rub_payment_visible, is_gh_payment_visible, custom_payment_1_label, custom_payment_1_price_rub, custom_payment_1_link, custom_payment_1_is_visible, custom_payment_2_label, custom_payment_2_price_rub, custom_payment_2_link, custom_payment_2_is_visible } = option;
@@ -487,11 +490,11 @@ async function POST(request) {
             }
             const row = newProductDataResult[0];
             const newProductItem = {
-                id: row.id,
+                id: String(row.id).trim(),
                 name: row.name,
-                slug: row.slug,
-                game_slug: row.game_slug,
-                image_url: row.image_url ? row.image_url.trim() : null,
+                slug: String(row.slug).trim(),
+                game_slug: String(row.game_slug).trim(),
+                image_url: row.image_url ? String(row.image_url).trim() : null,
                 imageUrl: (row.image_url || `https://placehold.co/300x350.png?text=${encodeURIComponent(row.name)}`).trim(),
                 status: row.status || 'unknown',
                 status_text: row.status_text,
@@ -501,17 +504,17 @@ async function POST(request) {
                 price_text: row.price_text,
                 short_description: row.short_description,
                 long_description: row.long_description,
-                data_ai_hint: row.data_ai_hint || `${row.name.toLowerCase()} product`,
+                data_ai_hint: row.data_ai_hint || `${String(row.name).toLowerCase()} product`,
                 mode: row.mode,
-                gallery_image_urls: row.gallery_image_urls ? row.gallery_image_urls.split(',').map((url)=>url.trim()).filter(Boolean) : [],
+                gallery_image_urls: row.gallery_image_urls ? String(row.gallery_image_urls).split(',').map((url)=>url.trim()).filter(Boolean) : [],
                 functions_aim_title: row.functions_aim_title,
-                functions_aim: row.functions_aim ? row.functions_aim.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_aim: row.functions_aim ? String(row.functions_aim).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_aim_description: row.functions_aim_description,
                 functions_esp_title: row.functions_esp_title,
-                functions_wallhack: row.functions_wallhack ? row.functions_wallhack.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_wallhack: row.functions_wallhack ? String(row.functions_wallhack).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_esp_description: row.functions_esp_description,
                 functions_misc_title: row.functions_misc_title,
-                functions_misc: row.functions_misc ? row.functions_misc.split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
+                functions_misc: row.functions_misc ? String(row.functions_misc).split(',').map((fn)=>fn.trim()).filter(Boolean) : [],
                 functions_misc_description: row.functions_misc_description,
                 system_os: row.system_os,
                 system_build: row.system_build,
@@ -533,7 +536,7 @@ async function POST(request) {
                 created_at: row.created_at,
                 updated_at: row.updated_at,
                 gameName: row.gameName,
-                gameLogoUrl: row.gameLogoUrl ? row.gameLogoUrl.trim() : null,
+                gameLogoUrl: row.gameLogoUrl ? String(row.gameLogoUrl).trim() : null,
                 gamePlatform: row.gamePlatform
             };
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -556,7 +559,7 @@ async function POST(request) {
         console.error('Request body was:', JSON.stringify(requestBodyForLog, null, 2));
         if (error.code === 'ER_NO_REFERENCED_ROW_2' || error.message && error.message.includes('foreign key constraint fails')) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: `Ошибка внешнего ключа: Убедитесь, что указанный 'game_slug' (${body?.game_slug}) существует в таблице категорий (games).`,
+                message: `Ошибка внешнего ключа: Убедитесь, что указанный 'game_slug' (${body?.game_slug?.trim()}) существует в таблице категорий (games).`,
                 error_details: error.toString()
             }, {
                 status: 400

@@ -1,0 +1,16 @@
+{
+  "node": {
+    "6058d2186d06199210990ee590d0261587c858a217": {
+      "workers": {
+        "app/products/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/products/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/mysql.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/products/[slug]/page": "rsc"
+      }
+    }
+  },
+  "edge": {}
+}
