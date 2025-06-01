@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'cluster-c23mj7ubf5fxwq6nrbev4ugaxa.cloudworkstations.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: 'greenhacks.ru',
+      },
+      {
+        protocol: 'https',
         hostname: '**', // Allows all HTTPS hostnames
       },
       {

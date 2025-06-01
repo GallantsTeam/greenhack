@@ -41,7 +41,7 @@ export default function InventoryPage() {
       return;
     }
     setIsLoading(true);
-    setError(null);
+    setError(null); // Reset error before fetching
     try {
       const response = await fetch(`/api/user/${currentUser.id}/inventory-items`);
       if (!response.ok) {
@@ -52,27 +52,34 @@ export default function InventoryPage() {
             errorDetailMessage = errorData.message;
           } else if (errorData) {
             const stringifiedError = JSON.stringify(errorData);
+            // Limit length of stringified error to avoid overly long messages
             errorDetailMessage = stringifiedError.length < 256 ? stringifiedError : `Сложный объект ошибки от сервера (Статус: ${response.status})`;
           }
         } catch (jsonError) {
           // If response.json() fails, the body might not be valid JSON or empty.
-          // The initial errorDetailMessage based on statusText is likely the best info.
            errorDetailMessage = `HTTP ${response.status}: ${response.statusText || 'Ошибка ответа сервера (не JSON)'}`;
         }
-        // Ensure a non-empty string is thrown
+        // Ensure a non-empty string is set for the error state
         const finalErrorMsg = errorDetailMessage.trim() !== '' ? errorDetailMessage : `HTTP Error ${response.status}: An unexpected issue occurred while fetching inventory.`;
-        throw new Error(finalErrorMsg);
+        
+        console.error("Error fetching inventory (response not ok):", finalErrorMsg);
+        setError(finalErrorMsg); // Set the error state
+        toast({ title: "Ошибка загрузки инвентаря", description: finalErrorMsg, variant: "destructive" });
+        setInventoryItems([]); // Clear items on error
+        setIsLoading(false); // Set loading to false as the fetch attempt finished
+        return; // Exit the function
       }
       const data: InventoryItemWithDetails[] = await response.json();
       setInventoryItems(data);
-    } catch (err: any) {
-      console.error("Error fetching inventory:", err);
+    } catch (err: any) { // This catch block handles network errors or errors from the `throw` above (if it were still there)
+      console.error("Error fetching inventory (outer catch):", err);
       let displayErrorMessage = "Не удалось загрузить инвентарь. Произошла неизвестная ошибка.";
       if (err instanceof Error && err.message && err.message.trim() !== '') {
         displayErrorMessage = err.message;
       }
       setError(displayErrorMessage);
       toast({ title: "Ошибка", description: displayErrorMessage, variant: "destructive" });
+      setInventoryItems([]); // Clear items on error
     } finally {
       setIsLoading(false);
     }
@@ -141,7 +148,7 @@ export default function InventoryPage() {
     return new Date(dateString).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   };
 
-  if (isLoading) {
+  if (isLoading && !error) { // Show loader only if not in error state
     return (
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] p-4">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -164,15 +171,18 @@ export default function InventoryPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {error && (
+          {error && ( // Display error message if error state is set
             <div className="min-h-[200px] flex flex-col items-center justify-center border-2 border-dashed border-destructive/50 rounded-lg p-6 bg-destructive/10">
               <AlertTriangle className="h-10 w-10 text-destructive mb-3" />
               <p className="text-destructive font-semibold mb-1">Ошибка загрузки инвентаря</p>
               <p className="text-sm text-destructive/80 text-center mb-3">{error}</p>
-              <Button onClick={fetchInventory} variant="destructive" size="sm">Попробовать снова</Button>
+              <Button onClick={fetchInventory} variant="destructive" size="sm" disabled={isLoading}>
+                {isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin"/> : null}
+                Попробовать снова
+              </Button>
             </div>
           )}
-          {!error && inventoryItems.length === 0 && (
+          {!error && inventoryItems.length === 0 && !isLoading && ( // Show "empty" message only if no error and not loading
             <div className="min-h-[200px] flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-6">
               <PackageSearch className="h-12 w-12 text-muted-foreground mb-4" />
               <p className="text-lg text-muted-foreground">Ваш инвентарь пуст.</p>
@@ -296,7 +306,4 @@ export default function InventoryPage() {
   );
 }
     
-
-    
-
     
