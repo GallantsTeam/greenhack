@@ -118,8 +118,7 @@ export interface Product {
   retrieval_modal_support_link_url?: string | null;
   retrieval_modal_how_to_run_link?: string | null;
 
-  // New fields for activation type
-  activation_type?: 'key_request' | 'info_modal' | 'direct_key'; // direct_key is a future placeholder
+  activation_type?: 'key_request' | 'info_modal' | 'direct_key';
   loader_download_url?: string | null;
   info_modal_content_html?: string | null;
   info_modal_support_link_text?: string | null;
@@ -424,12 +423,13 @@ export interface ReferredUsersCount {
 }
 
 export interface ActiveLicense {
-  id: string;
+  id: string; // This is user_inventory.id
   productName: string;
+  productSlug: string;
+  inventory_item_id: number; // Added inventory_item_id
   purchaseDate: Date | string;
   activated_at: Date | string | null;
   expiryDate: string | null;
-  productSlug: string;
   how_to_run_link?: string | null;
   mode_label?: string | null;
   activation_type?: 'key_request' | 'info_modal' | 'direct_key';
@@ -438,7 +438,20 @@ export interface ActiveLicense {
   info_modal_support_link_text?: string | null;
   info_modal_support_link_url?: string | null;
   related_product_id?: string; // For fetching product specific activation settings
+  activation_status?: InventoryItem['activation_status']; // Added to determine button visibility
+  retrieval_modal_intro_text?: string | null;
+  retrieval_modal_antivirus_text?: string | null;
+  retrieval_modal_antivirus_link_text?: string | null;
+  retrieval_modal_antivirus_link_url?: string | null;
+  retrieval_modal_launcher_text?: string | null;
+  retrieval_modal_launcher_link_text?: string | null;
+  retrieval_modal_launcher_link_url?: string | null;
+  retrieval_modal_key_paste_text?: string | null;
+  retrieval_modal_support_text?: string | null;
+  retrieval_modal_support_link_text?: string | null;
+  retrieval_modal_support_link_url?: string | null;
 }
+
 
 export interface PromoCode {
   id?: number;

@@ -14,7 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import KeyRegistrationModal from '@/components/KeyRegistrationModal'; // Import the modal
 
 export default function AccountDashboardPage() {
   const { currentUser, fetchUserDetails, loading: authLoading } = useAuth();
@@ -32,6 +32,10 @@ export default function AccountDashboardPage() {
   const [isApplyingPromoCode, setIsApplyingPromoCode] = useState(false);
   const [balanceTransactions, setBalanceTransactions] = useState<BalanceTransaction[]>([]);
   const [isTransactionsLoading, setIsTransactionsLoading] = useState(true);
+
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
+  const [selectedLicenseForKeyModal, setSelectedLicenseForKeyModal] = useState<ActiveLicense | null>(null);
+  const [isSubmittingKey, setIsSubmittingKey] = useState(false);
 
 
   const formatDate = (dateString: string | Date | undefined | null) => {
@@ -63,11 +67,36 @@ export default function AccountDashboardPage() {
     }
   }, [currentUser?.id]);
 
+  const fetchActiveLicenses = useCallback(async () => {
+    if (!currentUser?.id) {
+        setIsLicensesLoading(false);
+        return;
+    };
+    setIsLicensesLoading(true);
+    try {
+      const response = await fetch(`/api/user/${currentUser.id}/licenses`);
+      if (response.ok) {
+        const licenses = await response.json();
+        setActiveLicenses(licenses);
+      } else {
+         console.error("Failed to fetch licenses");
+         setActiveLicenses([]);
+      }
+    } catch (error) {
+       console.error("Error fetching active licenses:", error);
+       setActiveLicenses([]);
+    } finally {
+      setIsLicensesLoading(false);
+    }
+  }, [currentUser?.id]);
+
+
   useEffect(() => {
     if (currentUser?.id) {
         fetchBalanceTransactions();
+        fetchActiveLicenses();
     }
-  }, [currentUser?.id, fetchBalanceTransactions]);
+  }, [currentUser?.id, fetchBalanceTransactions, fetchActiveLicenses]);
 
 
   useEffect(() => {
@@ -109,35 +138,6 @@ export default function AccountDashboardPage() {
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    const fetchActiveLicenses = async () => {
-      if (!currentUser?.id) {
-          setIsLicensesLoading(false);
-          return;
-      };
-      setIsLicensesLoading(true);
-      try {
-        const response = await fetch(`/api/user/${currentUser.id}/licenses`);
-        if (response.ok) {
-          const licenses = await response.json();
-          setActiveLicenses(licenses);
-        } else {
-           console.error("Failed to fetch licenses");
-           setActiveLicenses([]);
-        }
-      } catch (error) {
-         console.error("Error fetching active licenses:", error);
-         setActiveLicenses([]);
-      } finally {
-        setIsLicensesLoading(false);
-      }
-    };
-    if (currentUser?.id) {
-        fetchActiveLicenses();
-    }
-  }, [currentUser?.id]);
-
-
   const formatBalance = (balance: number | undefined | null): string => {
     if (typeof balance !== 'number' || balance === null || isNaN(balance)) {
       return '0';
@@ -178,23 +178,36 @@ export default function AccountDashboardPage() {
     }
   };
 
-  const handleGetLicense = (productName?: string, howToRunLink?: string | null) => {
-     if (howToRunLink && howToRunLink !== "#") {
-        window.open(howToRunLink, '_blank');
-     } else {
-        toast({
-            title: `Инструкция для ${productName || 'софта'}`,
-            description: (
-                <p>
-                Инструкция по запуску для этого продукта пока не добавлена. Обратитесь в поддержку:{" "}
-                <a href="https://t.me/Gallant_kz" target="_blank" rel="noopener noreferrer" className="underline text-primary">
-                    Поддержка
-                </a>
-                </p>
-            ),
-            duration: 10000,
-        });
-     }
+  const handleHowToActivate = (license: ActiveLicense) => {
+    setSelectedLicenseForKeyModal(license);
+    setIsKeyModalOpen(true);
+  };
+
+  const handleRegisterKeySubmit = async (enteredKey: string) => {
+    if (!selectedLicenseForKeyModal || !currentUser) return;
+    setIsSubmittingKey(true);
+    try {
+      const response = await fetch('/api/license/request-activation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          inventoryItemId: selectedLicenseForKeyModal.inventory_item_id,
+          userId: currentUser.id,
+          enteredKey,
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || 'Не удалось отправить запрос на активацию ключа.');
+      }
+      toast({ title: "Запрос отправлен", description: result.message });
+      setIsKeyModalOpen(false);
+      fetchActiveLicenses(); // Refresh the license list
+    } catch (error: any) {
+      toast({ title: "Ошибка", description: error.message, variant: "destructive" });
+    } finally {
+      setIsSubmittingKey(false);
+    }
   };
 
   const handleApplyPromoCode = async () => {
@@ -265,19 +278,31 @@ export default function AccountDashboardPage() {
             </CardHeader>
             <CardContent>
               {isLicensesLoading ? (
-                <p className="text-muted-foreground">Загрузка активных лицензий...</p>
+                <div className="flex justify-center items-center min-h-[100px]"><Loader2 className="h-6 w-6 animate-spin text-primary" /><p className="ml-2 text-muted-foreground">Загрузка...</p></div>
               ) : activeLicenses.length > 0 ? (
                 <ul className="space-y-4">
                   {activeLicenses.map(license => (
-                    <li key={license.id} className="p-4 border border-border rounded-md space-y-2">
-                      <h4 className="font-semibold text-foreground">{license.productName}</h4>
-                      {license.activated_at && <p className="text-xs text-muted-foreground">Активирован: {formatDate(license.activated_at)}</p>}
-                      <p className="text-xs text-muted-foreground">Истекает: {license.expiryDate ? formatDate(license.expiryDate) : 'Бессрочно'}</p>
-                      <div className="flex gap-2 mt-2">
-                        <Button asChild size="sm" variant="outline" className="border-primary text-primary hover:bg-primary/10">
+                    <li key={license.id} className="p-4 border border-border rounded-md space-y-2 bg-card/50 shadow-sm">
+                      <h4 className="font-semibold text-foreground">{license.productName} {license.mode_label ? `(${license.mode_label})` : ''}</h4>
+                      {license.activated_at && license.activation_status === 'active' && <p className="text-xs text-muted-foreground">Активирован: {formatDate(license.activated_at)}</p>}
+                      {license.activation_status === 'active' && license.expiryDate && <p className="text-xs text-muted-foreground">Истекает: {formatDate(license.expiryDate)}</p>}
+                      {license.activation_status === 'pending_admin_approval' && <p className="text-xs text-orange-400">Статус: Ожидает одобрения администратором</p>}
+                       {license.activation_status === 'rejected' && <p className="text-xs text-destructive">Статус: Запрос на активацию отклонен</p>}
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        <Button asChild size="sm" variant="outline" className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
                           <Link href={`/products/${license.productSlug}`}>Продлить</Link>
                         </Button>
-                        <Button size="sm" variant="outline" onClick={() => handleGetLicense(license.productName, license.how_to_run_link)} className="border-primary text-primary hover:bg-primary/10">Как запускать?</Button>
+                        {(license.activation_type === 'key_request' && license.activation_status !== 'active') && (
+                            <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
+                                <KeyRound className="mr-1.5 h-4 w-4"/> {license.activation_status === 'pending_admin_approval' ? 'Запрос отправлен' : license.activation_status === 'rejected' ? 'Запросить снова' : 'Активировать ключ'}
+                            </Button>
+                        )}
+                         {(license.activation_type === 'info_modal' || (license.activation_type === 'key_request' && license.activation_status === 'active')) && license.how_to_run_link && (
+                            <Button size="sm" variant="outline" onClick={() => window.open(license.how_to_run_link!, '_blank')} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">Как запускать?</Button>
+                        )}
+                         {(license.activation_type === 'info_modal' || (license.activation_type === 'key_request' && license.activation_status === 'active')) && !license.how_to_run_link && (
+                             <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">Инструкция</Button>
+                        )}
                       </div>
                     </li>
                   ))}
@@ -434,6 +459,22 @@ export default function AccountDashboardPage() {
           <Button asChild variant="outline" className="w-full border-primary text-primary hover:bg-primary/10 hover:text-primary/90"><Link href="/#case-opening">Открыть кейс</Link></Button>
         </CardContent>
       </Card>
+
+      {selectedLicenseForKeyModal && (
+        <KeyRegistrationModal
+          isOpen={isKeyModalOpen}
+          onClose={() => setIsKeyModalOpen(false)}
+          onRegisterKey={handleRegisterKeySubmit}
+          productName={selectedLicenseForKeyModal.productName}
+          isLoading={isSubmittingKey}
+          activationType={selectedLicenseForKeyModal.activation_type}
+          loaderDownloadUrl={selectedLicenseForKeyModal.loader_download_url}
+          infoModalContentHtml={selectedLicenseForKeyModal.info_modal_content_html}
+          infoModalSupportLinkText={selectedLicenseForKeyModal.info_modal_support_link_text}
+          infoModalSupportLinkUrl={selectedLicenseForKeyModal.info_modal_support_link_url}
+          retrievalModalData={selectedLicenseForKeyModal} // Pass all license details
+        />
+      )}
     </div>
   );
 }
