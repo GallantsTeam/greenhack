@@ -35,5 +35,6 @@
   "/auth/login/page": "app/auth/login/page.js",
   "/faq/page": "app/faq/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/statuses/page": "app/statuses/page.js"
 }

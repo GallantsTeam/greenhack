@@ -222,6 +222,8 @@ export interface SiteSettings {
     footer_marketplace_is_visible?: boolean;
     faq_page_main_title?: string | null;
     faq_page_contact_prompt_text?: string | null;
+    rules_page_content?: string | null;
+    offer_page_content?: string | null;
     updated_at?: string;
 }
 
@@ -302,8 +304,8 @@ export interface PurchaseHistoryItem extends Purchase {
   user_username?: string;
   product_name?: string;
   product_pricing_option_duration_days?: number | null;
-  product_pricing_option_mode_label?: string | null;
-  description?: string;
+  product_pricing_option_mode_label?: string | null; // Changed from is_pvp
+  description?: string; 
 }
 
 

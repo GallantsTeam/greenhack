@@ -1,7 +1,7 @@
 
 'use client';
 import Link from 'next/link';
-import { LayoutGrid, Star, HelpCircle, FileText, BarChart3, Copyright, Home, Mail, Users, Phone, MapPin, Bot, MessageCircle, ShoppingBag } from 'lucide-react';
+import { LayoutGrid, Star, HelpCircle, FileText, BarChart3, Copyright, Home, Mail, Users, Phone, MapPin, Bot, MessageCircle, ShoppingBag, ShieldCheck as ShieldCheckIcon } from 'lucide-react'; // Added ShieldCheckIcon
 import type { NavItem as CustomNavItemType, SiteSettings } from '@/types';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -21,19 +21,23 @@ const iconMap: { [key: string]: React.ElementType } = {
   Bot, 
   MessageCircle,
   ShoppingBag,
+  ShieldCheck: ShieldCheckIcon, // Added ShieldCheck
 };
 
-const staticNavItems: CustomNavItemType[] = [
+const staticDefaultNavItems: CustomNavItemType[] = [
     { id: -1, label: 'Главная', href: '/', icon_name: 'Home', item_order: 0, is_visible: true },
     { id: -2, label: 'Каталог игр', href: '/games', icon_name: 'LayoutGrid', item_order: 1, is_visible: true },
     { id: -3, label: 'Отзывы', href: '/reviews', icon_name: 'Star', item_order: 2, is_visible: true },
+    { id: -4, label: 'FAQ', href: '/faq', icon_name: 'HelpCircle', item_order: 3, is_visible: true },
+    { id: -5, label: 'Правила', href: '/rules', icon_name: 'FileText', item_order: 4, is_visible: true }, // Added Rules
+    { id: -7, label: 'Оферта', href: '/offer', icon_name: 'ShieldCheck', item_order: 6, is_visible: true }, // Added Offer
     { id: -6, label: 'Статусы', href: '/statuses', icon_name: 'BarChart3', item_order: 5, is_visible: true },
 ];
 
 
 const Footer = ({ simplified = false }: { simplified?: boolean }) => {
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
-  const [navItems, setNavItems] = useState<CustomNavItemType[]>(staticNavItems.filter(item => item.is_visible).sort((a,b) => (a.item_order || 0) - (b.item_order || 0)));
+  const [navItems, setNavItems] = useState<CustomNavItemType[]>(staticDefaultNavItems.filter(item => item.is_visible).sort((a,b) => (a.item_order || 0) - (b.item_order || 0)));
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -61,6 +65,8 @@ const Footer = ({ simplified = false }: { simplified?: boolean }) => {
             footer_marketplace_logo_url: 'https://yougame.biz/images/rlm/logo/logoconcept4.png',
             footer_marketplace_link_url: 'https://yougame.biz/members/263428/',
             footer_marketplace_is_visible: true,
+            rules_page_content: null,
+            offer_page_content: null,
           });
         }
         
@@ -81,6 +87,8 @@ const Footer = ({ simplified = false }: { simplified?: boolean }) => {
             footer_marketplace_logo_url: 'https://yougame.biz/images/rlm/logo/logoconcept4.png',
             footer_marketplace_link_url: 'https://yougame.biz/members/263428/',
             footer_marketplace_is_visible: true,
+            rules_page_content: null,
+            offer_page_content: null,
           });
       } finally {
         setIsLoading(false);
@@ -194,7 +202,7 @@ const Footer = ({ simplified = false }: { simplified?: boolean }) => {
           <div className="border-t border-border pt-6 mb-6">
             <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 md:gap-x-6">
               {isLoading && !siteSettings ? (
-                  Array.from({ length: 4 }).map((_, index) => (
+                  Array.from({ length: 6 }).map((_, index) => ( // Increased to 6 for Rules/Offer
                       <div key={index} className="h-5 w-24 bg-muted rounded animate-pulse"></div>
                   ))
               ) : navItems.length > 0 ? (
