@@ -8,6 +8,7 @@
   "/admin/editor/homepage-settings/page": "app/admin/editor/homepage-settings/page.js",
   "/admin/editor/offer-editor/page": "app/admin/editor/offer-editor/page.js",
   "/admin/editor/page": "app/admin/editor/page.js",
+  "/admin/editor/reviews-page-settings/page": "app/admin/editor/reviews-page-settings/page.js",
   "/admin/editor/rules-editor/page": "app/admin/editor/rules-editor/page.js",
   "/admin/page": "app/admin/page.js",
   "/admin/site-settings/general/page": "app/admin/site-settings/general/page.js",
@@ -27,6 +28,7 @@
   "/api/cases/[caseId]/route": "app/api/cases/[caseId]/route.js",
   "/api/categories/route": "app/api/categories/route.js",
   "/api/products/route": "app/api/products/route.js",
+  "/api/reviews/route": "app/api/reviews/route.js",
   "/api/site-navigation/route": "app/api/site-navigation/route.js",
   "/api/site-settings-public/route": "app/api/site-settings-public/route.js",
   "/api/user/[userId]/balance-transactions/route": "app/api/user/[userId]/balance-transactions/route.js",
@@ -36,6 +38,10 @@
   "/auth/login/page": "app/auth/login/page.js",
   "/faq/page": "app/faq/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/legal-info/page": "app/legal-info/page.js",
+  "/offer/page": "app/offer/page.js",
   "/page": "app/page.js",
+  "/reviews/page": "app/reviews/page.js",
+  "/rules/page": "app/rules/page.js",
   "/statuses/page": "app/statuses/page.js"
 }

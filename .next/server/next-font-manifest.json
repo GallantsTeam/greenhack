@@ -36,6 +36,10 @@
       "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
       "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
     ],
+    "[project]/src/app/admin/editor/reviews-page-settings/page": [
+      "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
+      "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
+    ],
     "[project]/src/app/admin/editor/rules-editor/page": [
       "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
       "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
@@ -60,7 +64,23 @@
       "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
       "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
     ],
+    "[project]/src/app/legal-info/page": [
+      "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
+      "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
+    ],
+    "[project]/src/app/offer/page": [
+      "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
+      "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
+    ],
     "[project]/src/app/page": [
+      "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
+      "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
+    ],
+    "[project]/src/app/reviews/page": [
+      "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
+      "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
+    ],
+    "[project]/src/app/rules/page": [
       "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2",
       "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2"
     ],
