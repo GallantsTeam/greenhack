@@ -31,7 +31,9 @@ export async function GET(
          ui.purchase_id,
          ui.case_opening_id,
          COALESCE(ppo.duration_days, cp.duration_days) as duration_days, 
-         ppo.is_pvp
+         ppo.mode_label, -- Changed from is_pvp
+         ui.activated_at, -- Added activated_at
+         ui.activation_status -- Added activation_status
        FROM user_inventory ui
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
        LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id 
@@ -55,12 +57,17 @@ export async function GET(
       purchase_id: row.purchase_id,
       case_opening_id: row.case_opening_id,
       duration_days: row.duration_days ? parseInt(row.duration_days, 10) : null,
-      is_pvp: row.is_pvp === null || row.is_pvp === undefined ? null : Boolean(row.is_pvp),
+      mode_label: row.mode_label || null, // Use mode_label
+      activated_at: row.activated_at,
+      activation_status: row.activation_status || 'available',
     }));
 
     return NextResponse.json(inventoryItems);
   } catch (error: any) {
     console.error(`API Error fetching inventory items for user ${userId}:`, error);
-    return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
+    // Provide a more specific error message in the JSON payload
+    const errorMessage = error.message || 'An unexpected error occurred on the server while fetching inventory.';
+    return NextResponse.json({ message: `Failed to retrieve inventory. Server error: ${errorMessage}` }, { status: 500 });
   }
 }
+

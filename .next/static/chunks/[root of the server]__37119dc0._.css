@@ -1140,6 +1140,11 @@ body {
   margin-bottom: .25rem;
 }
 
+.my-3 {
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+}
+
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -1153,11 +1158,6 @@ body {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
-
-.my-3 {
-  margin-top: .75rem;
-  margin-bottom: .75rem;
 }
 
 .mb-0 {
@@ -1516,6 +1516,14 @@ body {
   min-height: 200px;
 }
 
+.min-h-\[300px\] {
+  min-height: 300px;
+}
+
+.min-h-\[400px\] {
+  min-height: 400px;
+}
+
 .min-h-\[40px\] {
   min-height: 40px;
 }
@@ -1542,14 +1550,6 @@ body {
 
 .min-h-svh {
   min-height: 100svh;
-}
-
-.min-h-\[400px\] {
-  min-height: 400px;
-}
-
-.min-h-\[300px\] {
-  min-height: 300px;
 }
 
 .w-0 {
@@ -2319,6 +2319,10 @@ body {
   border-color: #dc262666;
 }
 
+.border-secondary {
+  border-color: hsl(var(--secondary));
+}
+
 .border-sidebar-border {
   border-color: hsl(var(--sidebar-border));
 }
@@ -2350,10 +2354,6 @@ body {
 
 .border-yellow-500\/30 {
   border-color: #eab3084d;
-}
-
-.border-secondary {
-  border-color: hsl(var(--secondary));
 }
 
 .border-l-transparent {
@@ -2570,6 +2570,12 @@ body {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-primary\/15 {
+  --tw-gradient-from: hsl(var(--primary) / .15) var(--tw-gradient-from-position);
+  --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .from-primary\/20 {
   --tw-gradient-from: hsl(var(--primary) / .2) var(--tw-gradient-from-position);
   --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
@@ -2579,12 +2585,6 @@ body {
 .from-slate-900 {
   --tw-gradient-from: #0f172a var(--tw-gradient-from-position);
   --tw-gradient-to: #0f172a00 var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.from-primary\/15 {
-  --tw-gradient-from: hsl(var(--primary) / .15) var(--tw-gradient-from-position);
-  --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
@@ -3852,6 +3852,10 @@ body {
   background-color: hsl(var(--secondary));
 }
 
+.hover\:bg-secondary\/10:hover {
+  background-color: hsl(var(--secondary) / .1);
+}
+
 .hover\:bg-secondary\/80:hover {
   background-color: hsl(var(--secondary) / .8);
 }
@@ -3862,10 +3866,6 @@ body {
 
 .hover\:bg-transparent:hover {
   background-color: #0000;
-}
-
-.hover\:bg-secondary\/10:hover {
-  background-color: hsl(var(--secondary) / .1);
 }
 
 .hover\:text-accent-foreground:hover {
@@ -5246,6 +5246,11 @@ body {
     padding-bottom: 3rem;
   }
 
+  .md\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
   .md\:py-24 {
     padding-top: 6rem;
     padding-bottom: 6rem;
@@ -5254,11 +5259,6 @@ body {
   .md\:py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
-  }
-
-  .md\:py-16 {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
   }
 
   .md\:pb-10 {
@@ -5291,10 +5291,6 @@ body {
 
   .md\:pt-4 {
     padding-top: 1rem;
-  }
-
-  .md\:pt-6 {
-    padding-top: 1.5rem;
   }
 
   .md\:text-left {

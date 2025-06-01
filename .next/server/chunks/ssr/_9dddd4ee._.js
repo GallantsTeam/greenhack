@@ -306,7 +306,7 @@ function InventoryPage() {
             return;
         }
         setIsLoading(true);
-        setError(null);
+        setError(null); // Reset error before fetching
         try {
             const response = await fetch(`/api/user/${currentUser.id}/inventory-items`);
             if (!response.ok) {
@@ -317,21 +317,30 @@ function InventoryPage() {
                         errorDetailMessage = errorData.message;
                     } else if (errorData) {
                         const stringifiedError = JSON.stringify(errorData);
+                        // Limit length of stringified error to avoid overly long messages
                         errorDetailMessage = stringifiedError.length < 256 ? stringifiedError : `Сложный объект ошибки от сервера (Статус: ${response.status})`;
                     }
                 } catch (jsonError) {
                     // If response.json() fails, the body might not be valid JSON or empty.
-                    // The initial errorDetailMessage based on statusText is likely the best info.
                     errorDetailMessage = `HTTP ${response.status}: ${response.statusText || 'Ошибка ответа сервера (не JSON)'}`;
                 }
-                // Ensure a non-empty string is thrown
+                // Ensure a non-empty string is set for the error state
                 const finalErrorMsg = errorDetailMessage.trim() !== '' ? errorDetailMessage : `HTTP Error ${response.status}: An unexpected issue occurred while fetching inventory.`;
-                throw new Error(finalErrorMsg);
+                console.error("Error fetching inventory (response not ok):", finalErrorMsg);
+                setError(finalErrorMsg); // Set the error state
+                toast({
+                    title: "Ошибка загрузки инвентаря",
+                    description: finalErrorMsg,
+                    variant: "destructive"
+                });
+                setInventoryItems([]); // Clear items on error
+                setIsLoading(false); // Set loading to false as the fetch attempt finished
+                return; // Exit the function
             }
             const data = await response.json();
             setInventoryItems(data);
         } catch (err) {
-            console.error("Error fetching inventory:", err);
+            console.error("Error fetching inventory (outer catch):", err);
             let displayErrorMessage = "Не удалось загрузить инвентарь. Произошла неизвестная ошибка.";
             if (err instanceof Error && err.message && err.message.trim() !== '') {
                 displayErrorMessage = err.message;
@@ -342,6 +351,7 @@ function InventoryPage() {
                 description: displayErrorMessage,
                 variant: "destructive"
             });
+            setInventoryItems([]); // Clear items on error
         } finally{
             setIsLoading(false);
         }
@@ -442,7 +452,7 @@ function InventoryPage() {
             minute: '2-digit'
         });
     };
-    if (isLoading) {
+    if (isLoading && !error) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "flex flex-col items-center justify-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] p-4",
             children: [
@@ -450,7 +460,7 @@ function InventoryPage() {
                     className: "h-12 w-12 animate-spin text-primary"
                 }, void 0, false, {
                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                    lineNumber: 147,
+                    lineNumber: 154,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -458,13 +468,13 @@ function InventoryPage() {
                     children: "Загрузка инвентаря..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                    lineNumber: 148,
+                    lineNumber: 155,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/account/inventory/page.tsx",
-            lineNumber: 146,
+            lineNumber: 153,
             columnNumber: 7
         }, this);
     }
@@ -476,7 +486,7 @@ function InventoryPage() {
                 children: "Инвентарь"
             }, void 0, false, {
                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                lineNumber: 155,
+                lineNumber: 162,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -491,14 +501,14 @@ function InventoryPage() {
                                         className: "mr-2 h-6 w-6"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                        lineNumber: 159,
+                                        lineNumber: 166,
                                         columnNumber: 13
                                     }, this),
                                     "Ваши предметы"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                lineNumber: 158,
+                                lineNumber: 165,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -506,13 +516,13 @@ function InventoryPage() {
                                 children: "Призы, которые вы получили из кейсов или приобрели. Активируйте их, чтобы начать использовать."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                lineNumber: 162,
+                                lineNumber: 169,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                        lineNumber: 157,
+                        lineNumber: 164,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -524,7 +534,7 @@ function InventoryPage() {
                                         className: "h-10 w-10 text-destructive mb-3"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                        lineNumber: 169,
+                                        lineNumber: 176,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -532,7 +542,7 @@ function InventoryPage() {
                                         children: "Ошибка загрузки инвентаря"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                        lineNumber: 170,
+                                        lineNumber: 177,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -540,47 +550,25 @@ function InventoryPage() {
                                         children: error
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                        lineNumber: 171,
+                                        lineNumber: 178,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
                                         onClick: fetchInventory,
                                         variant: "destructive",
                                         size: "sm",
-                                        children: "Попробовать снова"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/account/inventory/page.tsx",
-                                        lineNumber: 172,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/account/inventory/page.tsx",
-                                lineNumber: 168,
-                                columnNumber: 13
-                            }, this),
-                            !error && inventoryItems.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "min-h-[200px] flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-6",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2d$search$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__PackageSearch$3e$__["PackageSearch"], {
-                                        className: "h-12 w-12 text-muted-foreground mb-4"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/account/inventory/page.tsx",
-                                        lineNumber: 177,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-lg text-muted-foreground",
-                                        children: "Ваш инвентарь пуст."
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/account/inventory/page.tsx",
-                                        lineNumber: 178,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-sm text-muted-foreground",
-                                        children: "Откройте кейсы или приобретите товары, чтобы пополнить его!"
-                                    }, void 0, false, {
+                                        disabled: isLoading,
+                                        children: [
+                                            isLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                className: "h-4 w-4 mr-2 animate-spin"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/account/inventory/page.tsx",
+                                                lineNumber: 180,
+                                                columnNumber: 30
+                                            }, this) : null,
+                                            "Попробовать снова"
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/app/account/inventory/page.tsx",
                                         lineNumber: 179,
                                         columnNumber: 15
@@ -588,7 +576,39 @@ function InventoryPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                lineNumber: 176,
+                                lineNumber: 175,
+                                columnNumber: 13
+                            }, this),
+                            !error && inventoryItems.length === 0 && !isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "min-h-[200px] flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-6",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2d$search$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__PackageSearch$3e$__["PackageSearch"], {
+                                        className: "h-12 w-12 text-muted-foreground mb-4"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/account/inventory/page.tsx",
+                                        lineNumber: 187,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-lg text-muted-foreground",
+                                        children: "Ваш инвентарь пуст."
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/account/inventory/page.tsx",
+                                        lineNumber: 188,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-sm text-muted-foreground",
+                                        children: "Откройте кейсы или приобретите товары, чтобы пополнить его!"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/account/inventory/page.tsx",
+                                        lineNumber: 189,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/account/inventory/page.tsx",
+                                lineNumber: 186,
                                 columnNumber: 13
                             }, this),
                             !error && inventoryItems.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -610,7 +630,7 @@ function InventoryPage() {
                                                         "data-ai-hint": "game item prize"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                        lineNumber: 187,
+                                                        lineNumber: 197,
                                                         columnNumber: 21
                                                     }, this),
                                                     item.is_used && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -619,13 +639,13 @@ function InventoryPage() {
                                                         children: "Активирован"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                        lineNumber: 196,
+                                                        lineNumber: 206,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                lineNumber: 186,
+                                                lineNumber: 196,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardHeader"], {
@@ -645,7 +665,7 @@ function InventoryPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                lineNumber: 204,
+                                                                lineNumber: 214,
                                                                 columnNumber: 46
                                                             }, this),
                                                             item.mode_label && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -657,13 +677,13 @@ function InventoryPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                lineNumber: 205,
+                                                                lineNumber: 215,
                                                                 columnNumber: 43
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                        lineNumber: 202,
+                                                        lineNumber: 212,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -673,7 +693,7 @@ function InventoryPage() {
                                                                 className: "h-3 w-3 mr-1"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                lineNumber: 208,
+                                                                lineNumber: 218,
                                                                 columnNumber: 23
                                                             }, this),
                                                             " Получен: ",
@@ -681,7 +701,7 @@ function InventoryPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                        lineNumber: 207,
+                                                        lineNumber: 217,
                                                         columnNumber: 22
                                                     }, this),
                                                     item.is_used && item.activated_at && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -691,7 +711,7 @@ function InventoryPage() {
                                                                 className: "h-3 w-3 mr-1 text-primary"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                lineNumber: 212,
+                                                                lineNumber: 222,
                                                                 columnNumber: 26
                                                             }, this),
                                                             " Активирован: ",
@@ -699,7 +719,7 @@ function InventoryPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                        lineNumber: 211,
+                                                        lineNumber: 221,
                                                         columnNumber: 23
                                                     }, this),
                                                     item.expires_at && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -709,7 +729,7 @@ function InventoryPage() {
                                                                 className: "h-3 w-3 mr-1"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                lineNumber: 217,
+                                                                lineNumber: 227,
                                                                 columnNumber: 28
                                                             }, this),
                                                             " Истекает: ",
@@ -717,7 +737,7 @@ function InventoryPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                        lineNumber: 216,
+                                                        lineNumber: 226,
                                                         columnNumber: 25
                                                     }, this),
                                                     item.activation_code && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -727,7 +747,7 @@ function InventoryPage() {
                                                                 className: "h-3 w-3 mr-1"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                lineNumber: 222,
+                                                                lineNumber: 232,
                                                                 columnNumber: 27
                                                             }, this),
                                                             " Код: ",
@@ -736,19 +756,19 @@ function InventoryPage() {
                                                                 children: item.activation_code
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                lineNumber: 222,
+                                                                lineNumber: 232,
                                                                 columnNumber: 69
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                        lineNumber: 221,
+                                                        lineNumber: 231,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                lineNumber: 201,
+                                                lineNumber: 211,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -770,25 +790,25 @@ function InventoryPage() {
                                                                                 className: "h-3 w-3 animate-spin mr-1.5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                lineNumber: 237,
+                                                                                lineNumber: 247,
                                                                                 columnNumber: 103
                                                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$play$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__PlayCircle$3e$__["PlayCircle"], {
                                                                                 className: "h-3 w-3 mr-1.5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                lineNumber: 237,
+                                                                                lineNumber: 247,
                                                                                 columnNumber: 156
                                                                             }, this),
                                                                             "Активировать"
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                        lineNumber: 231,
+                                                                        lineNumber: 241,
                                                                         columnNumber: 33
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                    lineNumber: 230,
+                                                                    lineNumber: 240,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogContent"], {
@@ -799,7 +819,7 @@ function InventoryPage() {
                                                                                     children: "Подтвердите активацию"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                    lineNumber: 243,
+                                                                                    lineNumber: 253,
                                                                                     columnNumber: 37
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogDescription"], {
@@ -811,13 +831,13 @@ function InventoryPage() {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                    lineNumber: 244,
+                                                                                    lineNumber: 254,
                                                                                     columnNumber: 37
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                            lineNumber: 242,
+                                                                            lineNumber: 252,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogFooter"], {
@@ -827,7 +847,7 @@ function InventoryPage() {
                                                                                     children: "Отмена"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                    lineNumber: 250,
+                                                                                    lineNumber: 260,
                                                                                     columnNumber: 37
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogAction"], {
@@ -836,25 +856,25 @@ function InventoryPage() {
                                                                                     children: "Активировать"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                    lineNumber: 251,
+                                                                                    lineNumber: 261,
                                                                                     columnNumber: 37
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                            lineNumber: 249,
+                                                                            lineNumber: 259,
                                                                             columnNumber: 33
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                    lineNumber: 241,
+                                                                    lineNumber: 251,
                                                                     columnNumber: 30
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                            lineNumber: 229,
+                                                            lineNumber: 239,
                                                             columnNumber: 25
                                                         }, this),
                                                         !item.is_used && !item.related_product_id && item.case_prize_id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -866,14 +886,14 @@ function InventoryPage() {
                                                                     className: "h-3 w-3 mr-1.5"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                    lineNumber: 258,
+                                                                    lineNumber: 268,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 " Детали приза"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                            lineNumber: 257,
+                                                            lineNumber: 267,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialog"], {
@@ -891,25 +911,25 @@ function InventoryPage() {
                                                                                 className: "h-3 w-3 animate-spin mr-1.5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                lineNumber: 270,
+                                                                                lineNumber: 280,
                                                                                 columnNumber: 94
                                                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
                                                                                 className: "h-3 w-3 mr-1.5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                lineNumber: 270,
+                                                                                lineNumber: 280,
                                                                                 columnNumber: 147
                                                                             }, this),
                                                                             "Удалить"
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                        lineNumber: 263,
+                                                                        lineNumber: 273,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                    lineNumber: 262,
+                                                                    lineNumber: 272,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogContent"], {
@@ -920,7 +940,7 @@ function InventoryPage() {
                                                                                     children: "Подтвердите удаление"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                    lineNumber: 276,
+                                                                                    lineNumber: 286,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogDescription"], {
@@ -931,13 +951,13 @@ function InventoryPage() {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                    lineNumber: 277,
+                                                                                    lineNumber: 287,
                                                                                     columnNumber: 29
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                            lineNumber: 275,
+                                                                            lineNumber: 285,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogFooter"], {
@@ -947,7 +967,7 @@ function InventoryPage() {
                                                                                     children: "Отмена"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                    lineNumber: 282,
+                                                                                    lineNumber: 292,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogAction"], {
@@ -956,65 +976,65 @@ function InventoryPage() {
                                                                                     children: "Удалить"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                                    lineNumber: 283,
+                                                                                    lineNumber: 293,
                                                                                     columnNumber: 29
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                            lineNumber: 281,
+                                                                            lineNumber: 291,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                                    lineNumber: 274,
+                                                                    lineNumber: 284,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                            lineNumber: 261,
+                                                            lineNumber: 271,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                    lineNumber: 227,
+                                                    lineNumber: 237,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                                lineNumber: 226,
+                                                lineNumber: 236,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, item.id, true, {
                                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                                        lineNumber: 185,
+                                        lineNumber: 195,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                                lineNumber: 183,
+                                lineNumber: 193,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/account/inventory/page.tsx",
-                        lineNumber: 166,
+                        lineNumber: 173,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/account/inventory/page.tsx",
-                lineNumber: 156,
+                lineNumber: 163,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/account/inventory/page.tsx",
-        lineNumber: 154,
+        lineNumber: 161,
         columnNumber: 5
     }, this);
 }
