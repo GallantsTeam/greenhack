@@ -230,6 +230,7 @@ var { g: global, __dirname } = __turbopack_context__;
 {
 // src/lib/telegram.ts
 __turbopack_context__.s({
+    "getTelegramSettingsFromDb": (()=>getTelegramSettingsFromDb),
     "notifyAdminOnAdminLogin": (()=>notifyAdminOnAdminLogin),
     "notifyAdminOnBalanceDeposit": (()=>notifyAdminOnBalanceDeposit),
     "notifyAdminOnProductPurchase": (()=>notifyAdminOnProductPurchase),
@@ -299,8 +300,7 @@ async function getTelegramSettingsFromDb() {
         };
     }
 }
-async function sendTelegramMessage(botToken, chatId, message, parseMode = 'MarkdownV2', replyMarkup// For inline keyboards
-) {
+async function sendTelegramMessage(botToken, chatId, message, parseMode = 'MarkdownV2', replyMarkup) {
     if (!botToken || !chatId || !message) {
         const errorMsg = "[TelegramLib] Send Error: Missing botToken, chatId, or message for Telegram.";
         console.error(errorMsg);
@@ -310,7 +310,7 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
         };
     }
     const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    console.log(`[TelegramLib] Attempting to send message to ${chatId} via URL: ${telegramApiUrl.replace(botToken, '***TOKEN***')}`);
+    console.log(`[TelegramLib] Preparing to send message. Target CHAT_ID: '${chatId}', Using TOKEN (partial): '${botToken.substring(0, 10)}...'`);
     const bodyPayload = {
         chat_id: chatId,
         text: message,
@@ -320,6 +320,10 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
         bodyPayload.reply_markup = replyMarkup;
     }
     try {
+        console.log(`[TelegramLib] Sending to Telegram API URL: ${telegramApiUrl.replace(botToken, '***TOKEN***')} with payload (message content might be long):`, JSON.stringify({
+            ...bodyPayload,
+            text: bodyPayload.text.substring(0, 100) + (bodyPayload.text.length > 100 ? '...' : '')
+        }, null, 2));
         const response = await fetch(telegramApiUrl, {
             method: 'POST',
             headers: {
@@ -337,9 +341,14 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
             };
         } else {
             console.error('[TelegramLib] Telegram API Error:', data);
+            const errorDescription = data.description || 'Unknown error from Telegram API';
+            let detailedMessage = `Telegram API Error: ${errorDescription}`;
+            if (errorDescription.toLowerCase().includes("chat not found")) {
+                detailedMessage = `Telegram API Error: ${errorDescription} (Hint: Ensure bot has access to chat ID: ${chatId} and the ID is correct. If it's a user ID, the user must have started the bot. If it's a group/channel ID, the bot must be a member/admin and the ID should typically be negative for groups or format @channel_username for public channels.)`;
+            }
             return {
                 success: false,
-                message: `Telegram API Error: ${data.description}`,
+                message: detailedMessage,
                 error: data
             };
         }
@@ -587,6 +596,8 @@ async function sendKeyActivationRequestToAdmin(item, user) {
         message: "Неизвестная ошибка при отправке уведомлений администратору."
     };
 }
+;
+ // Exporting for potential direct use elsewhere, though typically helper functions are internal
 }}),
 "[project]/src/app/api/admin/site-settings/telegram/test-message/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
 "use strict";

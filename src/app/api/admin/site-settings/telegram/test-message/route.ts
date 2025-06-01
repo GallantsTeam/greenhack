@@ -54,12 +54,15 @@ export async function POST(request: NextRequest) {
     if (chatIds.length === 0) {
         return NextResponse.json({ message: `Не указаны корректные ID чата(ов) для ${botType} бота.` }, { status: 400 });
     }
+    
+    console.log(`[API Test Telegram] Preparing to send to ${botType} bot. Chat IDs from input string "${chatIdInput}":`, chatIds);
+
 
     let allSentSuccessfully = true;
     let firstErrorResult: { success: boolean; message?: string; error?: any } | null = null;
 
     for (const chatId of chatIds) {
-        console.log(`[API Test Telegram] Attempting to send to ${botType} bot, chat_id: '${chatId}', message: "${message}"`); // Added detailed log
+        console.log(`[API Test Telegram] Attempting to send to ${botType} bot, chat_id: '${chatId}', message: "${message}"`); 
         const result = await sendTelegramMessage(token, chatId, message);
         if (!result.success) {
             allSentSuccessfully = false;
@@ -80,7 +83,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: `Внутренняя ошибка сервера: ${error.message}` }, { status: 500 });
   }
 }
-
-    
 
     
