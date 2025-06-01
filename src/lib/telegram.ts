@@ -60,6 +60,8 @@ export async function sendTelegramMessage(
   parseMode: 'MarkdownV2' | 'HTML' = 'MarkdownV2',
   replyMarkup?: object 
 ): Promise<{ success: boolean; message?: string; error?: any }> {
+  console.log(`[TelegramLib] sendTelegramMessage called. Token (start): ${botToken ? botToken.substring(0,10) + '...' : 'N/A'}, ChatID: ${chatId}, Message (start): "${message.substring(0,30)}...", ParseMode: ${parseMode}`);
+
   if (!botToken || !chatId || !message) {
     const errorMsg = "[TelegramLib] Send Error: Missing botToken, chatId, or message for Telegram.";
     console.error(errorMsg);
@@ -77,8 +79,8 @@ export async function sendTelegramMessage(
     bodyPayload.reply_markup = replyMarkup;
   }
 
-  console.log(`[TelegramLib] Preparing to send. Token (partial): '${botToken.substring(0,10)}...', Final chat_id type: ${typeof bodyPayload.chat_id}, value: '${bodyPayload.chat_id}', message: "${message.substring(0,50)}..."`);
-  console.log(`[TelegramLib] EXACT PAYLOAD TO TELEGRAM (token excluded):`, JSON.stringify({ ...bodyPayload, bot_token_info: `Token ending with ...${botToken.slice(-6)}` }, null, 2));
+  console.log(`[TelegramLib] Preparing to send. Final chat_id type: ${typeof bodyPayload.chat_id}, value: '${bodyPayload.chat_id}'`);
+  console.log(`[TelegramLib] EXACT PAYLOAD TO TELEGRAM (token details excluded):`, JSON.stringify({ ...bodyPayload, bot_token_info: `Token ending with ...${botToken.slice(-6)}` }, null, 2));
 
 
   try {
@@ -88,15 +90,17 @@ export async function sendTelegramMessage(
       body: JSON.stringify(bodyPayload),
     });
     const data = await response.json();
+    console.log(`[TelegramLib] Telegram API response status: ${response.status}, ok: ${response.ok}`);
+    console.log('[TelegramLib] Telegram API response data:', JSON.stringify(data, null, 2));
+
 
     if (data.ok) {
       console.log(`[TelegramLib] Message sent successfully to chat_id ${chatId}.`);
       return { success: true, message: `Message sent to ${chatId}` };
     } else {
-      console.error('[TelegramLib] Telegram API Error response data:', data);
       let detailedMessage = `Telegram API Error: ${data.description || 'Unknown error from Telegram API'}`;
-      if (data.description && data.description.toLowerCase().includes("chat not found")) {
-        detailedMessage = `Telegram API Error for Chat ID '${chatId}': ${data.description} (Hint: Ensure bot has access to this specific Chat ID. If it's a user ID, the user must have started the bot. If it's a group/channel ID, the bot must be a member/admin and the ID should typically be negative for groups/supergroups.)`;
+      if (data.description && String(data.description).toLowerCase().includes("chat not found")) {
+        detailedMessage = `Telegram API Error for Chat ID '${chatId}': ${data.description} (Hint: Ensure bot has access to this specific Chat ID. If it's a user ID, the user must have started the bot. If it's a group/channel ID, the bot must be a member/admin and the ID should typically be negative for groups/supergroups. Verify the bot is in the group/channel.)`;
       }
       return { success: false, message: detailedMessage, error: data };
     }

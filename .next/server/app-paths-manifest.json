@@ -2,6 +2,7 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/account/inventory/page": "app/account/inventory/page.js",
   "/account/page": "app/account/page.js",
+  "/account/settings/page": "app/account/settings/page.js",
   "/admin/editor/footer-contacts/page": "app/admin/editor/footer-contacts/page.js",
   "/admin/editor/offer-editor/page": "app/admin/editor/offer-editor/page.js",
   "/admin/editor/page": "app/admin/editor/page.js",
