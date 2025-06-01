@@ -14,8 +14,8 @@ export async function GET(request: NextRequest) {
         'contact_telegram_bot_label, contact_telegram_bot_url, ' +
         'contact_email_label, contact_email_address, ' +
         'footer_marketplace_text, footer_marketplace_logo_url, footer_marketplace_link_url, footer_marketplace_is_visible, ' +
-        'faq_page_main_title, faq_page_contact_prompt_text, ' + // Added FAQ fields
-        'rules_page_content, offer_page_content, ' + // Added Rules and Offer content
+        'faq_page_main_title, faq_page_contact_prompt_text, ' +
+        'rules_page_content, offer_page_content, ' + // Ensure these are selected
         'homepage_popular_categories_title, homepage_advantages, homepage_show_case_opening_block, ' +
         'homepage_case_opening_title, homepage_case_opening_subtitle ' +
         'FROM site_settings WHERE id = ? LIMIT 1',
@@ -39,8 +39,8 @@ export async function GET(request: NextRequest) {
       footer_marketplace_is_visible: true,
       faq_page_main_title: 'Часто Задаваемые Вопросы',
       faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку',
-      rules_page_content: '<p>Правила сайта еще не опубликованы.</p>',
-      offer_page_content: '<p>Текст публичной оферты еще не опубликован.</p>',
+      rules_page_content: '<p>Правила сайта еще не опубликованы.</p>', // Default for rules
+      offer_page_content: '<p>Текст публичной оферты еще не опубликован.</p>', // Default for offer
       homepage_popular_categories_title: 'ПОПУЛЯРНЫЕ КАТЕГОРИИ',
       homepage_advantages: [
         {"icon": "DollarSign", "text": "Доступные цены"},
@@ -76,8 +76,8 @@ export async function GET(request: NextRequest) {
         footer_marketplace_is_visible: (dbSettings as any).footer_marketplace_is_visible !== undefined ? Boolean((dbSettings as any).footer_marketplace_is_visible) : defaults.footer_marketplace_is_visible,
         faq_page_main_title: (dbSettings as any).faq_page_main_title || defaults.faq_page_main_title,
         faq_page_contact_prompt_text: (dbSettings as any).faq_page_contact_prompt_text || defaults.faq_page_contact_prompt_text,
-        rules_page_content: (dbSettings as any).rules_page_content || defaults.rules_page_content,
-        offer_page_content: (dbSettings as any).offer_page_content || defaults.offer_page_content,
+        rules_page_content: (dbSettings as any).rules_page_content || defaults.rules_page_content, // Use fetched or default
+        offer_page_content: (dbSettings as any).offer_page_content || defaults.offer_page_content, // Use fetched or default
         homepage_popular_categories_title: (dbSettings as any).homepage_popular_categories_title || defaults.homepage_popular_categories_title,
         homepage_advantages: (dbSettings as any).homepage_advantages ? (typeof (dbSettings as any).homepage_advantages === 'string' ? JSON.parse((dbSettings as any).homepage_advantages) : (dbSettings as any).homepage_advantages) : defaults.homepage_advantages,
         homepage_show_case_opening_block: (dbSettings as any).homepage_show_case_opening_block !== undefined ? Boolean((dbSettings as any).homepage_show_case_opening_block) : defaults.homepage_show_case_opening_block,
@@ -87,7 +87,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(settings);
   } catch (error: any) {
     console.error('API Public Site Settings GET Error:', error);
-    // Fallback to defaults in case of any error
     const defaultSettingsOnError: SiteSettings = {
         id: SETTINGS_ROW_ID,
         site_name: 'Green Hack (Error)',

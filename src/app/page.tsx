@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import GameCard from '@/components/GameCard';
-import type { Category, Product, CaseItem, SiteBanner } from '@/types';
+import type { Category, Product, CaseItem, SiteBanner, SiteSettings } from '@/types';
 import { DollarSign, Headphones, Dices, ThumbsUp, Zap, ChevronUp, ChevronDown, ChevronsDown, Gift, AlertCircle, Loader2, Flame, Timer, X, ShieldCheck, ShoppingCart, TrendingUp } from 'lucide-react';
 import HeroProductCard from '@/components/HeroProductCard';
 import { Badge } from '@/components/ui/badge';
@@ -75,17 +75,18 @@ export default function HomePage() {
   const [allCategories, setAllCategories] = useState<Category[]>([]);
   const [heroBannersData, setHeroBannersData] = useState<SiteBanner[]>([]);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingBanners, setIsLoadingBanners] = useState(true);
   const [isCaseLoading, setIsCaseLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  const advantages = [
-    { text: 'Доступные цены', icon: DollarSign },
-    { text: 'Отзывчивая поддержка', icon: Headphones },
-    { text: 'Большой выбор игр', icon: Dices },
-    { text: 'Хорошие отзывы', icon: ThumbsUp },
+  const defaultAdvantages = [
+    { icon: "DollarSign", text: "Доступные цены" },
+    { icon: "Headphones", text: "Отзывчивая поддержка" },
+    { icon: "Dices", text: "Большой выбор игр" },
+    { icon: "ThumbsUp", text: "Хорошие отзывы" },
   ];
 
   useEffect(() => {
@@ -95,21 +96,25 @@ export default function HomePage() {
       setIsCaseLoading(true);
       setError(null);
       try {
-        const [productsRes, categoriesRes, bannersRes, caseRes] = await Promise.all([
-          fetch('/api/products').catch(e => { console.error("Product fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch products"})} as any; }),
-          fetch('/api/categories').catch(e => { console.error("Categories fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch categories"})} as any; }),
-          fetch('/api/admin/site-banners').catch(e => { console.error("Banners fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch banners"})} as any; }),
-          FEATURED_CASE_ID ? fetch(`/api/cases/${FEATURED_CASE_ID}`).catch(e => { console.error("Case fetch error:", e); return { ok: false, json: () => Promise.resolve({message: `Failed to fetch case ${FEATURED_CASE_ID}`})} as any; }) : Promise.resolve({ok: false, json: () => Promise.resolve({message: "No featured case ID"})})
+        const [productsRes, categoriesRes, bannersRes, caseRes, settingsRes] = await Promise.all([
+          fetch('/api/products', { cache: 'no-store' }).catch(e => { console.error("Product fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch products"})} as any; }),
+          fetch('/api/categories', { cache: 'no-store' }).catch(e => { console.error("Categories fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch categories"})} as any; }),
+          fetch('/api/admin/site-banners', { cache: 'no-store' }).catch(e => { console.error("Banners fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch banners"})} as any; }),
+          FEATURED_CASE_ID ? fetch(`/api/cases/${FEATURED_CASE_ID}`, { cache: 'no-store' }).catch(e => { console.error("Case fetch error:", e); return { ok: false, json: () => Promise.resolve({message: `Failed to fetch case ${FEATURED_CASE_ID}`})} as any; }) : Promise.resolve({ok: false, json: () => Promise.resolve({message: "No featured case ID"})}),
+          fetch('/api/site-settings-public', { cache: 'no-store' }).catch(e => { console.error("Site settings fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch site settings"})} as any; })
         ]);
 
         if (!productsRes.ok) throw new Error((await productsRes.json()).message || 'Failed to fetch products');
         if (!categoriesRes.ok) throw new Error((await categoriesRes.json()).message || 'Failed to fetch categories');
+        if (!settingsRes.ok) throw new Error((await settingsRes.json()).message || 'Failed to fetch site settings');
         
         const fetchedProducts: Product[] = await productsRes.json();
         const fetchedCategories: Category[] = await categoriesRes.json();
+        const fetchedSettings: SiteSettings = await settingsRes.json();
         
         setAllProducts(fetchedProducts);
         setAllCategories(fetchedCategories);
+        setSiteSettings(fetchedSettings);
         
         if (bannersRes.ok) {
           const fetchedBanners: SiteBanner[] = await bannersRes.json();
@@ -170,7 +175,6 @@ export default function HomePage() {
     }
   }, []);
 
-  // Start auto-scroll
   useEffect(() => {
     if (heroBannersData.length > 1 && !isLoadingBanners) {
       stopAutoScroll(); 
@@ -196,12 +200,20 @@ export default function HomePage() {
     }
   }, [stopAutoScroll, heroBannersData.length]);
   
-  const popularCategorySlugs = ['warface', 'callofdutywarzone', 'rust', 'pubg']; // Example slugs
+  const popularCategorySlugs = ['warface', 'callofdutywarzone', 'rust', 'pubg']; 
   const popularCategories = useMemo(() => {
     return popularCategorySlugs
       .map(slug => allCategories.find(c => c.slug === slug))
       .filter((category): category is Category => category !== undefined);
   }, [allCategories]);
+
+  const advantagesToDisplay = siteSettings?.homepage_advantages && siteSettings.homepage_advantages.length > 0 
+    ? siteSettings.homepage_advantages 
+    : defaultAdvantages;
+
+  const iconMap: { [key: string]: React.ElementType } = {
+    DollarSign, Headphones, Dices, ThumbsUp, Zap, ShieldCheck, ShoppingCart, TrendingUp
+  };
 
 
   if (isLoading) { 
@@ -230,7 +242,7 @@ export default function HomePage() {
            <Loader2 className="h-12 w-12 animate-spin text-primary" />
         </div>
       ) : activeHeroBanner && activeHeroBanner.image_url ? (
-        <section className="relative min-h-[calc(100vh-var(--header-height))] flex items-center justify-center text-foreground overflow-hidden pb-12 md:pb-16 bg-muted/20"> {/* Removed pt-4 and md:pt-6 */}
+        <section className="relative min-h-[calc(100vh-var(--header-height))] flex items-center justify-center text-foreground overflow-hidden pb-12 md:pb-16 bg-muted/20">
           <Image
             src={activeHeroBanner.image_url}
             alt={activeHeroBanner.image_alt_text || activeHeroBanner.title || "Hero Background"}
@@ -333,7 +345,7 @@ export default function HomePage() {
           </div>
         </section>
       ) : (
-        <div className="relative min-h-[calc(100vh-var(--header-height))] flex items-center justify-center text-foreground overflow-hidden pb-10 md:pb-12 bg-muted/10"> {/* Ensured this also uses the calculation */}
+        <div className="relative min-h-[calc(100vh-var(--header-height))] flex items-center justify-center text-foreground overflow-hidden pb-10 md:pb-12 bg-muted/10">
             <p className="text-muted-foreground text-center">Баннеры не настроены или не активны. <br/> Скоро здесь будет что-то интересное!</p>
         </div>
       )}
@@ -341,7 +353,7 @@ export default function HomePage() {
       <section id="categories" className="py-10 md:py-12 bg-background">
         <div className="container mx-auto px-4">
           <h2 className="popular-categories-title mb-6 md:mb-10">
-            ПОПУЛЯРНЫЕ КАТЕГОРИИ
+            {siteSettings?.homepage_popular_categories_title || 'ПОПУЛЯРНЫЕ КАТЕГОРИИ'}
           </h2>
           {popularCategories.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -364,63 +376,67 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <h2 className="section-title mb-8 md:mb-12 text-center uppercase text-foreground">НАШИ ПРЕИМУЩЕСТВА</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 text-center">
-            {advantages.map((advantage, index) => (
-              <div key={index} className="flex flex-col items-center p-4 md:p-6 bg-card rounded-xl shadow-md hover:shadow-primary/20 transition-shadow border border-transparent hover:border-primary/50">
-                <advantage.icon className="h-10 w-10 md:h-12 md:w-12 text-primary mb-3 md:mb-4" />
-                <p className="text-base md:text-lg font-semibold text-foreground">{advantage.text}</p>
-              </div>
-            ))}
+            {advantagesToDisplay.map((advantage, index) => {
+               const IconComponent = iconMap[advantage.icon] || DollarSign; // Fallback to DollarSign
+               return (
+                  <div key={index} className="flex flex-col items-center p-4 md:p-6 bg-card rounded-xl shadow-md hover:shadow-primary/20 transition-shadow border border-transparent hover:border-primary/50">
+                    <IconComponent className="h-10 w-10 md:h-12 md:w-12 text-primary mb-3 md:mb-4" />
+                    <p className="text-base md:text-lg font-semibold text-foreground">{advantage.text}</p>
+                  </div>
+                );
+            })}
           </div>
         </div>
       </section>
 
       <Separator className="my-6 md:my-10 bg-border/50" />
 
-      <section id="case-opening" className="py-10 md:py-12 bg-background">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="section-title mb-2 text-center uppercase text-foreground">
-            ИСПЫТАЙ УДАЧУ!
-          </h2>
-          <p className="text-xs md:text-sm text-muted-foreground mb-6 max-w-md mx-auto">
-            Откройте кейс и получите шанс выиграть ценный приз
-          </p>
-          <div className="flex justify-center">
-            {isCaseLoading ? (
-              <div className="flex justify-center items-center w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] bg-muted/30 rounded-lg">
-                <Loader2 className="h-10 w-10 sm:h-12 sm:w-12 animate-spin text-primary" />
-              </div>
-            ) : mainCaseData && mainCaseData.imageUrl && mainCaseData.is_active ? (
-              <div className="relative">
-                <Link href={`/cases/${mainCaseData.id}/open`} className="block relative transform transition-transform duration-300 hover:scale-105 focus-visible:ring-0 focus-visible:outline-none rounded-lg">
-                  <Image
-                    src={mainCaseData.imageUrl}
-                    alt={mainCaseData.name}
-                    width={250}
-                    height={250}
-                    className="rounded-lg shadow-2xl cursor-pointer w-[200px] h-[200px] sm:w-[250px] sm:h-[250px]"
-                    data-ai-hint={mainCaseData.data_ai_hint || 'loot box treasure'}
-                  />
-                  {mainCaseData.is_hot_offer && (
-                    <div className="absolute -top-2 -right-2 p-1 bg-destructive rounded-full shadow-lg animate-pulse sm:-top-3 sm:-right-3 sm:p-1.5">
-                      <Flame className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
-                    </div>
+      {siteSettings?.homepage_show_case_opening_block && (
+        <section id="case-opening" className="py-10 md:py-12 bg-background">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="section-title mb-2 text-center uppercase text-foreground">
+              {siteSettings.homepage_case_opening_title || 'ИСПЫТАЙ УДАЧУ!'}
+            </h2>
+            <p className="text-xs md:text-sm text-muted-foreground mb-6 max-w-md mx-auto">
+              {siteSettings.homepage_case_opening_subtitle || 'Откройте кейс и получите шанс выиграть ценный приз'}
+            </p>
+            <div className="flex justify-center">
+              {isCaseLoading ? (
+                <div className="flex justify-center items-center w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] bg-muted/30 rounded-lg">
+                  <Loader2 className="h-10 w-10 sm:h-12 sm:w-12 animate-spin text-primary" />
+                </div>
+              ) : mainCaseData && mainCaseData.imageUrl && mainCaseData.is_active ? (
+                <div className="relative">
+                  <Link href={`/cases/${mainCaseData.id}/open`} className="block relative transform transition-transform duration-300 hover:scale-105 focus-visible:ring-0 focus-visible:outline-none rounded-lg">
+                    <Image
+                      src={mainCaseData.imageUrl}
+                      alt={mainCaseData.name}
+                      width={250}
+                      height={250}
+                      className="rounded-lg shadow-2xl cursor-pointer w-[200px] h-[200px] sm:w-[250px] sm:h-[250px]"
+                      data-ai-hint={mainCaseData.data_ai_hint || 'loot box treasure'}
+                    />
+                    {mainCaseData.is_hot_offer && (
+                      <div className="absolute -top-2 -right-2 p-1 bg-destructive rounded-full shadow-lg animate-pulse sm:-top-3 sm:-right-3 sm:p-1.5">
+                        <Flame className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                      </div>
+                    )}
+                  </Link>
+                  {mainCaseData.timer_enabled && mainCaseData.timer_ends_at && (
+                    <CaseTimerDisplay endsAt={mainCaseData.timer_ends_at} />
                   )}
-                </Link>
-                {mainCaseData.timer_enabled && mainCaseData.timer_ends_at && (
-                  <CaseTimerDisplay endsAt={mainCaseData.timer_ends_at} />
-                )}
-              </div>
-            ) : (
-              <div className="text-center p-4 md:p-6 border-2 border-dashed border-border rounded-lg w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] flex flex-col justify-center items-center">
-                <Gift className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground mb-2 md:mb-3" />
-                <p className="text-sm text-muted-foreground">Кейс дня временно недоступен.</p>
-              </div>
-            )}
+                </div>
+              ) : (
+                <div className="text-center p-4 md:p-6 border-2 border-dashed border-border rounded-lg w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] flex flex-col justify-center items-center">
+                  <Gift className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground mb-2 md:mb-3" />
+                  <p className="text-sm text-muted-foreground">Кейс дня временно недоступен.</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }
-
     
