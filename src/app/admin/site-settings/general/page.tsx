@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Settings, Menu as MenuIconLucide, Edit, Trash2, PlusCircle, GripVertical, Eye, EyeOff, LinkIcon as LinkLucideIcon } from 'lucide-react';
+import { Loader2, Settings, Menu as MenuIconLucide, Edit, Trash2, PlusCircle, GripVertical, Eye, EyeOff, LinkIcon as LinkLucideIcon, HelpCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import type { SiteSettings, SiteNavigationItem } from '@/types';
 import { Separator } from '@/components/ui/separator';
@@ -30,6 +30,8 @@ const siteSettingsSchema = z.object({
   site_description: z.string().max(1000).nullable().optional(),
   logo_url: z.string().url({ message: "Неверный URL для логотипа." }).nullable().optional().or(z.literal('')),
   footer_text: z.string().max(500).nullable().optional(),
+  faq_page_main_title: z.string().max(255).optional().nullable(),
+  faq_page_contact_prompt_text: z.string().max(500).optional().nullable(),
 });
 
 type SiteSettingsFormValues = z.infer<typeof siteSettingsSchema>;
@@ -66,6 +68,8 @@ export default function AdminGeneralSettingsPage() {
       site_description: '',
       logo_url: '',
       footer_text: '',
+      faq_page_main_title: '',
+      faq_page_contact_prompt_text: '',
     },
   });
 
@@ -95,6 +99,8 @@ export default function AdminGeneralSettingsPage() {
         site_description: data.site_description || '',
         logo_url: data.logo_url || '',
         footer_text: data.footer_text || '',
+        faq_page_main_title: data.faq_page_main_title || 'Часто Задаваемые Вопросы',
+        faq_page_contact_prompt_text: data.faq_page_contact_prompt_text || 'Не нашли ответ на свой вопрос? Напишите в поддержку',
       });
     } catch (error: any) {
       toast({ title: "Ошибка загрузки настроек", description: error.message, variant: "destructive" });
@@ -140,6 +146,8 @@ export default function AdminGeneralSettingsPage() {
           site_description: result.settings.site_description || '',
           logo_url: result.settings.logo_url || '',
           footer_text: result.settings.footer_text || '',
+          faq_page_main_title: result.settings.faq_page_main_title || 'Часто Задаваемые Вопросы',
+          faq_page_contact_prompt_text: result.settings.faq_page_contact_prompt_text || 'Не нашли ответ на свой вопрос? Напишите в поддержку',
         });
       }
     } catch (error: any) {
@@ -213,8 +221,6 @@ export default function AdminGeneralSettingsPage() {
   const handleChangeNavItemOrder = async (item: SiteNavigationItem, newOrder: number) => {
     setIsNavLoading(true);
     try {
-      // Optimistic UI update can be added here for better UX
-      // For now, just call API and re-fetch
       const response = await fetch(`/api/admin/site-navigation/${item.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -222,7 +228,7 @@ export default function AdminGeneralSettingsPage() {
       });
       if (!response.ok) throw new Error('Не удалось изменить порядок.');
       toast({ description: `Порядок для "${item.label}" изменен.`});
-      fetchNavItems(); // Re-fetch to get sorted list
+      fetchNavItems(); 
     } catch (error: any) {
       toast({ title: "Ошибка", description: error.message, variant: "destructive" });
     } finally {
@@ -292,6 +298,18 @@ export default function AdminGeneralSettingsPage() {
                         <Label htmlFor="footer_text" className="text-foreground">Текст в подвале</Label>
                         <Textarea id="footer_text" {...settingsForm.register("footer_text")} placeholder={`© ${new Date().getFullYear()} Green Hack. Все права защищены.`} disabled={isSettingsLoading}/>
                         {settingsForm.formState.errors.footer_text && <p className="text-sm text-destructive mt-1">{settingsForm.formState.errors.footer_text.message}</p>}
+                    </div>
+                    <Separator />
+                     <h4 className="text-md font-semibold text-foreground pt-2 flex items-center"><HelpCircle className="mr-2 h-5 w-5 text-primary/80"/>Настройки страницы FAQ</h4>
+                     <div className="space-y-2">
+                        <Label htmlFor="faq_page_main_title" className="text-foreground">Заголовок страницы FAQ</Label>
+                        <Input id="faq_page_main_title" {...settingsForm.register("faq_page_main_title")} placeholder="Часто Задаваемые Вопросы" disabled={isSettingsLoading}/>
+                        {settingsForm.formState.errors.faq_page_main_title && <p className="text-sm text-destructive mt-1">{settingsForm.formState.errors.faq_page_main_title.message}</p>}
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="faq_page_contact_prompt_text" className="text-foreground">Текст "Не нашли ответ..." на FAQ</Label>
+                        <Textarea id="faq_page_contact_prompt_text" {...settingsForm.register("faq_page_contact_prompt_text")} placeholder="Не нашли ответ на свой вопрос? Напишите в поддержку" disabled={isSettingsLoading}/>
+                        {settingsForm.formState.errors.faq_page_contact_prompt_text && <p className="text-sm text-destructive mt-1">{settingsForm.formState.errors.faq_page_contact_prompt_text.message}</p>}
                     </div>
                     <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isSettingsLoading || isSettingsFetching}>
                         {isSettingsLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -432,3 +450,4 @@ export default function AdminGeneralSettingsPage() {
   );
 }
     
+

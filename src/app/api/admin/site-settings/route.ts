@@ -24,6 +24,8 @@ const getDefaultSettings = (): SiteSettings => ({
   footer_marketplace_logo_url: 'https://yougame.biz/images/rlm/logo/logoconcept4.png',
   footer_marketplace_link_url: 'https://yougame.biz/members/263428/',
   footer_marketplace_is_visible: true,
+  faq_page_main_title: 'Часто Задаваемые Вопросы',
+  faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку',
 });
 
 export async function GET(request: NextRequest) {
@@ -65,6 +67,8 @@ export async function GET(request: NextRequest) {
       id: SETTINGS_ROW_ID,
       // Ensure boolean fields are correctly typed if coming from DB (0/1)
       footer_marketplace_is_visible: settingsFromDb.footer_marketplace_is_visible !== undefined ? Boolean(settingsFromDb.footer_marketplace_is_visible) : defaults.footer_marketplace_is_visible,
+      faq_page_main_title: settingsFromDb.faq_page_main_title || defaults.faq_page_main_title,
+      faq_page_contact_prompt_text: settingsFromDb.faq_page_contact_prompt_text || defaults.faq_page_contact_prompt_text,
   };
   console.log('[API GET /admin/site-settings] Returning merged settings:', mergedSettings);
   return NextResponse.json(mergedSettings);
@@ -81,14 +85,14 @@ export async function PUT(request: NextRequest) {
     const updateFields: string[] = [];
     const queryParams: any[] = [];
     
-    // Этот список теперь включает все поля, которые могут быть отредактированы через этот общий эндпоинт.
     const editableFields: (keyof SiteSettings)[] = [
         'site_name', 'site_description', 'logo_url', 'footer_text',
         'contact_vk_label', 'contact_vk_url',
         'contact_telegram_bot_label', 'contact_telegram_bot_url',
         'contact_email_label', 'contact_email_address',
         'footer_marketplace_text', 'footer_marketplace_logo_url', 
-        'footer_marketplace_link_url', 'footer_marketplace_is_visible'
+        'footer_marketplace_link_url', 'footer_marketplace_is_visible',
+        'faq_page_main_title', 'faq_page_contact_prompt_text'
     ];
 
     editableFields.forEach(key => {
@@ -108,7 +112,13 @@ export async function PUT(request: NextRequest) {
       const currentSettingsResult = await query('SELECT * FROM site_settings WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]);
       let currentSettings = getDefaultSettings();
       if (Array.isArray(currentSettingsResult) && currentSettingsResult.length > 0) {
-          currentSettings = { ...currentSettings, ...currentSettingsResult[0], footer_marketplace_is_visible: Boolean(currentSettingsResult[0].footer_marketplace_is_visible) };
+          currentSettings = { 
+            ...currentSettings, 
+            ...currentSettingsResult[0], 
+            footer_marketplace_is_visible: Boolean(currentSettingsResult[0].footer_marketplace_is_visible),
+            faq_page_main_title: currentSettingsResult[0].faq_page_main_title || currentSettings.faq_page_main_title,
+            faq_page_contact_prompt_text: currentSettingsResult[0].faq_page_contact_prompt_text || currentSettings.faq_page_contact_prompt_text,
+          };
       }
       console.log('[API PUT /admin/site-settings] No fields to update. Returning current settings.');
       return NextResponse.json({ message: 'No settings provided to update.', settings: currentSettings }, { status: 200 });
@@ -127,7 +137,13 @@ export async function PUT(request: NextRequest) {
     const updatedSettingsResult = await query('SELECT * FROM site_settings WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]);
     let finalSettings = getDefaultSettings();
     if (Array.isArray(updatedSettingsResult) && updatedSettingsResult.length > 0) {
-        finalSettings = { ...finalSettings, ...updatedSettingsResult[0], footer_marketplace_is_visible: Boolean(updatedSettingsResult[0].footer_marketplace_is_visible) };
+        finalSettings = { 
+            ...finalSettings, 
+            ...updatedSettingsResult[0], 
+            footer_marketplace_is_visible: Boolean(updatedSettingsResult[0].footer_marketplace_is_visible),
+            faq_page_main_title: updatedSettingsResult[0].faq_page_main_title || finalSettings.faq_page_main_title,
+            faq_page_contact_prompt_text: updatedSettingsResult[0].faq_page_contact_prompt_text || finalSettings.faq_page_contact_prompt_text,
+        };
     }
     console.log('[API PUT /admin/site-settings] Returning updated settings:', finalSettings);
     return NextResponse.json({ message: 'Настройки сайта успешно обновлены.', settings: finalSettings }, { status: 200 });
@@ -141,3 +157,4 @@ export async function PUT(request: NextRequest) {
   }
 }
     
+

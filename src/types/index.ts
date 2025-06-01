@@ -220,6 +220,8 @@ export interface SiteSettings {
     footer_marketplace_logo_url?: string | null;
     footer_marketplace_link_url?: string | null;
     footer_marketplace_is_visible?: boolean;
+    faq_page_main_title?: string | null;
+    faq_page_contact_prompt_text?: string | null;
     updated_at?: string;
 }
 

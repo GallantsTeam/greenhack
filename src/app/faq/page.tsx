@@ -1,44 +1,68 @@
 
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Loader2, Search as SearchIcon, AlertTriangle, MessageSquareQuestion, Home, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
-import type { FaqItem } from '@/types';
+import type { FaqItem, SiteSettings } from '@/types';
 import { useToast } from '@/hooks/use-toast';
-import FaqSidebarNav from '@/components/FaqSidebarNav'; // New component for sidebar
+import FaqSidebarNav from '@/components/FaqSidebarNav'; 
 
 export default function FaqPage() {
   const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoadingFaq, setIsLoadingFaq] = useState(true);
+  const [errorFaq, setErrorFaq] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
 
-  useEffect(() => {
-    const fetchFaqItems = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await fetch('/api/admin/faq-items'); // Using existing admin endpoint
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ message: 'Не удалось загрузить FAQ' }));
-          throw new Error(errorData.message);
-        }
-        const data: FaqItem[] = await response.json();
-        setFaqItems(data.filter(item => item.is_active).sort((a,b) => (a.item_order || 0) - (b.item_order || 0) ));
-      } catch (err: any) {
-        setError(err.message);
-        toast({ title: "Ошибка загрузки FAQ", description: err.message, variant: "destructive" });
-      } finally {
-        setIsLoading(false);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
+  const [isLoadingSettings, setIsLoadingSettings] = useState(true);
+
+  const fetchFaqItems = useCallback(async () => {
+    setIsLoadingFaq(true);
+    setErrorFaq(null);
+    try {
+      const response = await fetch('/api/admin/faq-items');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Не удалось загрузить FAQ' }));
+        throw new Error(errorData.message);
       }
-    };
-    fetchFaqItems();
+      const data: FaqItem[] = await response.json();
+      setFaqItems(data.filter(item => item.is_active).sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
+    } catch (err: any) {
+      setErrorFaq(err.message);
+      toast({ title: "Ошибка загрузки FAQ", description: err.message, variant: "destructive" });
+    } finally {
+      setIsLoadingFaq(false);
+    }
   }, [toast]);
+
+  const fetchSiteSettings = useCallback(async () => {
+    setIsLoadingSettings(true);
+    try {
+      const response = await fetch('/api/site-settings-public');
+      if (!response.ok) throw new Error('Failed to fetch site settings for FAQ page');
+      const data = await response.json();
+      setSiteSettings(data);
+    } catch (error) {
+      console.error("FAQ Page: Error fetching site settings:", error);
+      // Use defaults if fetch fails so page can still render somewhat
+      setSiteSettings({
+        faq_page_main_title: 'Часто Задаваемые Вопросы',
+        faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку',
+      } as SiteSettings);
+    } finally {
+      setIsLoadingSettings(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchFaqItems();
+    fetchSiteSettings();
+  }, [fetchFaqItems, fetchSiteSettings]);
 
   const filteredFaqItems = useMemo(() => {
     if (!searchTerm) return faqItems;
@@ -47,6 +71,18 @@ export default function FaqPage() {
       item.answer.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [faqItems, searchTerm]);
+  
+  const pageTitle = siteSettings?.faq_page_main_title || 'Часто Задаваемые Вопросы';
+  const contactPromptText = siteSettings?.faq_page_contact_prompt_text || 'Не нашли ответ на свой вопрос? Напишите в поддержку';
+
+  if (isLoadingFaq || isLoadingSettings) {
+    return (
+      <div className="container mx-auto px-4 py-8 space-y-8 text-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] flex flex-col justify-center">
+        <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary mb-4" />
+        <p className="text-lg text-muted-foreground">Загрузка...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col">
@@ -54,7 +90,7 @@ export default function FaqPage() {
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-2xl mx-auto">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary uppercase tracking-wider mb-4 md:mb-6 [text-shadow:_1px_1px_8px_hsl(var(--primary)/0.5)]">
-              Часто Задаваемые Вопросы
+              {pageTitle}
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8">
               Найдите ответы на самые популярные вопросы о наших продуктах и сервисе.
@@ -65,7 +101,6 @@ export default function FaqPage() {
       
       <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Main FAQ Content */}
           <div className="lg:col-span-8 xl:col-span-9">
             <div className="relative mb-6">
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -78,14 +113,14 @@ export default function FaqPage() {
               />
             </div>
 
-            {isLoading ? (
+            {isLoadingFaq && filteredFaqItems.length === 0 ? (
               <div className="flex justify-center items-center py-10">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
               </div>
-            ) : error ? (
+            ) : errorFaq ? (
               <div className="text-center py-10 text-destructive">
                 <AlertTriangle className="mx-auto h-10 w-10 mb-2" />
-                <p>{error}</p>
+                <p>{errorFaq}</p>
               </div>
             ) : filteredFaqItems.length > 0 ? (
               <Accordion type="multiple" className="w-full space-y-3">
@@ -107,15 +142,15 @@ export default function FaqPage() {
             )}
             <div className="mt-8 text-center">
               <p className="text-muted-foreground">
-                Не нашли ответ на свой вопрос?{' '}
+                {contactPromptText.split('Напишите в поддержку')[0]}
                 <Link href="/#contacts" className="text-primary hover:underline">
                   Напишите в поддержку
                 </Link>
+                {contactPromptText.split('Напишите в поддержку')[1]}
               </p>
             </div>
           </div>
 
-          {/* Sidebar */}
           <aside className="lg:col-span-4 xl:col-span-3">
              <FaqSidebarNav />
           </aside>
@@ -124,4 +159,3 @@ export default function FaqPage() {
     </div>
   );
 }
-

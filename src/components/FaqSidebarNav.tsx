@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface NavItem {
   title: string;
-  href: string;
+  href: string; // Now will be an anchor link
   imageUrl: string;
   imageAlt: string;
   dataAiHint: string;
@@ -16,28 +16,28 @@ interface NavItem {
 const navigationItems: NavItem[] = [
   {
     title: 'КАК ЭКОНОМИТЬ 15% НА КАЖДОЙ ПОКУПКЕ?',
-    href: '#', // Placeholder, replace with actual link or FAQ section ID
+    href: '#economy-guide', 
     imageUrl: 'https://placehold.co/300x100.png?text=Economy',
     imageAlt: 'Экономия на покупках',
     dataAiHint: 'discount savings'
   },
   {
     title: 'ПОДГОТОВКА ПК К ЗАПУСКУ ЧИТА',
-    href: '#',
+    href: '#pc-preparation',
     imageUrl: 'https://placehold.co/300x100.png?text=PC+Setup',
     imageAlt: 'Подготовка ПК',
     dataAiHint: 'computer setup guide'
   },
   {
     title: 'ЧТО ДЕЛАТЬ ПОСЛЕ ОПЛАТЫ',
-    href: '#',
+    href: '#after-payment',
     imageUrl: 'https://placehold.co/300x100.png?text=After+Payment',
     imageAlt: 'После оплаты',
     dataAiHint: 'payment confirmation'
   },
   {
     title: 'ГАРАНТИИ',
-    href: '#',
+    href: '#guarantees',
     imageUrl: 'https://placehold.co/300x100.png?text=Guarantees',
     imageAlt: 'Гарантии',
     dataAiHint: 'security guarantee'
@@ -54,9 +54,10 @@ const FaqSidebarNav: React.FC = () => {
       </CardHeader>
       <CardContent className="p-4 space-y-3">
         {navigationItems.map((item) => (
-          <Link
+          // Use simple <a> for anchor links or Next.js Link if these become separate pages
+          <a
             key={item.title}
-            href={item.href}
+            href={item.href} // Direct anchor link
             className="block rounded-lg overflow-hidden shadow-md hover:shadow-primary/30 transition-shadow transform hover:scale-[1.02]"
           >
             <div className="relative w-full aspect-[3/1]">
@@ -73,7 +74,7 @@ const FaqSidebarNav: React.FC = () => {
                 </h4>
               </div>
             </div>
-          </Link>
+          </a>
         ))}
       </CardContent>
     </Card>
@@ -81,4 +82,3 @@ const FaqSidebarNav: React.FC = () => {
 };
 
 export default FaqSidebarNav;
-
