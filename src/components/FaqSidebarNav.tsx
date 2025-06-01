@@ -54,23 +54,25 @@ const FaqSidebarNav: React.FC = () => {
       </CardHeader>
       <CardContent className="p-4 space-y-3">
         {navigationItems.map((item) => (
-          <Link key={item.title} href={item.href} passHref>
-            <a className="block rounded-lg overflow-hidden shadow-md hover:shadow-primary/30 transition-shadow transform hover:scale-[1.02]">
-              <div className="relative w-full aspect-[3/1]">
-                <Image
-                  src={item.imageUrl}
-                  alt={item.imageAlt}
-                  layout="fill"
-                  objectFit="cover"
-                  data-ai-hint={item.dataAiHint}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-2.5">
-                  <h4 className="text-white text-xs font-semibold uppercase tracking-wide leading-tight">
-                    {item.title}
-                  </h4>
-                </div>
+          <Link
+            key={item.title}
+            href={item.href}
+            className="block rounded-lg overflow-hidden shadow-md hover:shadow-primary/30 transition-shadow transform hover:scale-[1.02]"
+          >
+            <div className="relative w-full aspect-[3/1]">
+              <Image
+                src={item.imageUrl}
+                alt={item.imageAlt}
+                layout="fill"
+                objectFit="cover"
+                data-ai-hint={item.dataAiHint}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-2.5">
+                <h4 className="text-white text-xs font-semibold uppercase tracking-wide leading-tight">
+                  {item.title}
+                </h4>
               </div>
-            </a>
+            </div>
           </Link>
         ))}
       </CardContent>
@@ -79,3 +81,4 @@ const FaqSidebarNav: React.FC = () => {
 };
 
 export default FaqSidebarNav;
+

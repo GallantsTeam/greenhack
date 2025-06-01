@@ -24,6 +24,7 @@
   "/api/user/[userId]/licenses/route": "app/api/user/[userId]/licenses/route.js",
   "/api/user/[userId]/referred-count/route": "app/api/user/[userId]/referred-count/route.js",
   "/auth/login/page": "app/auth/login/page.js",
+  "/faq/page": "app/faq/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"
 }
