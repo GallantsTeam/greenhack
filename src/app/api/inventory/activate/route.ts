@@ -14,13 +14,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Missing userId or inventoryItemId' }, { status: 400 });
     }
 
+    // Updated SQL query
     const inventoryItemResults = await query(
       `SELECT 
          ui.*,
+         p.name as product_name_from_product_table,
          COALESCE(ppo.duration_days, cp.duration_days) as resolved_duration_days,
-         ppo.mode_label as pricing_option_mode_label,
-         cp.mode_label as case_prize_mode_label -- If case_prizes table also has mode_label
+         ppo.mode_label as pricing_option_mode_label -- mode_label comes only from ppo
        FROM user_inventory ui
+       LEFT JOIN products p ON ui.related_product_id = p.id
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
        LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id
        WHERE ui.id = ? AND ui.user_id = ?`,
@@ -35,11 +37,13 @@ export async function POST(request: NextRequest) {
     const itemToActivateDb = inventoryItemResults[0];
     console.log('[API Activate] Found item in DB:', itemToActivateDb);
 
+    // Updated item mapping
     const itemToActivate: InventoryItemWithDetails = {
         ...itemToActivateDb,
+        product_name: itemToActivateDb.product_name || itemToActivateDb.product_name_from_product_table || 'Неизвестный продукт',
         is_used: Boolean(itemToActivateDb.is_used),
         duration_days: itemToActivateDb.resolved_duration_days ? parseInt(itemToActivateDb.resolved_duration_days, 10) : null,
-        mode_label: itemToActivateDb.pricing_option_mode_label || itemToActivateDb.case_prize_mode_label || null,
+        mode_label: itemToActivateDb.pricing_option_mode_label || null, // Correctly use only ppo.mode_label
         activation_status: itemToActivateDb.activation_status || 'available',
     };
 
@@ -88,6 +92,10 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('[API Inventory Activate Error]:', error);
+    // Check if the error is a MySQL error and has a code
+    if (error.code && error.sqlMessage) {
+        return NextResponse.json({ message: `Ошибка базы данных: ${error.sqlMessage} (Код: ${error.code})` }, { status: 500 });
+    }
     return NextResponse.json({ message: `Internal Server Error: ${error.message}` }, { status: 500 });
   }
 }

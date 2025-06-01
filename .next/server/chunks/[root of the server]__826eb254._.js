@@ -1,6 +1,6 @@
 module.exports = {
 
-"[project]/.next-internal/server/app/api/user/[userId]/inventory-items/route/actions.js [app-rsc] (server actions loader, ecmascript)": (function(__turbopack_context__) {
+"[project]/.next-internal/server/app/api/inventory/activate/route/actions.js [app-rsc] (server actions loader, ecmascript)": (function(__turbopack_context__) {
 
 var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
 {
@@ -223,80 +223,116 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ query(sql, params) {
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["registerServerReference"])(query, "6058d2186d06199210990ee590d0261587c858a217", null);
 }}),
-"[project]/src/app/api/user/[userId]/inventory-items/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
+"[project]/src/app/api/inventory/activate/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
 var { g: global, __dirname } = __turbopack_context__;
 {
-// src/app/api/user/[userId]/inventory-items/route.ts
+// src/app/api/inventory/activate/route.ts
 __turbopack_context__.s({
-    "GET": (()=>GET)
+    "POST": (()=>POST)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/mysql.ts [app-route] (ecmascript)");
 ;
 ;
-async function GET(request, { params }) {
-    const userId = params.userId;
-    if (!userId || isNaN(parseInt(userId))) {
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            message: 'Valid User ID is required'
-        }, {
-            status: 400
-        });
-    }
+async function POST(request) {
     try {
-        const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
-         ui.id, 
-         ui.user_id, 
-         ui.case_prize_id, 
-         ui.related_product_id, 
-         ui.product_pricing_option_id, 
-         ui.product_name, 
-         ui.product_image_url, 
-         ui.activation_code, 
-         ui.expires_at, 
-         ui.acquired_at, 
-         ui.is_used,
-         ui.purchase_id,
-         ui.case_opening_id,
-         COALESCE(ppo.duration_days, cp.duration_days) as duration_days, 
-         ppo.mode_label, -- Changed from is_pvp
-         ui.activated_at, -- Added activated_at
-         ui.activation_status -- Added activation_status
+        const { userId, inventoryItemId } = await request.json();
+        console.log('[API Activate] Received request:', {
+            userId,
+            inventoryItemId
+        });
+        if (!userId || !inventoryItemId) {
+            console.log('[API Activate] Missing userId or inventoryItemId');
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: 'Missing userId or inventoryItemId'
+            }, {
+                status: 400
+            });
+        }
+        const inventoryItemResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
+         ui.*,
+         COALESCE(ppo.duration_days, cp.duration_days) as resolved_duration_days,
+         ppo.mode_label as pricing_option_mode_label,
+         cp.mode_label as case_prize_mode_label -- If case_prizes table also has mode_label
        FROM user_inventory ui
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
-       LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id 
-       WHERE ui.user_id = ?
-       ORDER BY ui.acquired_at DESC`, [
-            parseInt(userId)
+       LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id
+       WHERE ui.id = ? AND ui.user_id = ?`, [
+            inventoryItemId,
+            userId
         ]);
-        const inventoryItems = results.map((row)=>({
-                id: row.id,
-                user_id: row.user_id,
-                case_prize_id: row.case_prize_id,
-                related_product_id: row.related_product_id,
-                product_pricing_option_id: row.product_pricing_option_id,
-                product_name: row.product_name,
-                product_image_url: row.product_image_url,
-                activation_code: row.activation_code,
-                expires_at: row.expires_at,
-                acquired_at: row.acquired_at,
-                is_used: Boolean(row.is_used),
-                purchase_id: row.purchase_id,
-                case_opening_id: row.case_opening_id,
-                duration_days: row.duration_days ? parseInt(row.duration_days, 10) : null,
-                mode_label: row.mode_label || null,
-                activated_at: row.activated_at,
-                activation_status: row.activation_status || 'available'
-            }));
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(inventoryItems);
-    } catch (error) {
-        console.error(`API Error fetching inventory items for user ${userId}:`, error);
-        // Provide a more specific error message in the JSON payload
-        const errorMessage = error.message || 'An unexpected error occurred on the server while fetching inventory.';
+        if (inventoryItemResults.length === 0) {
+            console.log(`[API Activate] Item not found for user ${userId}, item ID ${inventoryItemId}`);
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: 'Предмет не найден в инвентаре или не принадлежит вам.'
+            }, {
+                status: 404
+            });
+        }
+        const itemToActivateDb = inventoryItemResults[0];
+        console.log('[API Activate] Found item in DB:', itemToActivateDb);
+        const itemToActivate = {
+            ...itemToActivateDb,
+            is_used: Boolean(itemToActivateDb.is_used),
+            duration_days: itemToActivateDb.resolved_duration_days ? parseInt(itemToActivateDb.resolved_duration_days, 10) : null,
+            mode_label: itemToActivateDb.pricing_option_mode_label || itemToActivateDb.case_prize_mode_label || null,
+            activation_status: itemToActivateDb.activation_status || 'available'
+        };
+        if (itemToActivate.is_used) {
+            console.log(`[API Activate] Item ${inventoryItemId} already used.`);
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: 'Этот предмет уже был активирован.'
+            }, {
+                status: 400
+            });
+        }
+        if (!itemToActivate.related_product_id && itemToActivate.case_prize_id) {
+            console.log(`[API Activate] Item ${inventoryItemId} is a non-product prize (e.g., balance), marking as used.`);
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET is_used = TRUE, activated_at = NOW() WHERE id = ?', [
+                inventoryItemId
+            ]);
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: `${itemToActivate.product_name} помечен как использованный.`
+            }, {
+                status: 200
+            });
+        }
+        if (!itemToActivate.related_product_id) {
+            console.log(`[API Activate] Item ${inventoryItemId} has no related_product_id and is not a direct case_prize_id activation. Cannot determine license type.`);
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: 'Невозможно активировать этот тип предмета как лицензию (отсутствует ID продукта).'
+            }, {
+                status: 400
+            });
+        }
+        let expiresAt = null;
+        const activatedAt = new Date();
+        console.log(`[API Activate] Item duration_days: ${itemToActivate.duration_days}`);
+        if (itemToActivate.duration_days && itemToActivate.duration_days > 0) {
+            const expiryDate = new Date(activatedAt);
+            expiryDate.setDate(expiryDate.getDate() + itemToActivate.duration_days);
+            expiresAt = expiryDate.toISOString().slice(0, 19).replace('T', ' ');
+            console.log(`[API Activate] Calculated expiresAt: ${expiresAt}`);
+        } else {
+            console.log(`[API Activate] No duration or duration is 0, expiresAt will be NULL (permanent).`);
+        }
+        await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET is_used = TRUE, activated_at = ?, expires_at = ? WHERE id = ?', [
+            activatedAt.toISOString().slice(0, 19).replace('T', ' '),
+            expiresAt,
+            inventoryItemId
+        ]);
+        console.log(`[API Activate] Item ${inventoryItemId} updated successfully.`);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            message: `Failed to retrieve inventory. Server error: ${errorMessage}`
+            message: `${itemToActivate.product_name} успешно активирован!`
+        }, {
+            status: 200
+        });
+    } catch (error) {
+        console.error('[API Inventory Activate Error]:', error);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            message: `Internal Server Error: ${error.message}`
         }, {
             status: 500
         });
@@ -306,4 +342,4 @@ async function GET(request, { params }) {
 
 };
 
-//# sourceMappingURL=%5Broot%20of%20the%20server%5D__c59e79a4._.js.map
+//# sourceMappingURL=%5Broot%20of%20the%20server%5D__826eb254._.js.map
