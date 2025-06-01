@@ -506,4 +506,14 @@ export interface Review {
   approved_at?: string | null;
 }
 
+export interface FaqItem {
+  id: number;
+  question: string;
+  answer: string;
+  item_order?: number;
+  is_active?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+    
     

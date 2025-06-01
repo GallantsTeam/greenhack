@@ -2145,6 +2145,11 @@ body {
   border-top-right-radius: calc(var(--radius)  - 2px);
 }
 
+.rounded-b-md {
+  border-bottom-right-radius: calc(var(--radius)  - 2px);
+  border-bottom-left-radius: calc(var(--radius)  - 2px);
+}
+
 .border {
   border-width: 1px;
 }
@@ -3795,6 +3800,10 @@ body {
   color: rgb(253 224 71 / var(--tw-text-opacity, 1));
 }
 
+.hover\:text-destructive\/80:hover {
+  color: hsl(var(--destructive) / .8);
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -3975,6 +3984,10 @@ body {
 }
 
 .group\/menu-item:focus-within .group-focus-within\/menu-item\:opacity-100 {
+  opacity: 1;
+}
+
+.group:focus-within .group-focus-within\:opacity-100 {
   opacity: 1;
 }
 
@@ -4634,6 +4647,10 @@ body {
 
   .sm\:max-w-sm {
     max-width: 24rem;
+  }
+
+  .sm\:max-w-lg {
+    max-width: 32rem;
   }
 
   .sm\:flex-1 {
