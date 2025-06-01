@@ -14,18 +14,27 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Loader2, PackagePlus, Info, Palette, ImageIcon as ImageIconLucide, FileTextIcon, Settings2, CreditCardIcon, CogIcon, ListChecksIcon, Trash2, PlusCircle, X, VenetianMask, Eye, Sparkles } from 'lucide-react';
+import { ArrowLeft, Loader2, PackagePlus, Info, Palette, ImageIcon as ImageIconLucide, FileTextIcon, Settings2, CreditCardIcon, CogIcon, ListChecksIcon, Trash2, PlusCircle, X, VenetianMask, Eye, Sparkles, EyeOff } from 'lucide-react';
 import type { Category, Product, ProductPricingOption } from '@/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
 const pricingOptionAddSchema = z.object({
-  id: z.number().optional(), // Only for existing options when editing, not for adding
+  id: z.number().optional(),
   duration_days: z.coerce.number().min(1, "Длительность должна быть не менее 1 дня.").optional().default(1),
   price_rub: z.coerce.number().min(0, "Цена RUB не может быть отрицательной.").optional().default(0),
   price_gh: z.coerce.number().min(0, "Цена GH не может быть отрицательной.").optional().default(0),
-  payment_link: z.string().url({ message: "Неверный URL ссылки на оплату."}).optional().or(z.literal('')).nullable(),
+  is_rub_payment_visible: z.boolean().optional().default(true),
+  is_gh_payment_visible: z.boolean().optional().default(true),
+  custom_payment_1_label: z.string().max(100).optional().nullable(),
+  custom_payment_1_price_rub: z.coerce.number().min(0).optional().nullable(),
+  custom_payment_1_link: z.string().url({ message: "Неверный URL для пользовательского способа 1."}).optional().or(z.literal('')).nullable(),
+  custom_payment_1_is_visible: z.boolean().optional().default(false),
+  custom_payment_2_label: z.string().max(100).optional().nullable(),
+  custom_payment_2_price_rub: z.coerce.number().min(0).optional().nullable(),
+  custom_payment_2_link: z.string().url({ message: "Неверный URL для пользовательского способа 2."}).optional().or(z.literal('')).nullable(),
+  custom_payment_2_is_visible: z.boolean().optional().default(false),
   mode_label: z.string().optional().nullable(),
 });
 
@@ -73,7 +82,7 @@ const productAddSchema = z.object({
   retrieval_modal_support_link_url: z.string().url({ message: "Неверный URL" }).optional().or(z.literal('')).nullable(),
   retrieval_modal_how_to_run_link: z.string().url({ message: "Неверный URL" }).optional().or(z.literal('')).nullable(),
 
-  pricing_options: z.array(pricingOptionAddSchema).optional().default([{ duration_days: 1, price_rub: 0, price_gh: 0, payment_link: '', mode_label: '' }]), // Default with one option
+  pricing_options: z.array(pricingOptionAddSchema).optional().default([{ duration_days: 1, price_rub: 0, price_gh: 0, is_rub_payment_visible: true, is_gh_payment_visible: true, custom_payment_1_is_visible: false, custom_payment_2_is_visible: false, mode_label: '' }]),
 });
 
 type ProductFormValues = z.infer<typeof productAddSchema>;
@@ -97,44 +106,17 @@ export default function AddProductPage() {
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productAddSchema),
     defaultValues: {
-      name: '',
-      slug: '',
-      game_slug: '',
-      status: 'unknown',
-      status_text: '',
-      price_text: '',
-      short_description: '',
-      long_description: '',
-      image_url: '',
-      data_ai_hint: '',
-      mode: null,
-      gallery_image_urls: '',
-      functions_aim_title: 'Aimbot Функции',
-      functions_aim: '',
-      functions_aim_description: '',
-      functions_esp_title: 'ESP/Wallhack Функции',
-      functions_wallhack: '',
-      functions_esp_description: '',
-      functions_misc_title: 'Прочие Функции',
-      functions_misc: '',
-      functions_misc_description: '',
-      system_os: '',
-      system_build: '',
-      system_gpu: '',
-      system_cpu: '',
-      retrieval_modal_intro_text: '', 
-      retrieval_modal_antivirus_text: '', 
-      retrieval_modal_antivirus_link_text: '',
-      retrieval_modal_antivirus_link_url: '',
-      retrieval_modal_launcher_text: '',
-      retrieval_modal_launcher_link_text: '',
-      retrieval_modal_launcher_link_url: '',
-      retrieval_modal_key_paste_text: '',
-      retrieval_modal_support_text: '',
-      retrieval_modal_support_link_text: '',
-      retrieval_modal_support_link_url: '',
-      retrieval_modal_how_to_run_link: '',
-      pricing_options: [{ duration_days: 1, price_rub: 0, price_gh: 0, payment_link: '', mode_label: '' }],
+      name: '', slug: '', game_slug: '', status: 'unknown', status_text: '', price_text: '',
+      short_description: '', long_description: '', image_url: '', data_ai_hint: '', mode: null,
+      gallery_image_urls: '', functions_aim_title: 'Aimbot Функции', functions_aim: '', functions_aim_description: '',
+      functions_esp_title: 'ESP/Wallhack Функции', functions_wallhack: '', functions_esp_description: '',
+      functions_misc_title: 'Прочие Функции', functions_misc: '', functions_misc_description: '',
+      system_os: '', system_build: '', system_gpu: '', system_cpu: '',
+      retrieval_modal_intro_text: '', retrieval_modal_antivirus_text: '', retrieval_modal_antivirus_link_text: '',
+      retrieval_modal_antivirus_link_url: '', retrieval_modal_launcher_text: '', retrieval_modal_launcher_link_text: '',
+      retrieval_modal_launcher_link_url: '', retrieval_modal_key_paste_text: '', retrieval_modal_support_text: '',
+      retrieval_modal_support_link_text: '', retrieval_modal_support_link_url: '', retrieval_modal_how_to_run_link: '',
+      pricing_options: [{ duration_days: 1, price_rub: 0, price_gh: 0, is_rub_payment_visible: true, is_gh_payment_visible: true, custom_payment_1_label: '', custom_payment_1_price_rub: 0, custom_payment_1_link: '', custom_payment_1_is_visible: false, custom_payment_2_label: '', custom_payment_2_price_rub: 0, custom_payment_2_link: '', custom_payment_2_is_visible: false, mode_label: '' }],
     },
   });
 
@@ -278,6 +260,7 @@ export default function AddProductPage() {
     try {
       const payload = {
         ...data,
+        id: data.slug, // Ensure 'id' (which is slug for products) is sent
         mode: data.mode === NULL_VALUE_STRING ? null : data.mode,
         functions_aim: aimFunctions.join(','),
         functions_wallhack: whFunctions.join(','),
@@ -285,8 +268,8 @@ export default function AddProductPage() {
         gallery_image_urls: data.gallery_image_urls ? data.gallery_image_urls.split(',').map(url => url.trim()).filter(url => url) : [],
         pricing_options: data.pricing_options?.map(opt => ({
             ...opt,
-            payment_link: opt.payment_link || null, 
-            mode_label: opt.mode_label || null,
+            custom_payment_1_price_rub: opt.custom_payment_1_price_rub || null,
+            custom_payment_2_price_rub: opt.custom_payment_2_price_rub || null,
         }))
       };
 
@@ -537,6 +520,10 @@ export default function AddProductPage() {
                          {form.formState.errors.pricing_options?.[index]?.mode_label && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.mode_label?.message}</p>}
                       </div>
                     </div>
+                    
+                    {/* Standard RUB and GH Payments */}
+                    <Separator className="my-3" />
+                    <p className="text-sm font-medium text-foreground/80">Стандартные способы оплаты:</p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
                        <div>
                         <Label htmlFor={`pricing_options.${index}.price_gh`} className="text-xs text-muted-foreground">Цена (GH)</Label>
@@ -548,16 +535,68 @@ export default function AddProductPage() {
                         <Input type="number" step="0.01" {...form.register(`pricing_options.${index}.price_rub`)} className="mt-1 h-9" disabled={isLoading}/>
                         {form.formState.errors.pricing_options?.[index]?.price_rub && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.price_rub?.message}</p>}
                       </div>
-                       <div className="flex items-center justify-end">
+                    </div>
+                     <div className="flex items-center space-x-4 mt-2">
+                        <div className="flex items-center space-x-2">
+                            <Controller control={form.control} name={`pricing_options.${index}.is_gh_payment_visible`} render={({ field: checkboxField }) => (<Checkbox id={`pricing_options.${index}.is_gh_payment_visible`} checked={checkboxField.value} onCheckedChange={checkboxField.onChange} disabled={isLoading} /> )} />
+                            <Label htmlFor={`pricing_options.${index}.is_gh_payment_visible`} className="text-xs text-muted-foreground">Показывать GH</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Controller control={form.control} name={`pricing_options.${index}.is_rub_payment_visible`} render={({ field: checkboxField }) => (<Checkbox id={`pricing_options.${index}.is_rub_payment_visible`} checked={checkboxField.value} onCheckedChange={checkboxField.onChange} disabled={isLoading} /> )} />
+                            <Label htmlFor={`pricing_options.${index}.is_rub_payment_visible`} className="text-xs text-muted-foreground">Показывать RUB</Label>
+                        </div>
+                    </div>
+
+                    {/* Custom Payment Method 1 */}
+                    <Separator className="my-3" />
+                    <p className="text-sm font-medium text-foreground/80">Пользовательский способ оплаты #1:</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_1_label`} className="text-xs text-muted-foreground">Метка кнопки 1</Label>
+                            <Input {...form.register(`pricing_options.${index}.custom_payment_1_label`)} placeholder="Lava.ru" className="mt-1 h-9" disabled={isLoading}/>
+                        </div>
+                        <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_1_price_rub`} className="text-xs text-muted-foreground">Цена (RUB) 1</Label>
+                            <Input type="number" step="0.01" {...form.register(`pricing_options.${index}.custom_payment_1_price_rub`)} className="mt-1 h-9" disabled={isLoading}/>
+                        </div>
+                         <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_1_link`} className="text-xs text-muted-foreground">Ссылка 1</Label>
+                            <Input type="url" {...form.register(`pricing_options.${index}.custom_payment_1_link`)} placeholder="https://..." className="mt-1 h-9" disabled={isLoading}/>
+                            {form.formState.errors.pricing_options?.[index]?.custom_payment_1_link && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.custom_payment_1_link?.message}</p>}
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-2">
+                        <Controller control={form.control} name={`pricing_options.${index}.custom_payment_1_is_visible`} render={({ field: checkboxField }) => (<Checkbox id={`pricing_options.${index}.custom_payment_1_is_visible`} checked={checkboxField.value} onCheckedChange={checkboxField.onChange} disabled={isLoading} /> )} />
+                        <Label htmlFor={`pricing_options.${index}.custom_payment_1_is_visible`} className="text-xs text-muted-foreground">Показывать способ #1</Label>
+                    </div>
+
+                    {/* Custom Payment Method 2 */}
+                    <Separator className="my-3" />
+                    <p className="text-sm font-medium text-foreground/80">Пользовательский способ оплаты #2:</p>
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_2_label`} className="text-xs text-muted-foreground">Метка кнопки 2</Label>
+                            <Input {...form.register(`pricing_options.${index}.custom_payment_2_label`)} placeholder="Crypto" className="mt-1 h-9" disabled={isLoading}/>
+                        </div>
+                        <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_2_price_rub`} className="text-xs text-muted-foreground">Цена (RUB) 2</Label>
+                            <Input type="number" step="0.01" {...form.register(`pricing_options.${index}.custom_payment_2_price_rub`)} className="mt-1 h-9" disabled={isLoading}/>
+                        </div>
+                         <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_2_link`} className="text-xs text-muted-foreground">Ссылка 2</Label>
+                            <Input type="url" {...form.register(`pricing_options.${index}.custom_payment_2_link`)} placeholder="https://..." className="mt-1 h-9" disabled={isLoading}/>
+                             {form.formState.errors.pricing_options?.[index]?.custom_payment_2_link && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.custom_payment_2_link?.message}</p>}
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-2">
+                        <Controller control={form.control} name={`pricing_options.${index}.custom_payment_2_is_visible`} render={({ field: checkboxField }) => (<Checkbox id={`pricing_options.${index}.custom_payment_2_is_visible`} checked={checkboxField.value} onCheckedChange={checkboxField.onChange} disabled={isLoading} /> )} />
+                        <Label htmlFor={`pricing_options.${index}.custom_payment_2_is_visible`} className="text-xs text-muted-foreground">Показывать способ #2</Label>
+                    </div>
+                    
+                    <div className="flex justify-end mt-3">
                          <Button type="button" variant="ghost" size="icon" onClick={() => removePricingOption(index)} className="text-destructive hover:bg-destructive/10 h-9 w-9" disabled={isLoading || pricingFields.length <= 1}>
                             <Trash2 className="h-4 w-4" />
                          </Button>
-                      </div>
-                    </div>
-                    <div>
-                        <Label htmlFor={`pricing_options.${index}.payment_link`} className="text-xs text-muted-foreground">Ссылка на оплату (для RUB)</Label>
-                        <Input type="url" {...form.register(`pricing_options.${index}.payment_link`)} placeholder="https://yoomoney.ru/..." className="mt-1 h-9" disabled={isLoading}/>
-                        {form.formState.errors.pricing_options?.[index]?.payment_link && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.payment_link?.message}</p>}
                     </div>
                   </div>
                 ))}
@@ -565,7 +604,7 @@ export default function AddProductPage() {
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() => appendPricingOption({ duration_days: 1, price_rub: 0, price_gh: 0, payment_link: '', mode_label: '' })}
+                  onClick={() => appendPricingOption({ duration_days: 1, price_rub: 0, price_gh: 0, is_rub_payment_visible: true, is_gh_payment_visible: true, custom_payment_1_label: '', custom_payment_1_price_rub: 0, custom_payment_1_link: '', custom_payment_1_is_visible: false, custom_payment_2_label: '', custom_payment_2_price_rub: 0, custom_payment_2_link: '', custom_payment_2_is_visible: false, mode_label: '' })}
                   disabled={isLoading}
                   className="border-primary text-primary hover:bg-primary/10"
                 >
@@ -588,5 +627,6 @@ export default function AddProductPage() {
 }
 
 // Ensure there's a newline at the very end of the file content.
+
 
 

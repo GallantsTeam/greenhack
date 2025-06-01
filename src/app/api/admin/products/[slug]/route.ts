@@ -25,7 +25,6 @@ async function getProductBySlugForUpdate(slug: string): Promise<Product | null> 
     productData.functions_wallhack = productData.functions_wallhack ? productData.functions_wallhack.split(',').map((fn: string) => fn.trim()) : [];
     productData.functions_misc = productData.functions_misc ? productData.functions_misc.split(',').map((fn: string) => fn.trim()) : [];
     
-    // Ensure default titles if null from DB
     productData.functions_aim_title = productData.functions_aim_title || 'Aimbot Функции';
     productData.functions_esp_title = productData.functions_esp_title || 'ESP/Wallhack Функции';
     productData.functions_misc_title = productData.functions_misc_title || 'Прочие Функции';
@@ -47,14 +46,23 @@ export async function GET(
       return NextResponse.json({ message: 'Product not found' }, { status: 404 });
     }
     const pricingOptionsResults = await query(
-      'SELECT id, product_id, duration_days, price_rub, price_gh, payment_link, mode_label, created_at FROM product_pricing_options WHERE product_id = ? ORDER BY duration_days ASC, mode_label ASC',
+      'SELECT * FROM product_pricing_options WHERE product_id = ? ORDER BY duration_days ASC, mode_label ASC',
       [product.id] 
     );
     product.pricing_options = pricingOptionsResults.map((opt: any) => ({
       ...opt,
       price_rub: parseFloat(opt.price_rub),
       price_gh: parseFloat(opt.price_gh),
-      payment_link: opt.payment_link,
+      is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : Boolean(opt.is_rub_payment_visible),
+      is_gh_payment_visible: opt.is_gh_payment_visible === undefined ? true : Boolean(opt.is_gh_payment_visible),
+      custom_payment_1_label: opt.custom_payment_1_label,
+      custom_payment_1_price_rub: opt.custom_payment_1_price_rub ? parseFloat(opt.custom_payment_1_price_rub) : null,
+      custom_payment_1_link: opt.custom_payment_1_link,
+      custom_payment_1_is_visible: Boolean(opt.custom_payment_1_is_visible),
+      custom_payment_2_label: opt.custom_payment_2_label,
+      custom_payment_2_price_rub: opt.custom_payment_2_price_rub ? parseFloat(opt.custom_payment_2_price_rub) : null,
+      custom_payment_2_link: opt.custom_payment_2_link,
+      custom_payment_2_is_visible: Boolean(opt.custom_payment_2_is_visible),
       mode_label: opt.mode_label,
     }));
 
@@ -179,7 +187,8 @@ export async function PUT(
     addFieldToUpdate('retrieval_modal_how_to_run_link', retrieval_modal_how_to_run_link);
 
 
-    if (Object.keys(productFields).length === 0) {
+    if (Object.keys(productFields).length === 0 && (!pricing_options || pricing_options.length === (existingProduct.pricing_options || []).length)) {
+      // More sophisticated check might be needed if pricing_options content changes without length change
       return NextResponse.json({ message: 'Нет данных для обновления товара.', product: existingProduct }, { status: 200 });
     }
 
@@ -200,10 +209,26 @@ export async function PUT(
     await query('DELETE FROM product_pricing_options WHERE product_id = ?', [targetProductId]);
     if (pricing_options && Array.isArray(pricing_options) && pricing_options.length > 0) {
       for (const option of pricing_options) {
-        const { duration_days, price_rub, price_gh, payment_link, mode_label } = option;
+        const { 
+            duration_days, price_rub, price_gh, mode_label,
+            is_rub_payment_visible, is_gh_payment_visible,
+            custom_payment_1_label, custom_payment_1_price_rub, custom_payment_1_link, custom_payment_1_is_visible,
+            custom_payment_2_label, custom_payment_2_price_rub, custom_payment_2_link, custom_payment_2_is_visible
+        } = option;
         await query(
-          'INSERT INTO product_pricing_options (product_id, duration_days, price_rub, price_gh, payment_link, mode_label) VALUES (?, ?, ?, ?, ?, ?)',
-          [targetProductId, duration_days, price_rub, price_gh, payment_link || null, mode_label || null]
+          `INSERT INTO product_pricing_options (
+              product_id, duration_days, price_rub, price_gh, mode_label,
+              is_rub_payment_visible, is_gh_payment_visible,
+              custom_payment_1_label, custom_payment_1_price_rub, custom_payment_1_link, custom_payment_1_is_visible,
+              custom_payment_2_label, custom_payment_2_price_rub, custom_payment_2_link, custom_payment_2_is_visible
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+              targetProductId, duration_days, price_rub, price_gh, mode_label || null,
+              is_rub_payment_visible === undefined ? true : Boolean(is_rub_payment_visible),
+              is_gh_payment_visible === undefined ? true : Boolean(is_gh_payment_visible),
+              custom_payment_1_label || null, custom_payment_1_price_rub || null, custom_payment_1_link || null, Boolean(custom_payment_1_is_visible),
+              custom_payment_2_label || null, custom_payment_2_price_rub || null, custom_payment_2_link || null, Boolean(custom_payment_2_is_visible)
+          ]
         );
       }
     }
@@ -288,4 +313,5 @@ export async function DELETE(
 }
 
 // Ensure there's a newline at the very end of the file content.
+
 

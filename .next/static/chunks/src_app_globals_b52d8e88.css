@@ -715,6 +715,11 @@ body {
   margin-bottom: 2rem;
 }
 
+.my-3 {
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+}
+
 .mb-0 {
   margin-bottom: 0;
 }
@@ -1905,6 +1910,10 @@ body {
 
 .border-yellow-500\/30 {
   border-color: #eab3084d;
+}
+
+.border-secondary {
+  border-color: hsl(var(--secondary));
 }
 
 .border-l-transparent {
@@ -3413,6 +3422,10 @@ body {
 
 .hover\:bg-transparent:hover {
   background-color: #0000;
+}
+
+.hover\:bg-secondary\/10:hover {
+  background-color: hsl(var(--secondary) / .1);
 }
 
 .hover\:text-accent-foreground:hover {

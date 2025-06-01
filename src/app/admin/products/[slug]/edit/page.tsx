@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Loader2, Palette, Tag, ImageIcon as ImageIconLucide, FileTextIcon, Settings2, CreditCardIcon, CogIcon, ListChecksIcon, Trash2, PlusCircle, EditIcon as EditProductIcon, X, VenetianMask, Eye, Sparkles } from 'lucide-react';
+import { ArrowLeft, Loader2, Palette, Tag, ImageIcon as ImageIconLucide, FileTextIcon, Settings2, CreditCardIcon, CogIcon, ListChecksIcon, Trash2, PlusCircle, EditIcon as EditProductIcon, X, VenetianMask, Eye, Sparkles, EyeOff } from 'lucide-react';
 import type { Product, Category, ProductPricingOption } from '@/types';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -27,8 +27,17 @@ const pricingOptionSchema = z.object({
   duration_days: z.coerce.number().min(1, "Длительность должна быть не менее 1 дня."),
   price_rub: z.coerce.number().min(0, "Цена RUB не может быть отрицательной."),
   price_gh: z.coerce.number().min(0, "Цена GH не может быть отрицательной."),
-  payment_link: z.string().url({ message: "Неверный URL ссылки на оплату."}).optional().or(z.literal('')).nullable(),
-  mode_label: z.string().optional().nullable(), // Replaced is_pvp
+  is_rub_payment_visible: z.boolean().optional().default(true),
+  is_gh_payment_visible: z.boolean().optional().default(true),
+  custom_payment_1_label: z.string().max(100).optional().nullable(),
+  custom_payment_1_price_rub: z.coerce.number().min(0).optional().nullable(),
+  custom_payment_1_link: z.string().url({ message: "Неверный URL для пользовательского способа 1."}).optional().or(z.literal('')).nullable(),
+  custom_payment_1_is_visible: z.boolean().optional().default(false),
+  custom_payment_2_label: z.string().max(100).optional().nullable(),
+  custom_payment_2_price_rub: z.coerce.number().min(0).optional().nullable(),
+  custom_payment_2_link: z.string().url({ message: "Неверный URL для пользовательского способа 2."}).optional().or(z.literal('')).nullable(),
+  custom_payment_2_is_visible: z.boolean().optional().default(false),
+  mode_label: z.string().optional().nullable(),
 });
 
 const productEditSchema = z.object({
@@ -177,12 +186,34 @@ export default function EditProductPage() {
         system_cpu: data.system_cpu || '',
         pricing_options: data.pricing_options?.map(opt => ({
             ...opt, 
-            payment_link: opt.payment_link || '', 
+            is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : opt.is_rub_payment_visible,
+            is_gh_payment_visible: opt.is_gh_payment_visible === undefined ? true : opt.is_gh_payment_visible,
+            custom_payment_1_label: opt.custom_payment_1_label || '',
+            custom_payment_1_price_rub: opt.custom_payment_1_price_rub || 0,
+            custom_payment_1_link: opt.custom_payment_1_link || '',
+            custom_payment_1_is_visible: opt.custom_payment_1_is_visible === undefined ? false : opt.custom_payment_1_is_visible,
+            custom_payment_2_label: opt.custom_payment_2_label || '',
+            custom_payment_2_price_rub: opt.custom_payment_2_price_rub || 0,
+            custom_payment_2_link: opt.custom_payment_2_link || '',
+            custom_payment_2_is_visible: opt.custom_payment_2_is_visible === undefined ? false : opt.custom_payment_2_is_visible,
             mode_label: opt.mode_label || ''
         })) || [],
       });
       if(data.pricing_options) {
-        replacePricingOptions(data.pricing_options.map(opt => ({...opt, payment_link: opt.payment_link || '', mode_label: opt.mode_label || ''})));
+        replacePricingOptions(data.pricing_options.map(opt => ({
+            ...opt, 
+            is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : opt.is_rub_payment_visible,
+            is_gh_payment_visible: opt.is_gh_payment_visible === undefined ? true : opt.is_gh_payment_visible,
+            custom_payment_1_label: opt.custom_payment_1_label || '',
+            custom_payment_1_price_rub: opt.custom_payment_1_price_rub || 0,
+            custom_payment_1_link: opt.custom_payment_1_link || '',
+            custom_payment_1_is_visible: opt.custom_payment_1_is_visible === undefined ? false : opt.custom_payment_1_is_visible,
+            custom_payment_2_label: opt.custom_payment_2_label || '',
+            custom_payment_2_price_rub: opt.custom_payment_2_price_rub || 0,
+            custom_payment_2_link: opt.custom_payment_2_link || '',
+            custom_payment_2_is_visible: opt.custom_payment_2_is_visible === undefined ? false : opt.custom_payment_2_is_visible,
+            mode_label: opt.mode_label || ''
+        })));
       }
 
     } catch (error: any) {
@@ -308,8 +339,8 @@ export default function EditProductPage() {
         gallery_image_urls: formData.gallery_image_urls ? formData.gallery_image_urls.split(',').map(url => url.trim()).filter(url => url) : [],
         pricing_options: formData.pricing_options?.map(opt => ({
             ...opt,
-            payment_link: opt.payment_link || null, 
-            mode_label: opt.mode_label || null,
+            custom_payment_1_price_rub: opt.custom_payment_1_price_rub || null,
+            custom_payment_2_price_rub: opt.custom_payment_2_price_rub || null,
         }))
     };
 
@@ -575,6 +606,9 @@ export default function EditProductPage() {
                          {form.formState.errors.pricing_options?.[index]?.mode_label && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.mode_label?.message}</p>}
                       </div>
                     </div>
+
+                    <Separator className="my-3" />
+                    <p className="text-sm font-medium text-foreground/80">Стандартные способы оплаты:</p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
                        <div>
                         <Label htmlFor={`pricing_options.${index}.price_gh`} className="text-xs text-muted-foreground">Цена (GH)</Label>
@@ -586,16 +620,68 @@ export default function EditProductPage() {
                         <Input type="number" step="0.01" {...form.register(`pricing_options.${index}.price_rub`)} className="mt-1 h-9" disabled={isLoading}/>
                         {form.formState.errors.pricing_options?.[index]?.price_rub && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.price_rub?.message}</p>}
                       </div>
-                       <div className="flex items-center justify-end">
+                    </div>
+                     <div className="flex items-center space-x-4 mt-2">
+                        <div className="flex items-center space-x-2">
+                            <Controller control={form.control} name={`pricing_options.${index}.is_gh_payment_visible`} render={({ field: checkboxField }) => (<Checkbox id={`pricing_options.${index}.is_gh_payment_visible`} checked={checkboxField.value} onCheckedChange={checkboxField.onChange} disabled={isLoading} /> )} />
+                            <Label htmlFor={`pricing_options.${index}.is_gh_payment_visible`} className="text-xs text-muted-foreground">Показывать GH</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Controller control={form.control} name={`pricing_options.${index}.is_rub_payment_visible`} render={({ field: checkboxField }) => (<Checkbox id={`pricing_options.${index}.is_rub_payment_visible`} checked={checkboxField.value} onCheckedChange={checkboxField.onChange} disabled={isLoading} /> )} />
+                            <Label htmlFor={`pricing_options.${index}.is_rub_payment_visible`} className="text-xs text-muted-foreground">Показывать RUB</Label>
+                        </div>
+                    </div>
+
+                    {/* Custom Payment Method 1 */}
+                    <Separator className="my-3" />
+                    <p className="text-sm font-medium text-foreground/80">Пользовательский способ оплаты #1:</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_1_label`} className="text-xs text-muted-foreground">Метка кнопки 1</Label>
+                            <Input {...form.register(`pricing_options.${index}.custom_payment_1_label`)} placeholder="Lava.ru" className="mt-1 h-9" disabled={isLoading}/>
+                        </div>
+                        <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_1_price_rub`} className="text-xs text-muted-foreground">Цена (RUB) 1</Label>
+                            <Input type="number" step="0.01" {...form.register(`pricing_options.${index}.custom_payment_1_price_rub`)} className="mt-1 h-9" disabled={isLoading}/>
+                        </div>
+                         <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_1_link`} className="text-xs text-muted-foreground">Ссылка 1</Label>
+                            <Input type="url" {...form.register(`pricing_options.${index}.custom_payment_1_link`)} placeholder="https://..." className="mt-1 h-9" disabled={isLoading}/>
+                            {form.formState.errors.pricing_options?.[index]?.custom_payment_1_link && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.custom_payment_1_link?.message}</p>}
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-2">
+                        <Controller control={form.control} name={`pricing_options.${index}.custom_payment_1_is_visible`} render={({ field: checkboxField }) => (<Checkbox id={`pricing_options.${index}.custom_payment_1_is_visible`} checked={checkboxField.value} onCheckedChange={checkboxField.onChange} disabled={isLoading} /> )} />
+                        <Label htmlFor={`pricing_options.${index}.custom_payment_1_is_visible`} className="text-xs text-muted-foreground">Показывать способ #1</Label>
+                    </div>
+
+                    {/* Custom Payment Method 2 */}
+                    <Separator className="my-3" />
+                    <p className="text-sm font-medium text-foreground/80">Пользовательский способ оплаты #2:</p>
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_2_label`} className="text-xs text-muted-foreground">Метка кнопки 2</Label>
+                            <Input {...form.register(`pricing_options.${index}.custom_payment_2_label`)} placeholder="Crypto" className="mt-1 h-9" disabled={isLoading}/>
+                        </div>
+                        <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_2_price_rub`} className="text-xs text-muted-foreground">Цена (RUB) 2</Label>
+                            <Input type="number" step="0.01" {...form.register(`pricing_options.${index}.custom_payment_2_price_rub`)} className="mt-1 h-9" disabled={isLoading}/>
+                        </div>
+                         <div>
+                            <Label htmlFor={`pricing_options.${index}.custom_payment_2_link`} className="text-xs text-muted-foreground">Ссылка 2</Label>
+                            <Input type="url" {...form.register(`pricing_options.${index}.custom_payment_2_link`)} placeholder="https://..." className="mt-1 h-9" disabled={isLoading}/>
+                             {form.formState.errors.pricing_options?.[index]?.custom_payment_2_link && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.custom_payment_2_link?.message}</p>}
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-2">
+                        <Controller control={form.control} name={`pricing_options.${index}.custom_payment_2_is_visible`} render={({ field: checkboxField }) => (<Checkbox id={`pricing_options.${index}.custom_payment_2_is_visible`} checked={checkboxField.value} onCheckedChange={checkboxField.onChange} disabled={isLoading} /> )} />
+                        <Label htmlFor={`pricing_options.${index}.custom_payment_2_is_visible`} className="text-xs text-muted-foreground">Показывать способ #2</Label>
+                    </div>
+                    
+                    <div className="flex justify-end mt-3">
                          <Button type="button" variant="ghost" size="icon" onClick={() => removePricingOption(index)} className="text-destructive hover:bg-destructive/10 h-9 w-9" disabled={isLoading || pricingFields.length <= 1}>
                             <Trash2 className="h-4 w-4" />
                          </Button>
-                      </div>
-                    </div>
-                    <div>
-                        <Label htmlFor={`pricing_options.${index}.payment_link`} className="text-xs text-muted-foreground">Ссылка на оплату (для RUB)</Label>
-                        <Input type="url" {...form.register(`pricing_options.${index}.payment_link`)} placeholder="https://yoomoney.ru/..." className="mt-1 h-9" disabled={isLoading}/>
-                        {form.formState.errors.pricing_options?.[index]?.payment_link && <p className="text-xs text-destructive mt-1">{form.formState.errors.pricing_options?.[index]?.payment_link?.message}</p>}
                     </div>
                   </div>
                 ))}
@@ -603,7 +689,7 @@ export default function EditProductPage() {
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() => appendPricingOption({ duration_days: 1, price_rub: 0, price_gh: 0, payment_link: '', mode_label: '' })}
+                  onClick={() => appendPricingOption({ duration_days: 1, price_rub: 0, price_gh: 0, is_rub_payment_visible: true, is_gh_payment_visible: true, custom_payment_1_label: '', custom_payment_1_price_rub: 0, custom_payment_1_link: '', custom_payment_1_is_visible: false, custom_payment_2_label: '', custom_payment_2_price_rub: 0, custom_payment_2_link: '', custom_payment_2_is_visible: false, mode_label: '' })}
                   disabled={isLoading}
                   className="border-primary text-primary hover:bg-primary/10"
                 >
@@ -626,3 +712,4 @@ export default function EditProductPage() {
 }
 
 // Ensure there's a newline at the very end of the file content.
+

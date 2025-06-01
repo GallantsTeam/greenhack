@@ -39,12 +39,22 @@ export interface Category { // Represents 'games' table
 
 export interface ProductPricingOption {
   id?: number;
-  product_id: string;
+  product_id: string; // Corresponds to products.id (which is a VARCHAR slug)
   duration_days: number;
   price_rub: number;
   price_gh: number;
-  payment_link?: string | null;
+  is_rub_payment_visible?: boolean;
+  is_gh_payment_visible?: boolean;
+  custom_payment_1_label?: string | null;
+  custom_payment_1_price_rub?: number | null;
+  custom_payment_1_link?: string | null;
+  custom_payment_1_is_visible?: boolean;
+  custom_payment_2_label?: string | null;
+  custom_payment_2_price_rub?: number | null;
+  custom_payment_2_link?: string | null;
+  custom_payment_2_is_visible?: boolean;
   mode_label?: string | null;
+  payment_link?: string | null; // Old field, to be de-emphasized
   created_at?: string;
 }
 
@@ -53,7 +63,7 @@ export interface ProductPricingOptionWithProductInfo extends ProductPricingOptio
 }
 
 export interface Product {
-  id: string;
+  id: string; // This is the product slug
   name: string;
   slug: string;
   game_slug: string;
@@ -204,6 +214,11 @@ export interface BoostOption {
   isActiveByDefault?: boolean; // For admin panel default setup
 }
 
+export interface HomepageAdvantage {
+  icon: string; // Lucide icon name
+  text: string;
+}
+
 export interface SiteSettings {
     id?: number;
     site_name: string | null;
@@ -224,6 +239,11 @@ export interface SiteSettings {
     faq_page_contact_prompt_text?: string | null;
     rules_page_content?: string | null;
     offer_page_content?: string | null;
+    homepage_popular_categories_title?: string | null;
+    homepage_advantages?: HomepageAdvantage[] | null;
+    homepage_show_case_opening_block?: boolean;
+    homepage_case_opening_title?: string | null;
+    homepage_case_opening_subtitle?: string | null;
     updated_at?: string;
 }
 
@@ -305,7 +325,7 @@ export interface PurchaseHistoryItem extends Purchase {
   product_name?: string;
   product_pricing_option_duration_days?: number | null;
   product_pricing_option_mode_label?: string | null; // Changed from is_pvp
-  description?: string; 
+  description?: string;
 }
 
 

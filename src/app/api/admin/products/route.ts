@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
          p.retrieval_modal_support_link_url,
          p.retrieval_modal_how_to_run_link,
          p.created_at, p.updated_at,
-         (SELECT MIN(ppo.price_rub) FROM product_pricing_options ppo WHERE ppo.product_id = p.id) as min_price_rub_calculated,
-         (SELECT MIN(ppo.price_gh) FROM product_pricing_options ppo WHERE ppo.product_id = p.id) as min_price_gh_calculated,
+         (SELECT MIN(ppo.price_rub) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_rub_payment_visible = TRUE) as min_price_rub_calculated,
+         (SELECT MIN(ppo.price_gh) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_gh_payment_visible = TRUE) as min_price_gh_calculated,
          COALESCE(g.name, p.game_slug) as gameName,
          g.logo_url as gameLogoUrl,
          g.platform as gamePlatform
@@ -182,10 +182,26 @@ export async function POST(request: NextRequest) {
 
       if (pricing_options && Array.isArray(pricing_options) && pricing_options.length > 0) {
         for (const option of pricing_options) {
-          const { duration_days, price_rub, price_gh, payment_link, mode_label } = option;
+          const { 
+            duration_days, price_rub, price_gh, mode_label,
+            is_rub_payment_visible, is_gh_payment_visible,
+            custom_payment_1_label, custom_payment_1_price_rub, custom_payment_1_link, custom_payment_1_is_visible,
+            custom_payment_2_label, custom_payment_2_price_rub, custom_payment_2_link, custom_payment_2_is_visible
+          } = option;
           await query(
-            'INSERT INTO product_pricing_options (product_id, duration_days, price_rub, price_gh, payment_link, mode_label) VALUES (?, ?, ?, ?, ?, ?)',
-            [productIdForOptions, duration_days, price_rub, price_gh, payment_link || null, mode_label || null]
+            `INSERT INTO product_pricing_options (
+                product_id, duration_days, price_rub, price_gh, mode_label,
+                is_rub_payment_visible, is_gh_payment_visible,
+                custom_payment_1_label, custom_payment_1_price_rub, custom_payment_1_link, custom_payment_1_is_visible,
+                custom_payment_2_label, custom_payment_2_price_rub, custom_payment_2_link, custom_payment_2_is_visible
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                productIdForOptions, duration_days, price_rub, price_gh, mode_label || null,
+                is_rub_payment_visible === undefined ? true : Boolean(is_rub_payment_visible),
+                is_gh_payment_visible === undefined ? true : Boolean(is_gh_payment_visible),
+                custom_payment_1_label || null, custom_payment_1_price_rub || null, custom_payment_1_link || null, Boolean(custom_payment_1_is_visible),
+                custom_payment_2_label || null, custom_payment_2_price_rub || null, custom_payment_2_link || null, Boolean(custom_payment_2_is_visible)
+            ]
           );
         }
       }
@@ -193,8 +209,8 @@ export async function POST(request: NextRequest) {
       const newProductDataResult = await query(
         `SELECT 
             p.*,
-            (SELECT MIN(ppo_in.price_rub) FROM product_pricing_options ppo_in WHERE ppo_in.product_id = p.id) as min_price_rub_calculated,
-            (SELECT MIN(ppo_in.price_gh) FROM product_pricing_options ppo_in WHERE ppo_in.product_id = p.id) as min_price_gh_calculated,
+            (SELECT MIN(ppo_in.price_rub) FROM product_pricing_options ppo_in WHERE ppo_in.product_id = p.id AND ppo_in.is_rub_payment_visible = TRUE) as min_price_rub_calculated,
+            (SELECT MIN(ppo_in.price_gh) FROM product_pricing_options ppo_in WHERE ppo_in.product_id = p.id AND ppo_in.is_gh_payment_visible = TRUE) as min_price_gh_calculated,
             COALESCE(g.name, p.game_slug) as gameName,
             g.logo_url as gameLogoUrl,
             g.platform as gamePlatform

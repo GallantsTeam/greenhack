@@ -239,7 +239,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$
 const SETTINGS_ROW_ID = 1; // Assuming settings are stored in a single row with id=1
 async function GET(request) {
     try {
-        const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT site_name, site_description, logo_url, footer_text, ' + 'contact_vk_label, contact_vk_url, ' + 'contact_telegram_bot_label, contact_telegram_bot_url, ' + 'contact_email_label, contact_email_address, ' + 'footer_marketplace_text, footer_marketplace_logo_url, footer_marketplace_link_url, footer_marketplace_is_visible ' + 'FROM site_settings WHERE id = ? LIMIT 1', [
+        const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT site_name, site_description, logo_url, footer_text, ' + 'contact_vk_label, contact_vk_url, ' + 'contact_telegram_bot_label, contact_telegram_bot_url, ' + 'contact_email_label, contact_email_address, ' + 'footer_marketplace_text, footer_marketplace_logo_url, footer_marketplace_link_url, footer_marketplace_is_visible, ' + 'faq_page_main_title, faq_page_contact_prompt_text, ' + // Added FAQ fields
+        'rules_page_content, offer_page_content, ' + // Added Rules and Offer content
+        'homepage_popular_categories_title, homepage_advantages, homepage_show_case_opening_block, ' + 'homepage_case_opening_title, homepage_case_opening_subtitle ' + 'FROM site_settings WHERE id = ? LIMIT 1', [
             SETTINGS_ROW_ID
         ]);
         const defaults = {
@@ -256,13 +258,40 @@ async function GET(request) {
             footer_marketplace_text: 'Мы продаем на:',
             footer_marketplace_logo_url: 'https://yougame.biz/images/rlm/logo/logoconcept4.png',
             footer_marketplace_link_url: 'https://yougame.biz/members/263428/',
-            footer_marketplace_is_visible: true
+            footer_marketplace_is_visible: true,
+            faq_page_main_title: 'Часто Задаваемые Вопросы',
+            faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку',
+            rules_page_content: '<p>Правила сайта еще не опубликованы.</p>',
+            offer_page_content: '<p>Текст публичной оферты еще не опубликован.</p>',
+            homepage_popular_categories_title: 'ПОПУЛЯРНЫЕ КАТЕГОРИИ',
+            homepage_advantages: [
+                {
+                    "icon": "DollarSign",
+                    "text": "Доступные цены"
+                },
+                {
+                    "icon": "Headphones",
+                    "text": "Отзывчивая поддержка"
+                },
+                {
+                    "icon": "Dices",
+                    "text": "Большой выбор игр"
+                },
+                {
+                    "icon": "ThumbsUp",
+                    "text": "Хорошие отзывы"
+                }
+            ],
+            homepage_show_case_opening_block: true,
+            homepage_case_opening_title: 'ИСПЫТАЙ УДАЧУ!',
+            homepage_case_opening_subtitle: 'Откройте кейс и получите шанс выиграть ценный приз'
         };
-        if (!Array.isArray(results) || results.length === 0) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(defaults);
+        let dbSettings = {};
+        if (Array.isArray(results) && results.length > 0) {
+            dbSettings = results[0];
         }
-        const dbSettings = results[0];
         const settings = {
+            id: SETTINGS_ROW_ID,
             site_name: dbSettings.site_name || defaults.site_name,
             site_description: dbSettings.site_description || defaults.site_description,
             logo_url: dbSettings.logo_url || defaults.logo_url,
@@ -276,13 +305,26 @@ async function GET(request) {
             footer_marketplace_text: dbSettings.footer_marketplace_text || defaults.footer_marketplace_text,
             footer_marketplace_logo_url: dbSettings.footer_marketplace_logo_url || defaults.footer_marketplace_logo_url,
             footer_marketplace_link_url: dbSettings.footer_marketplace_link_url || defaults.footer_marketplace_link_url,
-            footer_marketplace_is_visible: dbSettings.footer_marketplace_is_visible !== undefined ? Boolean(dbSettings.footer_marketplace_is_visible) : defaults.footer_marketplace_is_visible
+            footer_marketplace_is_visible: dbSettings.footer_marketplace_is_visible !== undefined ? Boolean(dbSettings.footer_marketplace_is_visible) : defaults.footer_marketplace_is_visible,
+            faq_page_main_title: dbSettings.faq_page_main_title || defaults.faq_page_main_title,
+            faq_page_contact_prompt_text: dbSettings.faq_page_contact_prompt_text || defaults.faq_page_contact_prompt_text,
+            rules_page_content: dbSettings.rules_page_content || defaults.rules_page_content,
+            offer_page_content: dbSettings.offer_page_content || defaults.offer_page_content,
+            homepage_popular_categories_title: dbSettings.homepage_popular_categories_title || defaults.homepage_popular_categories_title,
+            homepage_advantages: dbSettings.homepage_advantages ? typeof dbSettings.homepage_advantages === 'string' ? JSON.parse(dbSettings.homepage_advantages) : dbSettings.homepage_advantages : defaults.homepage_advantages,
+            homepage_show_case_opening_block: dbSettings.homepage_show_case_opening_block !== undefined ? Boolean(dbSettings.homepage_show_case_opening_block) : defaults.homepage_show_case_opening_block,
+            homepage_case_opening_title: dbSettings.homepage_case_opening_title || defaults.homepage_case_opening_title,
+            homepage_case_opening_subtitle: dbSettings.homepage_case_opening_subtitle || defaults.homepage_case_opening_subtitle
         };
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(settings);
     } catch (error) {
         console.error('API Public Site Settings GET Error:', error);
+        // Fallback to defaults in case of any error
         const defaultSettingsOnError = {
+            id: SETTINGS_ROW_ID,
             site_name: 'Green Hack (Error)',
+            site_description: 'Site description error.',
+            logo_url: null,
             footer_text: `© ${new Date().getFullYear()} Green Hack.`,
             contact_vk_label: 'VK',
             contact_vk_url: '#',
@@ -293,7 +335,16 @@ async function GET(request) {
             footer_marketplace_text: 'Мы продаем на:',
             footer_marketplace_logo_url: 'https://yougame.biz/images/rlm/logo/logoconcept4.png',
             footer_marketplace_link_url: 'https://yougame.biz/members/263428/',
-            footer_marketplace_is_visible: true
+            footer_marketplace_is_visible: true,
+            faq_page_main_title: 'Часто Задаваемые Вопросы (Ошибка)',
+            faq_page_contact_prompt_text: 'Свяжитесь с поддержкой (Ошибка).',
+            rules_page_content: '<p>Ошибка загрузки правил сайта.</p>',
+            offer_page_content: '<p>Ошибка загрузки публичной оферты.</p>',
+            homepage_popular_categories_title: 'ПОПУЛЯРНЫЕ КАТЕГОРИИ (Ошибка)',
+            homepage_advantages: [],
+            homepage_show_case_opening_block: true,
+            homepage_case_opening_title: 'ИСПЫТАЙ УДАЧУ! (Ошибка)',
+            homepage_case_opening_subtitle: 'Ошибка загрузки описания кейса.'
         };
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(defaultSettingsOnError, {
             status: 500

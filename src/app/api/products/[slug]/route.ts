@@ -25,7 +25,13 @@ export async function GET(
     // Ensure pricing_options is always an array, even if empty
     const productWithGuaranteedPricingOptions = {
       ...product,
-      pricing_options: product.pricing_options || []
+      pricing_options: (product.pricing_options || []).map(opt => ({
+        ...opt,
+        is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : opt.is_rub_payment_visible,
+        is_gh_payment_visible: opt.is_gh_payment_visible === undefined ? true : opt.is_gh_payment_visible,
+        custom_payment_1_is_visible: opt.custom_payment_1_is_visible === undefined ? false : opt.custom_payment_1_is_visible,
+        custom_payment_2_is_visible: opt.custom_payment_2_is_visible === undefined ? false : opt.custom_payment_2_is_visible,
+      }))
     };
     return NextResponse.json(productWithGuaranteedPricingOptions);
   } catch (error: any) {
