@@ -247,43 +247,83 @@ async function GET(request, { params }) {
     }
     try {
         const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
-         ui.id, 
+         ui.id as inventory_item_id, -- Use ui.id as inventory_item_id
+         ui.related_product_id, -- Need this for product specific details
          ui.product_name as productName, 
          ui.acquired_at as purchaseDate, 
          ui.activated_at, 
          ui.expires_at as preCalculatedExpiry, 
          COALESCE(ppo.duration_days, cp.duration_days) as duration_days, 
-         ppo.mode_label, -- Fetch mode_label
+         ppo.mode_label,
          p.slug as productSlug,
-         p.retrieval_modal_how_to_run_link -- Fetch how_to_run_link from products
+         p.retrieval_modal_how_to_run_link,
+         p.activation_type, -- Fetch from products
+         p.loader_download_url,
+         p.info_modal_content_html,
+         p.info_modal_support_link_text,
+         p.info_modal_support_link_url,
+         p.retrieval_modal_intro_text,
+         p.retrieval_modal_antivirus_text,
+         p.retrieval_modal_antivirus_link_text,
+         p.retrieval_modal_antivirus_link_url,
+         p.retrieval_modal_launcher_text,
+         p.retrieval_modal_launcher_link_text,
+         p.retrieval_modal_launcher_link_url,
+         p.retrieval_modal_key_paste_text,
+         p.retrieval_modal_support_text,
+         p.retrieval_modal_support_link_text,
+         p.retrieval_modal_support_link_url,
+         ui.activation_status -- Fetch activation_status from user_inventory
        FROM user_inventory ui
        LEFT JOIN products p ON ui.related_product_id = p.id
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
        LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id
        WHERE ui.user_id = ? 
-         AND ui.is_used = TRUE 
-         AND ui.related_product_id IS NOT NULL 
-         AND (ui.expires_at IS NULL OR ui.expires_at > NOW()) 
+         AND ui.related_product_id IS NOT NULL -- Only product-based inventory items are licenses
+         AND (
+              (ui.is_used = TRUE AND (ui.expires_at IS NULL OR ui.expires_at > NOW())) -- Already active and not expired
+              OR 
+              (ui.is_used = FALSE AND p.activation_type = 'key_request' AND ui.activation_status IN ('available', 'rejected', 'pending_admin_approval')) -- Not yet used but requires key request
+            )
        ORDER BY ui.activated_at DESC, ui.acquired_at DESC`, [
             parseInt(userId)
         ]);
         const licenses = results.map((row)=>{
             let expiryDate = null;
-            if (row.preCalculatedExpiry) {
+            if (row.activation_status === 'active' && row.preCalculatedExpiry) {
                 expiryDate = new Date(row.preCalculatedExpiry).toISOString();
-            } else if (row.activated_at && row.duration_days) {
+            } else if (row.activation_status === 'active' && row.activated_at && row.duration_days) {
                 const activated = new Date(row.activated_at);
                 expiryDate = new Date(activated.setDate(activated.getDate() + parseInt(row.duration_days, 10))).toISOString();
             }
             return {
-                id: String(row.id),
+                id: String(row.inventory_item_id),
                 productName: row.productName,
+                productSlug: row.productSlug,
+                inventory_item_id: row.inventory_item_id,
                 purchaseDate: row.purchaseDate,
                 activated_at: row.activated_at ? new Date(row.activated_at).toISOString() : null,
                 expiryDate: expiryDate,
-                productSlug: row.productSlug,
+                how_to_run_link: row.retrieval_modal_how_to_run_link || null,
                 mode_label: row.mode_label || null,
-                how_to_run_link: row.retrieval_modal_how_to_run_link || null
+                activation_type: row.activation_type || 'info_modal',
+                loader_download_url: row.loader_download_url,
+                info_modal_content_html: row.info_modal_content_html,
+                info_modal_support_link_text: row.info_modal_support_link_text,
+                info_modal_support_link_url: row.info_modal_support_link_url,
+                related_product_id: row.related_product_id,
+                activation_status: row.activation_status || 'available',
+                retrieval_modal_intro_text: row.retrieval_modal_intro_text,
+                retrieval_modal_antivirus_text: row.retrieval_modal_antivirus_text,
+                retrieval_modal_antivirus_link_text: row.retrieval_modal_antivirus_link_text,
+                retrieval_modal_antivirus_link_url: row.retrieval_modal_antivirus_link_url,
+                retrieval_modal_launcher_text: row.retrieval_modal_launcher_text,
+                retrieval_modal_launcher_link_text: row.retrieval_modal_launcher_link_text,
+                retrieval_modal_launcher_link_url: row.retrieval_modal_launcher_link_url,
+                retrieval_modal_key_paste_text: row.retrieval_modal_key_paste_text,
+                retrieval_modal_support_text: row.retrieval_modal_support_text,
+                retrieval_modal_support_link_text: row.retrieval_modal_support_link_text,
+                retrieval_modal_support_link_url: row.retrieval_modal_support_link_url
             };
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(licenses);

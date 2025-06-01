@@ -1,26 +1,27 @@
 
 // src/lib/telegram.ts
 import { query } from '@/lib/mysql';
-import type { SiteTelegramSettings, AdminTelegramNotificationPrefs, Product, ProductPricingOption, InventoryItemWithDetails, User } from '@/types';
+import type { SiteTelegramSettings, AdminTelegramNotificationPrefs, Product, ProductPricingOption, InventoryItemWithDetails, User, SiteNotificationSettings } from '@/types';
 
 const SETTINGS_ROW_ID = 1; // Assuming settings are in a single row with id=1
 
-async function getTelegramSettings(): Promise<{
+async function getTelegramSettingsFromDb(): Promise<{
   telegramSettings: SiteTelegramSettings | null;
   notificationPrefs: AdminTelegramNotificationPrefs | null;
+  siteNotificationSettings: SiteNotificationSettings | null; // Added for general email/user notifications
 }> {
-  console.log("[TelegramLib] Fetching Telegram configuration from DB...");
+  console.log("[TelegramLib][getTelegramSettingsFromDb] Fetching Telegram configuration from DB...");
   try {
-    const [tgSettingsResults, adminPrefsResults] = await Promise.all([
+    const [tgSettingsResults, adminPrefsResults, siteNotificationSettingsResults] = await Promise.all([
       query('SELECT * FROM site_telegram_settings WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]),
-      query('SELECT * FROM admin_telegram_notification_prefs WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]) // Changed table name
+      query('SELECT * FROM admin_telegram_notification_prefs WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]),
+      query('SELECT * FROM site_notification_settings WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID])
     ]);
 
     const telegramSettings: SiteTelegramSettings | null =
       (Array.isArray(tgSettingsResults) && tgSettingsResults.length > 0) ? tgSettingsResults[0] : null;
 
     const adminPrefsDb = (Array.isArray(adminPrefsResults) && adminPrefsResults.length > 0) ? adminPrefsResults[0] : null;
-
     const notificationPrefs: AdminTelegramNotificationPrefs | null = adminPrefsDb ? {
         id: adminPrefsDb.id,
         notify_admin_on_balance_deposit: Boolean(adminPrefsDb.notify_admin_on_balance_deposit),
@@ -31,12 +32,27 @@ async function getTelegramSettings(): Promise<{
         updated_at: adminPrefsDb.updated_at,
     } : null;
     
-    console.log("[TelegramLib] Fetched Telegram Settings:", telegramSettings ? { ...telegramSettings, client_bot_token: '***', admin_bot_token: '***', key_bot_token: '***'} : null);
-    console.log("[TelegramLib] Fetched Admin Notification Prefs:", notificationPrefs);
-    return { telegramSettings, notificationPrefs };
+    const siteNotificationSettingsDb = (Array.isArray(siteNotificationSettingsResults) && siteNotificationSettingsResults.length > 0) ? siteNotificationSettingsResults[0] : null;
+    const siteNotificationSettings: SiteNotificationSettings | null = siteNotificationSettingsDb ? {
+        id: siteNotificationSettingsDb.id || SETTINGS_ROW_ID,
+        notify_on_registration: Boolean(siteNotificationSettingsDb.notify_on_registration),
+        notify_on_balance_deposit: Boolean(siteNotificationSettingsDb.notify_on_balance_deposit),
+        notify_on_product_purchase: Boolean(siteNotificationSettingsDb.notify_on_product_purchase),
+        notify_on_support_reply: Boolean(siteNotificationSettingsDb.notify_on_support_reply),
+        notify_on_software_activation: Boolean(siteNotificationSettingsDb.notify_on_software_activation),
+        notify_on_license_expiry_soon: Boolean(siteNotificationSettingsDb.notify_on_license_expiry_soon),
+        notify_on_promotions: Boolean(siteNotificationSettingsDb.notify_on_promotions),
+        updated_at: siteNotificationSettingsDb.updated_at,
+    } : null;
+
+    console.log("[TelegramLib][getTelegramSettingsFromDb] Fetched Telegram Settings (tokens hidden):", telegramSettings ? { ...telegramSettings, client_bot_token: '***', admin_bot_token: '***', key_bot_token: '***'} : null);
+    console.log("[TelegramLib][getTelegramSettingsFromDb] Fetched Admin Notification Prefs:", notificationPrefs);
+    console.log("[TelegramLib][getTelegramSettingsFromDb] Fetched Site Notification Settings:", siteNotificationSettings);
+    
+    return { telegramSettings, notificationPrefs, siteNotificationSettings };
   } catch (error) {
-    console.error("[TelegramLib] Error fetching Telegram configuration:", error);
-    return { telegramSettings: null, notificationPrefs: null };
+    console.error("[TelegramLib][getTelegramSettingsFromDb] Error fetching Telegram configuration:", error);
+    return { telegramSettings: null, notificationPrefs: null, siteNotificationSettings: null };
   }
 }
 
@@ -73,7 +89,7 @@ export async function sendTelegramMessage(
       body: JSON.stringify(bodyPayload),
     });
     const data = await response.json();
-    console.log(`[TelegramLib] Response from Telegram API for chat_id ${chatId}:`, data);
+    console.log(`[TelegramLib] Response from Telegram API for chat_id ${chatId}:`, JSON.stringify(data, null, 2));
 
     if (data.ok) {
       console.log(`[TelegramLib] Message sent successfully to chat_id ${chatId}.`);
@@ -97,7 +113,7 @@ function escapeTelegramMarkdownV2(text: string | number | null | undefined): str
 
 export async function notifyAdminOnBalanceDeposit(userId: number, username: string, amountGh: number, reason?: string) {
   console.log(`[TelegramLib] notifyAdminOnBalanceDeposit called for user: ${username} (ID: ${userId}), amount: ${amountGh}, reason: ${reason}`);
-  const { telegramSettings, notificationPrefs } = await getTelegramSettings();
+  const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
 
   if (!telegramSettings?.admin_bot_token) {
     console.log("[TelegramLib] notifyAdminOnBalanceDeposit check failed: Admin bot token not configured.");
@@ -134,7 +150,7 @@ export async function notifyAdminOnBalanceDeposit(userId: number, username: stri
 
 export async function notifyAdminOnProductPurchase(userId: number, username: string, productName: string, durationDays: number | null, amountGh: number) {
   console.log(`[TelegramLib] notifyAdminOnProductPurchase called for user: ${username}, product: ${productName}, amount: ${amountGh}`);
-  const { telegramSettings, notificationPrefs } = await getTelegramSettings();
+  const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
   if (!telegramSettings?.admin_bot_token || !telegramSettings.admin_bot_chat_ids || !notificationPrefs?.notify_admin_on_product_purchase) {
     console.log("[TelegramLib] notifyAdminOnProductPurchase check failed: Bot token, chat IDs, or setting disabled.");
     return;
@@ -161,16 +177,16 @@ export async function notifyAdminOnProductPurchase(userId: number, username: str
 }
 
 export async function notifyAdminOnPromoCodeCreation(
-  adminUsername: string | null, 
+  adminUsername: string | null,
   promoCode: { code: string; type: string; value_gh?: number | null; product_name?: string; duration_days?: number | null; mode_label?: string | null; max_uses: number; expires_at?: string | null }
 ) {
   console.log(`[TelegramLib] notifyAdminOnPromoCodeCreation called for code: ${promoCode.code}, created by: ${adminUsername || 'System'}`);
-  const { telegramSettings, notificationPrefs } = await getTelegramSettings();
+  const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
   if (!telegramSettings?.admin_bot_token || !telegramSettings.admin_bot_chat_ids || !notificationPrefs?.notify_admin_on_promo_code_creation) {
     console.log("[TelegramLib] notifyAdminOnPromoCodeCreation check failed: Bot token, chat IDs, or setting disabled.");
     return;
   }
-  
+
   let rewardText = '';
   if (promoCode.type === 'balance_gh' && promoCode.value_gh) {
     rewardText = `Баланс: \`${escapeTelegramMarkdownV2(promoCode.value_gh.toFixed(2))}\` GH`;
@@ -205,7 +221,7 @@ ${adminUsername ? `Создал: \`${escapeTelegramMarkdownV2(adminUsername)}\``
 
 export async function notifyAdminOnAdminLogin(adminUsername: string, ipAddress?: string) {
     console.log(`[TelegramLib] notifyAdminOnAdminLogin called for admin: ${adminUsername}, IP: ${ipAddress}`);
-    const { telegramSettings, notificationPrefs } = await getTelegramSettings();
+    const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
     if (!telegramSettings?.admin_bot_token || !telegramSettings.admin_bot_chat_ids || !notificationPrefs?.notify_admin_on_admin_login) {
         console.log("[TelegramLib] notifyAdminOnAdminLogin check failed: Bot token, chat IDs, or setting disabled.");
         return;
@@ -236,10 +252,10 @@ export async function sendKeyActivationRequestToAdmin(
   user: Pick<User, 'id' | 'username'>
 ): Promise<{ success: boolean; message?: string; error?: any }> {
   console.log(`[TelegramLib] sendKeyActivationRequestToAdmin called for item ID: ${item.id}, user: ${user.username}`);
-  const { telegramSettings, notificationPrefs } = await getTelegramSettings();
-  
-  const keyBotToken = telegramSettings?.key_bot_token; // Removed fallback to process.env
-  const adminChatIdsString = telegramSettings?.key_bot_admin_chat_ids; // Removed fallback to process.env
+  const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
+
+  const keyBotToken = telegramSettings?.key_bot_token;
+  const adminChatIdsString = telegramSettings?.key_bot_admin_chat_ids;
 
   if (!keyBotToken) {
     const errorMsg = "[TelegramLib] Key Bot token not configured in site_telegram_settings.";
@@ -251,13 +267,11 @@ export async function sendKeyActivationRequestToAdmin(
     console.error(errorMsg);
     return { success: false, message: errorMsg };
   }
-  
-  // Check if this specific notification type is enabled
+
   if (!notificationPrefs?.notify_admin_on_key_activation_request) {
-    const logMsg = "[TelegramLib] sendKeyActivationRequestToAdmin check failed: Notification type 'notify_admin_on_key_activation_request' is disabled in admin_telegram_notification_prefs.";
+    const logMsg = "[TelegramLib] sendKeyActivationRequestToAdmin check failed: Notification type 'notify_admin_on_key_activation_request' is disabled.";
     console.log(logMsg);
-    // Return success because the system is configured not to send, not an error.
-    return { success: true, message: "Key activation request notification type disabled in settings."}; 
+    return { success: true, message: "Key activation request notification type disabled."};
   }
 
   const productName = item.product_name || 'Неизвестный товар';
@@ -286,7 +300,7 @@ export async function sendKeyActivationRequestToAdmin(
     try {
       console.log(`[TelegramLib] Attempting to send key activation request to admin chat ID: ${chatId} using Key Bot`);
       const result = await sendTelegramMessage(keyBotToken, chatId, message, 'MarkdownV2', { inline_keyboard });
-      
+
       if (!result.success) {
         allSentSuccessfully = false;
         if (!firstErrorResult) {
