@@ -294,3 +294,28 @@ body {
     50% { color: hsl(var(--destructive)); opacity: 0.4; }
   }
 }
+
+/* Custom styles for Auth pages based on the image */
+@layer components {
+  .auth-form-container {
+    @apply w-full p-6 md:p-8 space-y-6 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-700/60 shadow-2xl; /* Increased opacity a bit */
+  }
+  .auth-title {
+    @apply text-2xl font-bold text-foreground;
+  }
+  .auth-description {
+    @apply text-muted-foreground text-sm mt-1;
+  }
+  .auth-input {
+    @apply bg-slate-800/70 border-slate-700/80 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50 text-foreground;
+  }
+  .auth-button {
+    @apply w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 text-base font-semibold;
+  }
+  .auth-link {
+    @apply font-medium text-primary hover:underline;
+  }
+  .auth-logo-placeholder { /* Placeholder for logo */
+    @apply mb-5 inline-block text-primary;
+  }
+}

@@ -407,7 +407,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/use-toast.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$FaqSidebarNav$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/FaqSidebarNav.tsx [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/card.tsx [app-ssr] (ecmascript)"); // Added Card and CardContent import
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/card.tsx [app-ssr] (ecmascript)");
 'use client';
 ;
 ;
@@ -508,11 +508,11 @@ function FaqPage() {
         if (activeSidebarHref === item.href) {
             setSelectedSidebarItemContent(null);
             setActiveSidebarHref(null);
-            setSearchTerm(''); // Clear search when deselecting sidebar item
+            setSearchTerm('');
         } else {
             setSelectedSidebarItemContent(item.content || '<p>Содержимое для этого раздела еще не добавлено.</p>');
             setActiveSidebarHref(item.href);
-            setSearchTerm(''); // Clear search when selecting a new sidebar item
+            setSearchTerm('');
         }
     };
     const filteredFaqItems = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
@@ -743,7 +743,7 @@ function FaqPage() {
                                                 lineNumber: 199,
                                                 columnNumber: 17
                                             }, this),
-                                            contactPromptText.split('Напишите в поддержку')[1]
+                                            contactPromptText.split('Напишите в поддержку')[1] || ''
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/faq/page.tsx",

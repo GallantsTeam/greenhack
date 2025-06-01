@@ -37,7 +37,7 @@ export default function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [referralCodeValue, setReferralCodeValue] = useState(''); // Tracks input value for UI feedback
+  const [referralCodeValue, setReferralCodeValue] = useState('');
   const [referralStatus, setReferralStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle');
   const [referrerName, setReferrerName] = useState<string | null>(null);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -59,11 +59,11 @@ export default function RegisterForm() {
       setReferralStatus('idle');
       setReferrerName(null);
       form.clearErrors('referralCode');
-      return true; // Empty is not "invalid" for submission purpose
+      return true; 
     }
     setReferralStatus('checking');
     try {
-      const response = await fetch(`/api/referral/check?code=${encodeURIComponent(code)}`);
+      const response = await fetch(\`/api/referral/check?code=\${encodeURIComponent(code)}\`);
       const data: ReferralCodeCheckResponse = await response.json();
       if (response.ok && data.isValid) {
         setReferralStatus('valid');
@@ -85,12 +85,11 @@ export default function RegisterForm() {
     }
   }, [form]);
 
-  // Effect to handle initial loading of referral code from URL or cookie
   useEffect(() => {
     const refCodeFromUrl = searchParams.get('ref');
     
     if (refCodeFromUrl) {
-      form.setValue('referralCode', refCodeFromUrl, { shouldValidate: false }); // Validate via checkReferralCode
+      form.setValue('referralCode', refCodeFromUrl, { shouldValidate: false }); 
       setReferralCodeValue(refCodeFromUrl);
       Cookies.set(REFERRAL_COOKIE_NAME, refCodeFromUrl, { expires: 7, path: '/' });
       checkReferralCode(refCodeFromUrl);
@@ -103,14 +102,13 @@ export default function RegisterForm() {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, form.setValue]); // checkReferralCode removed from deps to avoid loop, it's stable due to useCallback
+  }, [searchParams, form.setValue]);
 
-  // Effect to handle manual input changes and cookie updates
   useEffect(() => {
     const subscription = form.watch(async (value, { name, type }) => {
       if (name === 'referralCode') {
         const code = value.referralCode || '';
-        setReferralCodeValue(code); // Update local state for immediate input feedback
+        setReferralCodeValue(code); 
         
         if (debounceTimeoutRef.current) {
           clearTimeout(debounceTimeoutRef.current);
@@ -125,12 +123,11 @@ export default function RegisterForm() {
         }
         
         debounceTimeoutRef.current = setTimeout(async () => {
-          if (code.length > 2) { // Only check if code length is somewhat substantial
+          if (code.length > 2) {
             const isValid = await checkReferralCode(code);
             if (isValid) {
               Cookies.set(REFERRAL_COOKIE_NAME, code, { expires: 7, path: '/' });
             } else {
-              // If explicitly invalid, remove cookie. If 'checking' or 'idle', it might be valid later.
               if(referralStatus === 'invalid') {
                  Cookies.remove(REFERRAL_COOKIE_NAME, { path: '/' });
               }
@@ -145,7 +142,7 @@ export default function RegisterForm() {
         clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [form, checkReferralCode, referralStatus]); // Added referralStatus to dependencies to react to its changes
+  }, [form, checkReferralCode, referralStatus]);
 
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
@@ -170,7 +167,6 @@ export default function RegisterForm() {
 
       await registerUser(submissionData.username, submissionData.email, submissionData.password, submissionData.referralCode);
       
-      // Clear cookie on successful registration if a referral code was used.
       if (submissionData.referralCode) {
         Cookies.remove(REFERRAL_COOKIE_NAME, { path: '/' });
       }
@@ -180,7 +176,6 @@ export default function RegisterForm() {
         description: "Вы успешно зарегистрированы. Теперь можете войти.",
         variant: "default",
       });
-      // Router push is handled by AuthContext after successful registration (if needed)
     } catch (error: any) {
       console.error("Registration error in form:", error);
       toast({
@@ -195,15 +190,20 @@ export default function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-foreground">Имя пользователя (Логин)</FormLabel>
+              <FormLabel className="text-muted-foreground">Имя пользователя (Логин)</FormLabel>
               <FormControl>
-                <Input placeholder="username" {...field} disabled={isLoading} />
+                <Input 
+                  placeholder="YourUsername123" 
+                  {...field} 
+                  disabled={isLoading} 
+                  className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -214,9 +214,14 @@ export default function RegisterForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-foreground">Email</FormLabel>
+              <FormLabel className="text-muted-foreground">Email</FormLabel>
               <FormControl>
-                <Input placeholder="you@example.com" {...field} disabled={isLoading} />
+                <Input 
+                  placeholder="you@example.com" 
+                  {...field} 
+                  disabled={isLoading} 
+                  className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -227,9 +232,15 @@ export default function RegisterForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-foreground">Пароль</FormLabel>
+              <FormLabel className="text-muted-foreground">Пароль</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                <Input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  {...field} 
+                  disabled={isLoading} 
+                  className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -240,9 +251,15 @@ export default function RegisterForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-foreground">Подтвердите пароль</FormLabel>
+              <FormLabel className="text-muted-foreground">Подтвердите пароль</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                <Input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  {...field} 
+                  disabled={isLoading} 
+                  className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -251,17 +268,19 @@ export default function RegisterForm() {
         <FormField
           control={form.control}
           name="referralCode"
-          render={({ field }) => ( // field now correctly manages the value from react-hook-form
+          render={({ field }) => (
             <FormItem>
               <div className="flex items-center justify-between">
-                <FormLabel className="text-foreground">Реферальный код (необязательно)</FormLabel>
+                <FormLabel className="text-muted-foreground">Реферальный код</FormLabel>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <BadgeHelp className="h-4 w-4 text-muted-foreground cursor-help" />
+                      <Button type="button" variant="ghost" size="icon" className="h-5 w-5 p-0 text-muted-foreground hover:text-primary">
+                        <BadgeHelp className="h-4 w-4" />
+                      </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Если вас пригласил друг, введите его код.</p>
+                    <TooltipContent side="top" className="max-w-xs">
+                      <p className="text-xs">Если вас пригласил друг, введите его уникальный код здесь. Это поможет ему получить бонусы!</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -269,27 +288,31 @@ export default function RegisterForm() {
               <FormControl>
                 <div className="relative">
                   <Input 
-                    placeholder="ABC-1234" 
-                    {...field} // Use field from render prop
+                    placeholder="REF-CODE-123 (необязательно)" 
+                    {...field} 
                     disabled={isLoading || referralStatus === 'valid'}
-                    className={referralStatus === 'valid' ? 'border-green-500 focus-visible:ring-green-500' : referralStatus === 'invalid' && field.value.length > 0 ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    className={`bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50 ${
+                      referralStatus === 'valid' ? 'border-green-500 focus-visible:ring-green-500' : 
+                      referralStatus === 'invalid' && field.value && field.value.length > 0 ? 'border-destructive focus-visible:ring-destructive' : ''
+                    }`}
                   />
                   {referralStatus === 'checking' && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />}
                   {referralStatus === 'valid' && <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-green-500" />}
-                  {referralStatus === 'invalid' && field.value.length > 0 && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-destructive" />}
+                  {referralStatus === 'invalid' && field.value && field.value.length > 0 && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-destructive" />}
                 </div>
               </FormControl>
               {referralStatus === 'valid' && referrerName && (
-                <p className="text-xs text-green-600">Код действителен. Пригласитель: {referrerName}</p>
+                <p className="text-xs text-green-500">Код действителен. Пригласитель: {referrerName}</p>
               )}
-              <FormMessage /> {/* This will display errors from Zod and form.setError */}
+              <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isLoading || referralStatus === 'checking'}>
-          {isLoading ? "Регистрация..." : "Зарегистрироваться"}
+        <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 text-base font-semibold" disabled={isLoading || referralStatus === 'checking'}>
+          {isLoading ? "Создание..." : "Создать аккаунт"}
         </Button>
       </form>
     </Form>
   );
 }
+

@@ -8,9 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/contexts/AuthContext'; // Import useAuth
+import { useAuth } from '@/contexts/AuthContext';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link'; // Added Link import
 
 const loginSchema = z.object({
   emailOrLogin: z.string().min(1, { message: "Email или логин обязательны." }),
@@ -21,7 +22,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const { toast } = useToast();
-  const { login } = useAuth(); // Get login function from AuthContext
+  const { login } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,7 +37,7 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      await login(data.emailOrLogin, data.password); // Call login from AuthContext
+      await login(data.emailOrLogin, data.password);
       toast({
         title: "Вход успешен!",
         description: "Вы успешно вошли в систему.",
@@ -57,15 +58,20 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="emailOrLogin"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-foreground">Email или Логин</FormLabel>
+              <FormLabel className="text-muted-foreground">Email или Логин</FormLabel>
               <FormControl>
-                <Input placeholder="email@example.com или username" {...field} disabled={isLoading} />
+                <Input 
+                  placeholder="yourname@example.com" 
+                  {...field} 
+                  disabled={isLoading}
+                  className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -76,18 +82,31 @@ export default function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-foreground">Пароль</FormLabel>
+              <FormLabel className="text-muted-foreground">Пароль</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                <Input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  {...field} 
+                  disabled={isLoading} 
+                  className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
+                />
               </FormControl>
+              <div className="text-right">
+                <Link href="/auth/forgot-password" // TODO: Create this page
+                      className="text-xs text-primary hover:underline">
+                  Забыли пароль?
+                </Link>
+              </div>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isLoading}>
+        <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 text-base font-semibold" disabled={isLoading}>
           {isLoading ? "Вход..." : "Войти"}
         </Button>
       </form>
     </Form>
   );
 }
+
