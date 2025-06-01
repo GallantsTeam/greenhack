@@ -56,8 +56,9 @@ function escapeTelegramMarkdownV2(text: string | number | null | undefined): str
 
 
 export async function POST(request: NextRequest) {
+  let body;
   try {
-    const body = await request.json();
+    body = await request.json();
     console.log('[API KeyBot Callback] Received callback data:', JSON.stringify(body, null, 2));
 
     const callbackQuery = body.callback_query;
@@ -83,7 +84,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: 'Server configuration error for Key Bot token.' }, { status: 200 });
     }
     
-    // Attempt to answer the callback query immediately to remove the "loading" state on the button in Telegram
     try {
         await fetch(`https://api.telegram.org/bot${keyBotToken}/answerCallbackQuery`, {
             method: 'POST',
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
             expiresAt = expiryDate.toISOString().slice(0, 19).replace('T', ' ');
         }
         await query(
-            'UPDATE user_inventory SET activation_status = ?, is_used = TRUE, activated_at = ?, expires_at = ?, updated_at = NOW() WHERE id = ?',
+            'UPDATE user_inventory SET activation_status = ?, is_used = TRUE, activated_at = ?, expires_at = ? WHERE id = ?',
             [newStatus, activatedAt.toISOString().slice(0, 19).replace('T', ' '), expiresAt, inventoryItemId]
         );
         userMessage = `✅ Ваш ключ для "${item.product_name}"${item.duration_days ? ` на ${item.duration_days} дн.` : ''}${item.mode_label ? ` [${item.mode_label}]` : ''} успешно активирован!`;
@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
     } else if (action === 'reject_key') {
         newStatus = 'rejected';
         await query(
-            'UPDATE user_inventory SET activation_status = ?, updated_at = NOW() WHERE id = ?',
+            'UPDATE user_inventory SET activation_status = ? WHERE id = ?',
             [newStatus, inventoryItemId]
         );
         userMessage = `❌ Ваш запрос на активацию ключа для "${item.product_name}"${item.duration_days ? ` на ${item.duration_days} дн.` : ''}${item.mode_label ? ` [${item.mode_label}]` : ''} был отклонен. Пожалуйста, проверьте ключ или обратитесь в поддержку.`;
@@ -159,8 +159,7 @@ export async function POST(request: NextRequest) {
     }
     
     const originalMessageTextLines = callbackQuery.message.text.split('\n');
-    // Keep original request details, append new status line
-    let processedMessageText = originalMessageTextLines.slice(0, 5).join('\n'); // Get first 5 lines (original request)
+    let processedMessageText = originalMessageTextLines.slice(0, 5).join('\n'); 
     processedMessageText += `\n\n---\n*${adminResponseMessage}*`;
     
     await fetch(`https://api.telegram.org/bot${keyBotToken}/editMessageText`, {
@@ -179,7 +178,7 @@ export async function POST(request: NextRequest) {
         const { telegramSettings: currentSettingsForClientBot } = await getTelegramSettingsFromDb();
         const clientBotToken = currentSettingsForClientBot?.client_bot_token;
         if (clientBotToken) {
-            await sendTelegramMessage(clientBotToken, item.user_telegram_id, userMessage, 'HTML'); // Using HTML for user messages for simplicity in this example
+            await sendTelegramMessage(clientBotToken, item.user_telegram_id, userMessage, 'HTML');
         } else {
             console.warn(`[API KeyBot Callback] Client Bot token not configured. Cannot send notification to user ${item.user_db_id}.`);
         }
@@ -200,10 +199,9 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('[API KeyBot Callback] Error:', error);
-    // Try to inform admin about the error if possible, but be careful not to loop
-    const { telegramSettings: currentTelegramSettings } = await getTelegramSettingsFromDb();
+    const { telegramSettings: currentTelegramSettings } = await getTelegramSettingsFromDb(); // Ensure body is defined for this
     const keyBotToken = currentTelegramSettings?.key_bot_token;
-    const adminChatId = body?.callback_query?.message?.chat?.id?.toString();
+    const adminChatId = body?.callback_query?.message?.chat?.id?.toString(); // body might be undefined if parsing failed
 
     if (keyBotToken && adminChatId) {
         try {
@@ -215,4 +213,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Error processing callback.' }, { status: 200 }); // Always return 200 to Telegram
   }
 }
-

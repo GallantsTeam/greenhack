@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     const user: Pick<User, 'id' | 'username'> = userResults[0];
 
     await query(
-      'UPDATE user_inventory SET activation_code = ?, activation_status = ?, updated_at = NOW() WHERE id = ?',
+      'UPDATE user_inventory SET activation_code = ?, activation_status = ? WHERE id = ?',
       [enteredKey, 'pending_admin_approval', inventoryItemId]
     );
     console.log(`[API RequestActivation] Inventory item ${inventoryItemId} status updated to pending_admin_approval with key ${enteredKey}`);

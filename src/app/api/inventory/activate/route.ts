@@ -47,30 +47,30 @@ export async function POST(request: NextRequest) {
         activation_type: dbItem.activation_type || 'info_modal', // Default to info_modal if not set
     };
 
-    if (itemToActivate.is_used) {
-      console.log(`[API Activate] Item ${inventoryItemId} already used.`);
+    if (itemToActivate.is_used && itemToActivate.activation_status === 'active') {
+      console.log(`[API Activate] Item ${inventoryItemId} already used and active.`);
       return NextResponse.json({ message: 'Этот предмет уже был активирован.' }, { status: 400 });
     }
+     if (itemToActivate.is_used && itemToActivate.activation_status !== 'active') {
+      console.log(`[API Activate] Item ${inventoryItemId} marked as used but status is not 'active'. Current status: ${itemToActivate.activation_status}`);
+      // This might be an inconsistent state, but for now, we treat 'is_used' as primary.
+      // Or, you might want to allow re-triggering certain flows if it's, for example, 'rejected'.
+      // For now, if is_used is true, we consider it processed unless specifically handled.
+       return NextResponse.json({ message: 'Этот предмет уже был обработан ранее.' }, { status: 400 });
+    }
+
 
     if (itemToActivate.activation_type === 'key_request') {
-        // For key_request, activation means the admin has approved it.
-        // This specific endpoint might not be directly called for 'key_request' items if activation is solely admin-driven.
-        // However, if a user tries to "activate" it again from inventory after it's pending or rejected:
         if (itemToActivate.activation_status === 'pending_admin_approval') {
             return NextResponse.json({ message: 'Активация этого ключа уже запрошена и ожидает одобрения администратором.' }, { status: 400 });
         }
         if (itemToActivate.activation_status === 'rejected') {
-             return NextResponse.json({ message: 'Ваш предыдущий запрос на активацию этого ключа был отклонен. Пожалуйста, свяжитесь с поддержкой.' }, { status: 400 });
+             return NextResponse.json({ message: 'Ваш предыдущий запрос на активацию этого ключа был отклонен. Пожалуйста, свяжитесь с поддержкой или используйте кнопку "Как активировать?" для повторного запроса.' }, { status: 400 });
         }
-        // If somehow 'available' and 'key_request', it means it hasn't gone through the request modal flow.
-        // This endpoint should primarily handle 'info_modal' or direct 'balance_gh' type activations.
-        // For 'key_request', the user should be prompted to use the "Как активировать?" flow.
         return NextResponse.json({ message: 'Для этого товара требуется запрос на активацию ключа через специальное окно. Используйте кнопку "Как активировать?".' }, { status: 400 });
     }
     
-    // For 'info_modal' or balance prizes, proceed with marking as used.
     if (!itemToActivate.related_product_id && itemToActivate.case_prize_id) {
-        // This handles non-product prizes like balance that are "activated" by claiming.
         console.log(`[API Activate] Item ${inventoryItemId} is a non-product prize (e.g., balance), marking as used.`);
         await query(
             'UPDATE user_inventory SET is_used = TRUE, activated_at = NOW(), activation_status = ? WHERE id = ?',
@@ -79,7 +79,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: `${itemToActivate.product_name} помечен как использованный.` }, { status: 200 });
     }
     
-    // This handles 'info_modal' or potentially 'direct_key' (if implemented) product activations
     if (!itemToActivate.related_product_id) {
       console.log(`[API Activate] Item ${inventoryItemId} has no related_product_id. Cannot determine license type for non-key_request items.`);
       return NextResponse.json({ message: 'Невозможно активировать этот тип предмета как лицензию (отсутствует ID продукта).' }, { status: 400 });
