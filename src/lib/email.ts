@@ -3,6 +3,8 @@
 import nodemailer from 'nodemailer';
 import { query } from '@/lib/mysql';
 import type { SmtpSettings, SiteNotificationSettings } from '@/types';
+import fs from 'fs/promises';
+import path from 'path';
 
 const SETTINGS_ROW_ID = 1;
 
@@ -50,6 +52,34 @@ interface EmailOptions {
   html: string;
 }
 
+async function renderEmailTemplate(templateName: string, data: Record<string, any>): Promise<string> {
+  try {
+    const baseTemplatePath = path.join(process.cwd(), 'src', 'emails', 'base-email-template.html');
+    const specificTemplatePath = path.join(process.cwd(), 'src', 'emails', `${templateName}.html`);
+
+    let baseTemplateContent = await fs.readFile(baseTemplatePath, 'utf-8');
+    let specificTemplateContent = await fs.readFile(specificTemplatePath, 'utf-8');
+
+    // Populate specific template
+    for (const key in data) {
+      specificTemplateContent = specificTemplateContent.replace(new RegExp(`{{${key}}}`, 'g'), String(data[key] === null || data[key] === undefined ? '' : data[key]));
+    }
+
+    // Populate base template
+    baseTemplateContent = baseTemplateContent.replace(new RegExp(`{{emailBody}}`, 'g'), specificTemplateContent);
+    baseTemplateContent = baseTemplateContent.replace(new RegExp(`{{emailTitle}}`, 'g'), String(data.emailTitle || data.subject || 'Уведомление от ' + (data.siteName || 'сайта')));
+    baseTemplateContent = baseTemplateContent.replace(new RegExp(`{{siteName}}`, 'g'), String(data.siteName || 'Green Hacks'));
+    baseTemplateContent = baseTemplateContent.replace(new RegExp(`{{currentYear}}`, 'g'), String(new Date().getFullYear()));
+    baseTemplateContent = baseTemplateContent.replace(new RegExp(`{{siteUrl}}`, 'g'), String(data.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || '#'));
+    
+    return baseTemplateContent;
+  } catch (error) {
+    console.error(`Error rendering email template ${templateName}:`, error);
+    throw new Error(`Failed to render email template ${templateName}.`);
+  }
+}
+
+
 export async function sendEmail(options: EmailOptions): Promise<{ success: boolean; message: string; error?: any }> {
   const smtpConfig = await getSmtpSettings();
 
@@ -79,7 +109,7 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
   const transporter = nodemailer.createTransport(transporterOptions as any);
 
   try {
-    await transporter.verify(); // Verify connection configuration
+    await transporter.verify(); 
     console.log(`Email Service: Sending email to ${options.to} with subject "${options.subject}"`);
     await transporter.sendMail({
       from: `"${smtpConfig.from_name || 'Green Hack'}" <${smtpConfig.from_email}>`,
@@ -99,12 +129,30 @@ export async function sendRegistrationWelcomeEmail(to: string, username: string)
     return;
   }
 
-  await sendEmail({
-    to,
-    subject: `Добро пожаловать на Green Hacks, ${username}!`,
-    text: `Привет, ${username}!\n\nСпасибо за регистрацию на Green Hacks. Ваш аккаунт успешно создан.\n\nС уважением,\nКоманда Green Hacks`,
-    html: `<p>Привет, ${username}!</p><p>Спасибо за регистрацию на <strong>Green Hacks</strong>. Ваш аккаунт успешно создан.</p><p>С уважением,<br/>Команда Green Hacks</p>`,
-  });
+  const smtpConfig = await getSmtpSettings();
+  const siteName = smtpConfig?.from_name || process.env.NEXT_PUBLIC_SITE_NAME || 'Green Hacks';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '#';
+  const subject = `Добро пожаловать на ${siteName}, ${username}!`;
+
+  try {
+    const htmlBody = await renderEmailTemplate('registration', {
+      username: username,
+      siteName: siteName,
+      loginLink: `${siteUrl}/auth/login`,
+      emailTitle: subject,
+      subject: subject, // For placeholders if emailTitle is not directly used in specific template
+      siteUrl: siteUrl,
+    });
+
+    await sendEmail({
+      to,
+      subject: subject,
+      text: `Привет, ${username}!\n\nСпасибо за регистрацию на ${siteName}. Ваш аккаунт успешно создан.\n\nВаш логин: ${username}\n\nПерейти на сайт: ${siteUrl}\nВойти в аккаунт: ${siteUrl}/auth/login\n\nС уважением,\nКоманда ${siteName}`,
+      html: htmlBody,
+    });
+  } catch (error) {
+    console.error("Error preparing or sending registration welcome email:", error);
+  }
 }
 
 export async function sendPurchaseConfirmationEmail(to: string, username: string, productName: string, durationDays: number | null, amountPaidGh: number) {
@@ -114,13 +162,36 @@ export async function sendPurchaseConfirmationEmail(to: string, username: string
     return;
   }
 
-  const durationText = durationDays ? ` (на ${durationDays} дн.)` : '';
-  await sendEmail({
-    to,
-    subject: 'Подтверждение покупки на Green Hacks',
-    text: `Привет, ${username}!\n\nВы успешно приобрели "${productName}${durationText}" за ${amountPaidGh.toFixed(2)} GH.\n\nТовар добавлен в ваш инвентарь.\n\nС уважением,\nКоманда Green Hacks`,
-    html: `<p>Привет, ${username}!</p><p>Вы успешно приобрели "<strong>${productName}${durationText}</strong>" за <strong>${amountPaidGh.toFixed(2)} GH</strong>.</p><p>Товар добавлен в ваш инвентарь.</p><p>С уважением,<br/>Команда Green Hacks</p>`,
-  });
+  const smtpConfig = await getSmtpSettings();
+  const siteName = smtpConfig?.from_name || process.env.NEXT_PUBLIC_SITE_NAME || 'Green Hacks';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '#';
+  const subject = `Подтверждение покупки на ${siteName}`;
+  const durationText = durationDays ? `${durationDays} дн.` : '';
+
+  try {
+    const htmlBody = await renderEmailTemplate('purchase-confirmation', {
+      username: username,
+      siteName: siteName,
+      productName: productName,
+      productDuration: durationText,
+      // productMode: '', // Placeholder, add if needed
+      amountPaidGh: amountPaidGh.toFixed(2),
+      purchaseDate: new Date().toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      inventoryLink: `${siteUrl}/account/inventory`,
+      emailTitle: subject,
+      subject: subject,
+      siteUrl: siteUrl,
+    });
+
+    await sendEmail({
+      to,
+      subject: subject,
+      text: `Привет, ${username}!\n\nВы успешно приобрели "${productName}"${durationText ? ` (${durationText})` : ''} за ${amountPaidGh.toFixed(2)} GH.\n\nТовар добавлен в ваш инвентарь: ${siteUrl}/account/inventory\n\nС уважением,\nКоманда ${siteName}`,
+      html: htmlBody,
+    });
+  } catch (error) {
+    console.error("Error preparing or sending purchase confirmation email:", error);
+  }
 }
 
 export async function sendBalanceUpdateEmail(to: string, username: string, amountGh: number, reason: string, newBalance: number) {
@@ -129,16 +200,35 @@ export async function sendBalanceUpdateEmail(to: string, username: string, amoun
     console.log("Email Service: Balance update notifications are disabled.");
     return;
   }
-
+  
+  const smtpConfig = await getSmtpSettings();
+  const siteName = smtpConfig?.from_name || process.env.NEXT_PUBLIC_SITE_NAME || 'Green Hacks';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '#';
+  const subject = `Обновление баланса на ${siteName}`;
   const actionText = amountGh > 0 ? "пополнен" : "изменен";
   const amountText = amountGh > 0 ? `+${amountGh.toFixed(2)} GH` : `${amountGh.toFixed(2)} GH`;
 
-  await sendEmail({
-    to,
-    subject: `Обновление баланса на Green Hacks`,
-    text: `Привет, ${username}!\n\nВаш баланс был ${actionText} на ${amountText}. Причина: ${reason}.\nНовый баланс: ${newBalance.toFixed(2)} GH.\n\nС уважением,\nКоманда Green Hacks`,
-    html: `<p>Привет, ${username}!</p><p>Ваш баланс был ${actionText} на <strong>${amountText}</strong>. Причина: ${reason}.</p><p>Новый баланс: <strong>${newBalance.toFixed(2)} GH</strong>.</p><p>С уважением,<br/>Команда Green Hacks</p>`,
-  });
+  try {
+    const htmlBody = await renderEmailTemplate('balance-topup', {
+        username: username,
+        siteName: siteName,
+        topUpAmountGh: amountText,
+        paymentMethod: reason, // Using reason as payment method for simplicity
+        topUpDate: new Date().toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        newBalanceGh: newBalance.toFixed(2),
+        accountBalanceLink: `${siteUrl}/account/balance`,
+        emailTitle: subject,
+        subject: subject,
+        siteUrl: siteUrl,
+    });
+
+    await sendEmail({
+      to,
+      subject: subject,
+      text: `Привет, ${username}!\n\nВаш баланс был ${actionText} на ${amountText}. Причина: ${reason}.\nНовый баланс: ${newBalance.toFixed(2)} GH.\n\nС уважением,\nКоманда ${siteName}`,
+      html: htmlBody,
+    });
+  } catch (error) {
+    console.error("Error preparing or sending balance update email:", error);
+  }
 }
-    
-    

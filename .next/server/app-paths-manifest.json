@@ -24,6 +24,7 @@
   "/api/admin/site-settings/telegram/route": "app/api/admin/site-settings/telegram/route.js",
   "/api/admin/site-settings/telegram/test-message/route": "app/api/admin/site-settings/telegram/test-message/route.js",
   "/api/admin/stats/route": "app/api/admin/stats/route.js",
+  "/api/auth/register/route": "app/api/auth/register/route.js",
   "/api/cases/[caseId]/route": "app/api/cases/[caseId]/route.js",
   "/api/categories/route": "app/api/categories/route.js",
   "/api/inventory/activate/route": "app/api/inventory/activate/route.js",
