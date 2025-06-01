@@ -1,11 +1,13 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/account/page": "app/account/page.js",
+  "/admin/editor/faq-editor/page": "app/admin/editor/faq-editor/page.js",
   "/admin/editor/footer-contacts/page": "app/admin/editor/footer-contacts/page.js",
   "/admin/editor/homepage-settings/page": "app/admin/editor/homepage-settings/page.js",
   "/admin/editor/offer-editor/page": "app/admin/editor/offer-editor/page.js",
   "/admin/editor/page": "app/admin/editor/page.js",
   "/admin/page": "app/admin/page.js",
+  "/api/admin/faq-items/route": "app/api/admin/faq-items/route.js",
   "/api/admin/recent-transactions/route": "app/api/admin/recent-transactions/route.js",
   "/api/admin/reviews/pending-count/route": "app/api/admin/reviews/pending-count/route.js",
   "/api/admin/site-banners/route": "app/api/admin/site-banners/route.js",
@@ -22,5 +24,6 @@
   "/api/user/[userId]/licenses/route": "app/api/user/[userId]/licenses/route.js",
   "/api/user/[userId]/referred-count/route": "app/api/user/[userId]/referred-count/route.js",
   "/auth/login/page": "app/auth/login/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"
 }

@@ -27,7 +27,8 @@ const staticDefaultNavItems: CustomNavItemType[] = [
   { id: -1, label: 'Главная', href: '/', icon_name: 'Home', item_order: 0, is_visible: true },
   { id: -2, label: 'Каталог игр', href: '/games', icon_name: 'LayoutGrid', item_order: 1, is_visible: true },
   { id: -3, label: 'Отзывы', href: '/reviews', icon_name: 'Star', item_order: 2, is_visible: true },
-  { id: -6, label: 'Статус Читов', href: '/statuses', icon_name: 'BarChart3', item_order: 5, is_visible: true },
+  { id: -4, label: 'FAQ', href: '/faq', icon_name: 'HelpCircle', item_order: 3, is_visible: true }, // Added FAQ
+  { id: -6, label: 'Статусы', href: '/statuses', icon_name: 'BarChart3', item_order: 5, is_visible: true },
 ];
 
 const Logo = ({ siteName, logoUrl }: { siteName?: string | null, logoUrl?: string | null }) => {

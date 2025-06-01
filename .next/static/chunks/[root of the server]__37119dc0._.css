@@ -1329,6 +1329,10 @@ body {
   aspect-ratio: 16 / 9;
 }
 
+.aspect-\[3\/1\] {
+  aspect-ratio: 3;
+}
+
 .size-4 {
   width: 1rem;
   height: 1rem;
@@ -2527,6 +2531,12 @@ body {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-black\/70 {
+  --tw-gradient-from: #000000b3 var(--tw-gradient-from-position);
+  --tw-gradient-to: #0000 var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .via-background\/70 {
   --tw-gradient-to: hsl(var(--background) / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), hsl(var(--background) / .7) var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -2787,6 +2797,10 @@ body {
   padding-top: 2rem;
 }
 
+.pl-10 {
+  padding-left: 2.5rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -2918,6 +2932,10 @@ body {
 
 .tracking-widest {
   letter-spacing: .1em;
+}
+
+.tracking-wide {
+  letter-spacing: .025em;
 }
 
 .text-accent-foreground {
@@ -3659,6 +3677,12 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.hover\:scale-\[1\.02\]:hover {
+  --tw-scale-x: 1.02;
+  --tw-scale-y: 1.02;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\:border-icon-color\/50:hover {
   border-color: hsl(var(--icon-color-hsl) / .5);
 }
@@ -3806,6 +3830,10 @@ body {
 
 .hover\:underline:hover {
   text-decoration-line: underline;
+}
+
+.hover\:no-underline:hover {
+  text-decoration-line: none;
 }
 
 .hover\:opacity-100:hover {
@@ -5285,6 +5313,14 @@ body {
     grid-column: span 3 / span 3;
   }
 
+  .lg\:col-span-4 {
+    grid-column: span 4 / span 4;
+  }
+
+  .lg\:col-span-8 {
+    grid-column: span 8 / span 8;
+  }
+
   .lg\:flex {
     display: flex;
   }
@@ -5321,6 +5357,10 @@ body {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
+  .lg\:grid-cols-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
   .lg\:text-5xl {
     font-size: 3rem;
     line-height: 1;
@@ -5333,6 +5373,14 @@ body {
 }
 
 @media (width >= 1280px) {
+  .xl\:col-span-3 {
+    grid-column: span 3 / span 3;
+  }
+
+  .xl\:col-span-9 {
+    grid-column: span 9 / span 9;
+  }
+
   .xl\:h-48 {
     height: 12rem;
   }
