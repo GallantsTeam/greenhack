@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 36, "column": 0}, "map": {"version":3,"sources":["file:///home/user/studio/src/app/admin/site-settings/page.tsx"],"sourcesContent":["\n// src/app/admin/site-settings/page.tsx\nimport { redirect } from 'next/navigation';\n\nexport default function SiteSettingsIndexPage() {\n  // Redirect to the general settings page by default\n  redirect('/admin/site-settings/general');\n  \n  // This part will not be reached due to redirect,\n  // but it's good practice to have a fallback or null return for a page component.\n  return null; \n}\n"],"names":[],"mappings":"AACA,uCAAuC;;;;AACvC;AAAA;;AAEe,SAAS;IACtB,mDAAmD;IACnD,CAAA,GAAA,qLAAA,CAAA,WAAQ,AAAD,EAAE;IAET,iDAAiD;IACjD,iFAAiF;IACjF,OAAO;AACT","debugId":null}}]
+}

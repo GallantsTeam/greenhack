@@ -1,0 +1,3 @@
+{
+  "/api/admin/faq-sidebar-items/[itemId]/route": "app/api/admin/faq-sidebar-items/[itemId]/route.js"
+}

@@ -11,6 +11,7 @@ import type { FaqItem, SiteSettings, FaqSidebarNavItem } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import FaqSidebarNav from '@/components/FaqSidebarNav';
 import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card'; // Added Card and CardContent import
 
 export default function FaqPage() {
   const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
@@ -92,22 +93,24 @@ export default function FaqPage() {
   }, [fetchFaqItems, fetchSidebarNavItems, fetchSiteSettings]);
 
   const handleSidebarItemClick = (item: FaqSidebarNavItem) => {
-    if (activeSidebarHref === item.href) { // If clicking the same item again, deselect it
+    if (activeSidebarHref === item.href) { 
       setSelectedSidebarItemContent(null);
       setActiveSidebarHref(null);
+      setSearchTerm(''); // Clear search when deselecting sidebar item
     } else {
       setSelectedSidebarItemContent(item.content || '<p>Содержимое для этого раздела еще не добавлено.</p>');
       setActiveSidebarHref(item.href);
+      setSearchTerm(''); // Clear search when selecting a new sidebar item
     }
   };
 
   const filteredFaqItems = useMemo(() => {
-    if (!searchTerm || selectedSidebarItemContent) return faqItems; // Don't filter accordion if sidebar content is shown
+    if (!searchTerm) return faqItems;
     return faqItems.filter(item =>
       item.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.answer.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [faqItems, searchTerm, selectedSidebarItemContent]);
+  }, [faqItems, searchTerm]);
   
   const pageTitle = siteSettings?.faq_page_main_title || 'Часто Задаваемые Вопросы';
   const contactPromptText = siteSettings?.faq_page_contact_prompt_text || 'Не нашли ответ на свой вопрос? Напишите в поддержку';
@@ -143,7 +146,7 @@ export default function FaqPage() {
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Поиск по вопросам и ответам..."
+                placeholder={selectedSidebarItemContent ? "Поиск по текущему разделу..." : "Поиск по общим вопросам..."}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 pr-4 py-3 h-12 rounded-lg bg-card border-border focus:border-primary text-foreground placeholder:text-muted-foreground shadow-sm"
@@ -215,3 +218,4 @@ export default function FaqPage() {
     </div>
   );
 }
+

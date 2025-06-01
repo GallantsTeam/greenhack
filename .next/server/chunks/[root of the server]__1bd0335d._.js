@@ -243,7 +243,8 @@ async function GET(request) {
         const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT * FROM faq_sidebar_nav_items ORDER BY item_order ASC, id ASC');
         const items = results.map((item)=>({
                 ...item,
-                is_active: Boolean(item.is_active)
+                is_active: Boolean(item.is_active),
+                content: item.content || null
             }));
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(items);
     } catch (error) {
@@ -259,7 +260,7 @@ async function POST(request) {
     // TODO: Add admin authentication check
     try {
         const body = await request.json();
-        const { title, href, image_url, image_alt_text, data_ai_hint, item_order = 0, is_active = true } = body;
+        const { title, href, image_url, image_alt_text, data_ai_hint, content, item_order = 0, is_active = true } = body;
         if (!title || !href || !image_url) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: 'Title, Href, and Image URL are required'
@@ -267,12 +268,13 @@ async function POST(request) {
                 status: 400
             });
         }
-        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('INSERT INTO faq_sidebar_nav_items (title, href, image_url, image_alt_text, data_ai_hint, item_order, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)', [
+        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('INSERT INTO faq_sidebar_nav_items (title, href, image_url, image_alt_text, data_ai_hint, content, item_order, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [
             title,
             href,
             image_url,
             image_alt_text || null,
             data_ai_hint || null,
+            content || null,
             item_order,
             is_active
         ]);
@@ -284,6 +286,7 @@ async function POST(request) {
                 image_url,
                 image_alt_text: image_alt_text || null,
                 data_ai_hint: data_ai_hint || null,
+                content: content || null,
                 item_order,
                 is_active,
                 created_at: new Date().toISOString()
