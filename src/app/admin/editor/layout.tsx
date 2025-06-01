@@ -3,7 +3,7 @@
 
 import { ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { PencilRuler, MessageCircle, FileText, PlusSquare, Link as LinkIconLucide, ShoppingBag, LayoutDashboard, LayoutGrid, Star, HelpCircle, ShieldCheck } from 'lucide-react'; 
+import { PencilRuler, MessageCircle, FileText, PlusSquare, Link as LinkIconLucide, ShoppingBag, LayoutDashboard, LayoutGrid, Star, HelpCircle, ShieldCheck, ListFilter } from 'lucide-react'; 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; 
 import { cn } from '@/lib/utils';
@@ -12,7 +12,8 @@ const editorNavItems = [
   { href: '/admin/editor/homepage-settings', label: 'Настройки Главной', icon: LayoutDashboard, baseRoute: '/admin/editor/homepage-settings' },
   { href: '/admin/editor/catalog-page-settings', label: 'Настройки Каталога', icon: LayoutGrid, baseRoute: '/admin/editor/catalog-page-settings' },
   { href: '/admin/editor/reviews-page-settings', label: 'Настройки Отзывов', icon: Star, baseRoute: '/admin/editor/reviews-page-settings' },
-  { href: '/admin/editor/faq-editor', label: 'Редактор FAQ', icon: HelpCircle, baseRoute: '/admin/editor/faq-editor' },
+  { href: '/admin/editor/faq-editor', label: 'Редактор FAQ (Вопросы)', icon: HelpCircle, baseRoute: '/admin/editor/faq-editor' },
+  { href: '/admin/editor/faq-sidebar-editor', label: 'Редактор FAQ (Сайдбар)', icon: ListFilter, baseRoute: '/admin/editor/faq-sidebar-editor' },
   { href: '/admin/editor/rules-editor', label: 'Редактор Правил', icon: FileText, baseRoute: '/admin/editor/rules-editor' },
   { href: '/admin/editor/offer-editor', label: 'Редактор Оферты', icon: ShieldCheck, baseRoute: '/admin/editor/offer-editor' },
   { href: '/admin/editor/footer-contacts', label: 'Контакты в футере', icon: MessageCircle, baseRoute: '/admin/editor/footer-contacts' },

@@ -217,38 +217,36 @@ __turbopack_context__.s({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/card.tsx [app-client] (ecmascript)");
-;
 ;
 ;
 ;
 const navigationItems = [
     {
         title: 'КАК ЭКОНОМИТЬ 15% НА КАЖДОЙ ПОКУПКЕ?',
-        href: '#',
+        href: '#economy-guide',
         imageUrl: 'https://placehold.co/300x100.png?text=Economy',
         imageAlt: 'Экономия на покупках',
         dataAiHint: 'discount savings'
     },
     {
         title: 'ПОДГОТОВКА ПК К ЗАПУСКУ ЧИТА',
-        href: '#',
+        href: '#pc-preparation',
         imageUrl: 'https://placehold.co/300x100.png?text=PC+Setup',
         imageAlt: 'Подготовка ПК',
         dataAiHint: 'computer setup guide'
     },
     {
         title: 'ЧТО ДЕЛАТЬ ПОСЛЕ ОПЛАТЫ',
-        href: '#',
+        href: '#after-payment',
         imageUrl: 'https://placehold.co/300x100.png?text=After+Payment',
         imageAlt: 'После оплаты',
         dataAiHint: 'payment confirmation'
     },
     {
         title: 'ГАРАНТИИ',
-        href: '#',
+        href: '#guarantees',
         imageUrl: 'https://placehold.co/300x100.png?text=Guarantees',
         imageAlt: 'Гарантии',
         dataAiHint: 'security guarantee'
@@ -275,7 +273,8 @@ const FaqSidebarNav = ()=>{
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
                 className: "p-4 space-y-3",
-                children: navigationItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                children: navigationItems.map((item)=>// Use simple <a> for anchor links or Next.js Link if these become separate pages
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                         href: item.href,
                         className: "block rounded-lg overflow-hidden shadow-md hover:shadow-primary/30 transition-shadow transform hover:scale-[1.02]",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -289,7 +288,7 @@ const FaqSidebarNav = ()=>{
                                     "data-ai-hint": item.dataAiHint
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/FaqSidebarNav.tsx",
-                                    lineNumber: 63,
+                                    lineNumber: 64,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -299,23 +298,23 @@ const FaqSidebarNav = ()=>{
                                         children: item.title
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/FaqSidebarNav.tsx",
-                                        lineNumber: 71,
+                                        lineNumber: 72,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/FaqSidebarNav.tsx",
-                                    lineNumber: 70,
+                                    lineNumber: 71,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/FaqSidebarNav.tsx",
-                            lineNumber: 62,
+                            lineNumber: 63,
                             columnNumber: 13
                         }, this)
                     }, item.title, false, {
                         fileName: "[project]/src/components/FaqSidebarNav.tsx",
-                        lineNumber: 57,
+                        lineNumber: 58,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
@@ -355,7 +354,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$triangle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertTriangle$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/triangle-alert.js [app-client] (ecmascript) <export default as AlertTriangle>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/use-toast.ts [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$FaqSidebarNav$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/FaqSidebarNav.tsx [app-client] (ecmascript)"); // New component for sidebar
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$FaqSidebarNav$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/FaqSidebarNav.tsx [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
@@ -369,48 +368,74 @@ var _s = __turbopack_context__.k.signature();
 function FaqPage() {
     _s();
     const [faqItems, setFaqItems] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
-    const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [isLoadingFaq, setIsLoadingFaq] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const [errorFaq, setErrorFaq] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [searchTerm, setSearchTerm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
+    const [siteSettings, setSiteSettings] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [isLoadingSettings, setIsLoadingSettings] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const fetchFaqItems = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "FaqPage.useCallback[fetchFaqItems]": async ()=>{
+            setIsLoadingFaq(true);
+            setErrorFaq(null);
+            try {
+                const response = await fetch('/api/admin/faq-items');
+                if (!response.ok) {
+                    const errorData = await response.json().catch({
+                        "FaqPage.useCallback[fetchFaqItems]": ()=>({
+                                message: 'Не удалось загрузить FAQ'
+                            })
+                    }["FaqPage.useCallback[fetchFaqItems]"]);
+                    throw new Error(errorData.message);
+                }
+                const data = await response.json();
+                setFaqItems(data.filter({
+                    "FaqPage.useCallback[fetchFaqItems]": (item)=>item.is_active
+                }["FaqPage.useCallback[fetchFaqItems]"]).sort({
+                    "FaqPage.useCallback[fetchFaqItems]": (a, b)=>(a.item_order || 0) - (b.item_order || 0)
+                }["FaqPage.useCallback[fetchFaqItems]"]));
+            } catch (err) {
+                setErrorFaq(err.message);
+                toast({
+                    title: "Ошибка загрузки FAQ",
+                    description: err.message,
+                    variant: "destructive"
+                });
+            } finally{
+                setIsLoadingFaq(false);
+            }
+        }
+    }["FaqPage.useCallback[fetchFaqItems]"], [
+        toast
+    ]);
+    const fetchSiteSettings = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "FaqPage.useCallback[fetchSiteSettings]": async ()=>{
+            setIsLoadingSettings(true);
+            try {
+                const response = await fetch('/api/site-settings-public');
+                if (!response.ok) throw new Error('Failed to fetch site settings for FAQ page');
+                const data = await response.json();
+                setSiteSettings(data);
+            } catch (error) {
+                console.error("FAQ Page: Error fetching site settings:", error);
+                // Use defaults if fetch fails so page can still render somewhat
+                setSiteSettings({
+                    faq_page_main_title: 'Часто Задаваемые Вопросы',
+                    faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку'
+                });
+            } finally{
+                setIsLoadingSettings(false);
+            }
+        }
+    }["FaqPage.useCallback[fetchSiteSettings]"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "FaqPage.useEffect": ()=>{
-            const fetchFaqItems = {
-                "FaqPage.useEffect.fetchFaqItems": async ()=>{
-                    setIsLoading(true);
-                    setError(null);
-                    try {
-                        const response = await fetch('/api/admin/faq-items'); // Using existing admin endpoint
-                        if (!response.ok) {
-                            const errorData = await response.json().catch({
-                                "FaqPage.useEffect.fetchFaqItems": ()=>({
-                                        message: 'Не удалось загрузить FAQ'
-                                    })
-                            }["FaqPage.useEffect.fetchFaqItems"]);
-                            throw new Error(errorData.message);
-                        }
-                        const data = await response.json();
-                        setFaqItems(data.filter({
-                            "FaqPage.useEffect.fetchFaqItems": (item)=>item.is_active
-                        }["FaqPage.useEffect.fetchFaqItems"]).sort({
-                            "FaqPage.useEffect.fetchFaqItems": (a, b)=>(a.item_order || 0) - (b.item_order || 0)
-                        }["FaqPage.useEffect.fetchFaqItems"]));
-                    } catch (err) {
-                        setError(err.message);
-                        toast({
-                            title: "Ошибка загрузки FAQ",
-                            description: err.message,
-                            variant: "destructive"
-                        });
-                    } finally{
-                        setIsLoading(false);
-                    }
-                }
-            }["FaqPage.useEffect.fetchFaqItems"];
             fetchFaqItems();
+            fetchSiteSettings();
         }
     }["FaqPage.useEffect"], [
-        toast
+        fetchFaqItems,
+        fetchSiteSettings
     ]);
     const filteredFaqItems = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
         "FaqPage.useMemo[filteredFaqItems]": ()=>{
@@ -423,6 +448,34 @@ function FaqPage() {
         faqItems,
         searchTerm
     ]);
+    const pageTitle = siteSettings?.faq_page_main_title || 'Часто Задаваемые Вопросы';
+    const contactPromptText = siteSettings?.faq_page_contact_prompt_text || 'Не нашли ответ на свой вопрос? Напишите в поддержку';
+    if (isLoadingFaq || isLoadingSettings) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "container mx-auto px-4 py-8 space-y-8 text-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] flex flex-col justify-center",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                    className: "mx-auto h-12 w-12 animate-spin text-primary mb-4"
+                }, void 0, false, {
+                    fileName: "[project]/src/app/faq/page.tsx",
+                    lineNumber: 81,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                    className: "text-lg text-muted-foreground",
+                    children: "Загрузка..."
+                }, void 0, false, {
+                    fileName: "[project]/src/app/faq/page.tsx",
+                    lineNumber: 82,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/app/faq/page.tsx",
+            lineNumber: 80,
+            columnNumber: 7
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex flex-col",
         children: [
@@ -435,10 +488,10 @@ function FaqPage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                                 className: "text-4xl md:text-5xl lg:text-6xl font-bold text-primary uppercase tracking-wider mb-4 md:mb-6 [text-shadow:_1px_1px_8px_hsl(var(--primary)/0.5)]",
-                                children: "Часто Задаваемые Вопросы"
+                                children: pageTitle
                             }, void 0, false, {
                                 fileName: "[project]/src/app/faq/page.tsx",
-                                lineNumber: 56,
+                                lineNumber: 92,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -446,23 +499,23 @@ function FaqPage() {
                                 children: "Найдите ответы на самые популярные вопросы о наших продуктах и сервисе."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/faq/page.tsx",
-                                lineNumber: 59,
+                                lineNumber: 95,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/faq/page.tsx",
-                        lineNumber: 55,
+                        lineNumber: 91,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/faq/page.tsx",
-                    lineNumber: 54,
+                    lineNumber: 90,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/faq/page.tsx",
-                lineNumber: 53,
+                lineNumber: 89,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -480,7 +533,7 @@ function FaqPage() {
                                             className: "absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/faq/page.tsx",
-                                            lineNumber: 71,
+                                            lineNumber: 106,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -491,49 +544,49 @@ function FaqPage() {
                                             className: "pl-10 pr-4 py-3 h-12 rounded-lg bg-card border-border focus:border-primary text-foreground placeholder:text-muted-foreground shadow-sm"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/faq/page.tsx",
-                                            lineNumber: 72,
+                                            lineNumber: 107,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/faq/page.tsx",
-                                    lineNumber: 70,
+                                    lineNumber: 105,
                                     columnNumber: 13
                                 }, this),
-                                isLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                isLoadingFaq && filteredFaqItems.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "flex justify-center items-center py-10",
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
                                         className: "h-10 w-10 animate-spin text-primary"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/faq/page.tsx",
-                                        lineNumber: 83,
+                                        lineNumber: 118,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/faq/page.tsx",
-                                    lineNumber: 82,
+                                    lineNumber: 117,
                                     columnNumber: 15
-                                }, this) : error ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                }, this) : errorFaq ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "text-center py-10 text-destructive",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$triangle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertTriangle$3e$__["AlertTriangle"], {
                                             className: "mx-auto h-10 w-10 mb-2"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/faq/page.tsx",
-                                            lineNumber: 87,
+                                            lineNumber: 122,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            children: error
+                                            children: errorFaq
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/faq/page.tsx",
-                                            lineNumber: 88,
+                                            lineNumber: 123,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/faq/page.tsx",
-                                    lineNumber: 86,
+                                    lineNumber: 121,
                                     columnNumber: 15
                                 }, this) : filteredFaqItems.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$accordion$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Accordion"], {
                                     type: "multiple",
@@ -547,7 +600,7 @@ function FaqPage() {
                                                     children: item.question
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/faq/page.tsx",
-                                                    lineNumber: 94,
+                                                    lineNumber: 129,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$accordion$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AccordionContent"], {
@@ -555,25 +608,25 @@ function FaqPage() {
                                                     children: item.answer
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/faq/page.tsx",
-                                                    lineNumber: 97,
+                                                    lineNumber: 132,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, item.id, true, {
                                             fileName: "[project]/src/app/faq/page.tsx",
-                                            lineNumber: 93,
+                                            lineNumber: 128,
                                             columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/faq/page.tsx",
-                                    lineNumber: 91,
+                                    lineNumber: 126,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-center text-muted-foreground py-10",
                                     children: searchTerm ? 'По вашему запросу ничего не найдено.' : 'Вопросы и ответы еще не добавлены.'
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/faq/page.tsx",
-                                    lineNumber: 104,
+                                    lineNumber: 139,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -581,65 +634,65 @@ function FaqPage() {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-muted-foreground",
                                         children: [
-                                            "Не нашли ответ на свой вопрос?",
-                                            ' ',
+                                            contactPromptText.split('Напишите в поддержку')[0],
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                                 href: "/#contacts",
                                                 className: "text-primary hover:underline",
                                                 children: "Напишите в поддержку"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/faq/page.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 146,
                                                 columnNumber: 17
-                                            }, this)
+                                            }, this),
+                                            contactPromptText.split('Напишите в поддержку')[1]
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/faq/page.tsx",
-                                        lineNumber: 109,
+                                        lineNumber: 144,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/faq/page.tsx",
-                                    lineNumber: 108,
+                                    lineNumber: 143,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/faq/page.tsx",
-                            lineNumber: 69,
+                            lineNumber: 104,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
                             className: "lg:col-span-4 xl:col-span-3",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$FaqSidebarNav$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                 fileName: "[project]/src/app/faq/page.tsx",
-                                lineNumber: 120,
+                                lineNumber: 155,
                                 columnNumber: 14
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/faq/page.tsx",
-                            lineNumber: 119,
+                            lineNumber: 154,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/faq/page.tsx",
-                    lineNumber: 67,
+                    lineNumber: 103,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/faq/page.tsx",
-                lineNumber: 66,
+                lineNumber: 102,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/faq/page.tsx",
-        lineNumber: 52,
+        lineNumber: 88,
         columnNumber: 5
     }, this);
 }
-_s(FaqPage, "N5Oh5lDBErdy1IZZA7RZ19Fk+1Y=", false, function() {
+_s(FaqPage, "qPocjpklWE7ZlXRmyvLff/sJLug=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];

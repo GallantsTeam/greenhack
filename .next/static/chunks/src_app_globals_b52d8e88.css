@@ -1090,6 +1090,10 @@ body {
   min-height: 100svh;
 }
 
+.min-h-\[150px\] {
+  min-height: 150px;
+}
+
 .w-0 {
   width: 0;
 }

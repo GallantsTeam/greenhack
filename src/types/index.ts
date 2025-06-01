@@ -517,5 +517,19 @@ export interface FaqItem {
   created_at?: string;
   updated_at?: string;
 }
+
+// New type for FAQ Sidebar Navigation Items
+export interface FaqSidebarNavItem {
+  id: number;
+  title: string;
+  href: string; // e.g., #anchor-link or /full/path
+  image_url: string;
+  image_alt_text?: string | null;
+  data_ai_hint?: string | null;
+  item_order: number;
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
     
     
