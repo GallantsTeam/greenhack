@@ -1,0 +1,12 @@
+<p>Привет, <span class="highlight">{{username}}</span>!</p>
+<p>Промокод <strong class="highlight">{{promoCode}}</strong> был успешно активирован для вашего аккаунта на <span class="highlight">{{siteName}}</span>.</p>
+{{#if rewardTypeBalance}}
+<p>На ваш баланс зачислено <span class="highlight">{{rewardAmountGh}} GH</span>.</p>
+<p>Ваш новый баланс: <span class="highlight">{{newBalanceGh}} GH</span>.</p>
+{{/if}}
+{{#if rewardTypeProduct}}
+<p>В ваш инвентарь добавлен товар: <strong class="highlight">{{productName}}</strong>{{#if productDuration}} ({{productDuration}}){{/if}}.</p>
+<p>Вы можете найти его в разделе <a href="{{inventoryLink}}" style="color: #2dfd9b; text-decoration: underline;">"Мой инвентарь"</a>.</p>
+{{/if}}
+<p>Спасибо, что выбираете нас!</p>
+<p>С уважением,<br>Команда {{siteName}}</p>

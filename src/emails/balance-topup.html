@@ -1,0 +1,25 @@
+<p>Привет, <span class="highlight">{{username}}</span>!</p>
+<p>Ваш баланс на <span class="highlight">{{siteName}}</span> был успешно пополнен.</p>
+<table class="details-table">
+    <tr>
+        <th>Сумма пополнения</th>
+        <td><span class="highlight">{{topUpAmountGh}} GH</span></td>
+    </tr>
+    <tr>
+        <th>Способ пополнения</th>
+        <td>{{paymentMethod}}</td>
+    </tr>
+    <tr>
+        <th>Дата пополнения</th>
+        <td>{{topUpDate}}</td>
+    </tr>
+    <tr>
+        <th>Текущий баланс</th>
+        <td><span class="highlight">{{newBalanceGh}} GH</span></td>
+    </tr>
+</table>
+<p>Спасибо за использование нашего сервиса!</p>
+<div class="button-container">
+    <a href="{{accountBalanceLink}}" class="button">Перейти к балансу</a>
+</div>
+<p>С уважением,<br>Команда {{siteName}}</p>

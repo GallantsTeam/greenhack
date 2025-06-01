@@ -1,0 +1,31 @@
+<p>Привет, <span class="highlight">{{username}}</span>!</p>
+<p>Спасибо за вашу покупку на <span class="highlight">{{siteName}}</span>!</p>
+<p>Детали вашей покупки:</p>
+<table class="details-table">
+    <tr>
+        <th>Товар</th>
+        <td>{{productName}}</td>
+    </tr>
+    {{#if productDuration}}
+    <tr>
+        <th>Срок действия</th>
+        <td>{{productDuration}}</td>
+    </tr>
+    {{/if}}
+    {{#if productMode}}
+    <tr>
+        <th>Режим</th>
+        <td>{{productMode}}</td>
+    </tr>
+    {{/if}}
+    <tr>
+        <th>Оплачено (GH)</th>
+        <td>{{amountPaidGh}} GH</td>
+    </tr>
+    <tr>
+        <th>Дата покупки</th>
+        <td>{{purchaseDate}}</td>
+    </tr>
+</table>
+<p>Приобретенный товар был добавлен в ваш <a href="{{inventoryLink}}" style="color: #2dfd9b; text-decoration: underline;">инвентарь</a>. Вы можете активировать его оттуда.</p>
+<p>С уважением,<br>Команда {{siteName}}</p>

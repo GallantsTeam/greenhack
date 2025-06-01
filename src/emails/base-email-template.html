@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{emailTitle}}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a202c; /* approx --background */
+            font-family: 'Exo 2', Arial, sans-serif;
+            color: #d1d5db; /* approx --foreground */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2d3748; /* approx --card */
+            border-radius: 8px;
+            border: 1px solid #374151; /* approx --border */
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #374151; /* approx --border */
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #2dfd9b; /* approx --primary */
+        }
+        .content {
+            padding: 20px 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .content p {
+            margin: 0 0 15px 0;
+        }
+        .button-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #2dfd9b; /* approx --primary */
+            color: #1a202c !important; /* approx --primary-foreground / --background */
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #374151; /* approx --border */
+            font-size: 12px;
+            color: #a0aec0; /* lighter muted-foreground */
+        }
+        .footer a {
+            color: #2dfd9b; /* approx --primary */
+            text-decoration: none;
+        }
+        .highlight {
+            color: #2dfd9b; /* approx --primary */
+            font-weight: bold;
+        }
+        .details-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .details-table th, .details-table td {
+            padding: 8px;
+            border: 1px solid #374151; /* approx --border */
+            text-align: left;
+            font-size: 14px;
+        }
+        .details-table th {
+            background-color: #374151; /* approx --border or darker muted */
+            color: #d1d5db; /* approx --foreground */
+        }
+    </style>
+</head>
+<body>
+    <div style="margin: 0; padding: 0; background-color: #1a202c; font-family: 'Exo 2', Arial, sans-serif; color: #d1d5db;">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #1a202c;">
+            <tr>
+                <td align="center" style="padding: 20px;">
+                    <table class="container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width: 600px; margin: 0 auto; background-color: #2d3748; border-radius: 8px; border: 1px solid #374151;">
+                        <tr>
+                            <td class="header" style="padding: 20px; text-align: center; border-bottom: 1px solid #374151;">
+                                <h1 style="margin: 0; font-size: 28px; font-weight: bold; color: #2dfd9b;">{{siteName}}</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="content" style="padding: 20px 20px 5px 20px; font-size: 16px; line-height: 1.6;">
+                                <!-- Specific email content goes here -->
+                                {{emailBody}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="footer" style="padding: 20px; text-align: center; border-top: 1px solid #374151; font-size: 12px; color: #a0aec0;">
+                                <p>&copy; {{currentYear}} {{siteName}}. Все права защищены.</p>
+                                <p><a href="{{siteUrl}}" style="color: #2dfd9b; text-decoration: none;">Перейти на сайт</a></p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
