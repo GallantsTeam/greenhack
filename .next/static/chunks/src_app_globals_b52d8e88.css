@@ -710,6 +710,11 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .mb-0 {
   margin-bottom: 0;
 }
@@ -1096,6 +1101,10 @@ body {
 
 .min-h-\[400px\] {
   min-height: 400px;
+}
+
+.min-h-\[300px\] {
+  min-height: 300px;
 }
 
 .w-0 {

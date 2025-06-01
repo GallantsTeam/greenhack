@@ -14,8 +14,7 @@ const editorNavItems = [
   { href: '/admin/editor/reviews-page-settings', label: 'Настройки Отзывов', icon: Star, baseRoute: '/admin/editor/reviews-page-settings' },
   { href: '/admin/editor/faq-editor', label: 'Редактор FAQ (Вопросы)', icon: HelpCircle, baseRoute: '/admin/editor/faq-editor' },
   { href: '/admin/editor/faq-sidebar-editor', label: 'Редактор FAQ (Сайдбар)', icon: ListFilter, baseRoute: '/admin/editor/faq-sidebar-editor' },
-  { href: '/admin/editor/rules-editor', label: 'Редактор Правил', icon: FileText, baseRoute: '/admin/editor/rules-editor' },
-  { href: '/admin/editor/offer-editor', label: 'Редактор Оферты', icon: ShieldCheck, baseRoute: '/admin/editor/offer-editor' },
+  { href: '/admin/editor/offer-editor', label: 'Оферта и Правила', icon: ShieldCheck, baseRoute: '/admin/editor/offer-editor' }, // Changed label
   { href: '/admin/editor/footer-contacts', label: 'Контакты в футере', icon: MessageCircle, baseRoute: '/admin/editor/footer-contacts' },
   { href: '/admin/editor/footer-marketplace', label: 'Marketplace в футере', icon: ShoppingBag, baseRoute: '/admin/editor/footer-marketplace' },
   { href: '/admin/editor/custom-links', label: 'Доп. ссылки в футере', icon: LinkIconLucide, baseRoute: '/admin/editor/custom-links' },
@@ -74,3 +73,4 @@ export default function EditorLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
+    

@@ -8,6 +8,7 @@
   "/admin/editor/homepage-settings/page": "app/admin/editor/homepage-settings/page.js",
   "/admin/editor/offer-editor/page": "app/admin/editor/offer-editor/page.js",
   "/admin/editor/page": "app/admin/editor/page.js",
+  "/admin/editor/rules-editor/page": "app/admin/editor/rules-editor/page.js",
   "/admin/page": "app/admin/page.js",
   "/admin/site-settings/general/page": "app/admin/site-settings/general/page.js",
   "/admin/site-settings/page": "app/admin/site-settings/page.js",

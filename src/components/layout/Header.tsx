@@ -2,7 +2,7 @@
 "use client";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { LayoutGrid, Star, HelpCircle, FileText, BarChart3, UserCircle, LogOut, Key, Search as SearchIcon, Home, type LucideIcon, PlusCircle, Menu as MenuIcon } from 'lucide-react';
+import { LayoutGrid, Star, HelpCircle, FileText, BarChart3, UserCircle, LogOut, Key, Search as SearchIcon, Home, type LucideIcon, PlusCircle, Menu as MenuIcon, ShieldCheck } from 'lucide-react'; // Added ShieldCheck
 import type { NavItem as CustomNavItemType, SiteSettings } from '@/types';
 import SearchBar from '@/components/SearchBar';
 import { useAuth } from '@/contexts/AuthContext';
@@ -21,6 +21,7 @@ const iconMap: { [key: string]: LucideIcon } = {
   HelpCircle,
   FileText,
   BarChart3,
+  ShieldCheck, // Added ShieldCheck to map
 };
 
 const staticDefaultNavItems: CustomNavItemType[] = [
@@ -28,7 +29,8 @@ const staticDefaultNavItems: CustomNavItemType[] = [
   { id: -2, label: 'Каталог игр', href: '/games', icon_name: 'LayoutGrid', item_order: 1, is_visible: true },
   { id: -3, label: 'Отзывы', href: '/reviews', icon_name: 'Star', item_order: 2, is_visible: true },
   { id: -4, label: 'FAQ', href: '/faq', icon_name: 'HelpCircle', item_order: 3, is_visible: true },
-  { id: -6, label: 'Статусы', href: '/statuses', icon_name: 'BarChart3', item_order: 5, is_visible: true },
+  { id: -5, label: 'Статусы', href: '/statuses', icon_name: 'BarChart3', item_order: 4, is_visible: true },
+  { id: -7, label: 'Правовая Инфо', href: '/legal-info', icon_name: 'ShieldCheck', item_order: 5, is_visible: true }, // Added Legal Info
 ];
 
 const Logo = ({ siteName, logoUrl }: { siteName?: string | null, logoUrl?: string | null }) => {
@@ -86,18 +88,16 @@ const Header = () => {
         console.log("[Header] API Nav items fetched successfully:", apiNavItems);
 
         if (apiNavItems && apiNavItems.length > 0) {
-          // Merge API items with static defaults. API items take precedence if href matches.
-          // Only visible items from API are considered.
           const visibleApiItems = apiNavItems.filter(item => item.is_visible);
-          const apiHrefs = new Set(visibleApiItems.map(item => item.href));
-          
-          let combinedItems = staticDefaultNavItems.map(staticItem => {
-            const apiOverride = visibleApiItems.find(apiItem => apiItem.href === staticItem.href);
-            return apiOverride ? { ...staticItem, ...apiOverride } : staticItem;
-          });
+          let combinedItems = [...staticDefaultNavItems];
 
           visibleApiItems.forEach(apiItem => {
-            if (!staticDefaultNavItems.some(staticItem => staticItem.href === apiItem.href)) {
+            const existingStaticIndex = combinedItems.findIndex(staticItem => staticItem.href === apiItem.href);
+            if (existingStaticIndex !== -1) {
+              // Override static item with API item if href matches
+              combinedItems[existingStaticIndex] = { ...combinedItems[existingStaticIndex], ...apiItem };
+            } else {
+              // Add new item from API
               combinedItems.push(apiItem);
             }
           });
@@ -248,7 +248,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1">
             {isLoadingNav ? (
-              Array.from({ length: 4 }).map((_, index) => (
+              Array.from({ length: staticDefaultNavItems.length }).map((_, index) => (
                 <div key={index} className="h-7 w-20 bg-muted/50 rounded-md animate-pulse"></div>
               ))
             ) : navItems.map((item) => {
@@ -316,3 +316,4 @@ const Header = () => {
 };
 
 export default Header;
+    

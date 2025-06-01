@@ -256,7 +256,9 @@ const getDefaultSettings = ()=>({
         footer_marketplace_link_url: 'https://yougame.biz/members/263428/',
         footer_marketplace_is_visible: true,
         faq_page_main_title: 'Часто Задаваемые Вопросы',
-        faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку'
+        faq_page_contact_prompt_text: 'Не нашли ответ на свой вопрос? Напишите в поддержку',
+        rules_page_content: '<p>Начальный текст для правил сайта...</p>',
+        offer_page_content: '<p>Начальный текст для публичной оферты...</p>'
     });
 async function GET(request) {
     console.log('[API GET /admin/site-settings] Attempting to fetch settings...');
@@ -271,8 +273,15 @@ async function GET(request) {
         } else {
             console.log(`[API GET /admin/site-settings] Settings row with id=${SETTINGS_ROW_ID} not found. Attempting to create minimal row.`);
             try {
-                await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('INSERT IGNORE INTO site_settings (id) VALUES (?)', [
-                    SETTINGS_ROW_ID
+                await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('INSERT IGNORE INTO site_settings (id, site_name, site_description, footer_text, faq_page_main_title, faq_page_contact_prompt_text, rules_page_content, offer_page_content) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [
+                    SETTINGS_ROW_ID,
+                    getDefaultSettings().site_name,
+                    getDefaultSettings().site_description,
+                    getDefaultSettings().footer_text,
+                    getDefaultSettings().faq_page_main_title,
+                    getDefaultSettings().faq_page_contact_prompt_text,
+                    getDefaultSettings().rules_page_content,
+                    getDefaultSettings().offer_page_content
                 ]);
                 const newResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT * FROM site_settings WHERE id = ? LIMIT 1', [
                     SETTINGS_ROW_ID
@@ -290,6 +299,49 @@ async function GET(request) {
     } catch (fetchError) {
         if (fetchError.code === 'ER_NO_SUCH_TABLE') {
             console.warn('[API GET /admin/site-settings] site_settings table does not exist. This is expected on first run or if migrations are pending. Returning hardcoded defaults.');
+            try {
+                // Attempt to create the table with all fields
+                await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`
+                CREATE TABLE IF NOT EXISTS site_settings (
+                    id INT NOT NULL DEFAULT 1,
+                    site_name VARCHAR(255) NULL,
+                    site_description TEXT NULL,
+                    logo_url VARCHAR(512) NULL,
+                    footer_text TEXT NULL,
+                    contact_vk_label VARCHAR(255) NULL,
+                    contact_vk_url VARCHAR(512) NULL,
+                    contact_telegram_bot_label VARCHAR(255) NULL,
+                    contact_telegram_bot_url VARCHAR(512) NULL,
+                    contact_email_label VARCHAR(255) NULL,
+                    contact_email_address VARCHAR(255) NULL,
+                    footer_marketplace_text VARCHAR(255) NULL,
+                    footer_marketplace_logo_url VARCHAR(512) NULL,
+                    footer_marketplace_link_url VARCHAR(512) NULL,
+                    footer_marketplace_is_visible BOOLEAN DEFAULT TRUE,
+                    faq_page_main_title VARCHAR(255) NULL,
+                    faq_page_contact_prompt_text VARCHAR(500) NULL,
+                    rules_page_content LONGTEXT NULL,
+                    offer_page_content LONGTEXT NULL,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    PRIMARY KEY (id),
+                    CONSTRAINT pk_site_settings_id_is_1 CHECK (id = 1)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            `);
+                // Insert default row
+                await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('INSERT IGNORE INTO site_settings (id, site_name, site_description, footer_text, faq_page_main_title, faq_page_contact_prompt_text, rules_page_content, offer_page_content) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [
+                    SETTINGS_ROW_ID,
+                    getDefaultSettings().site_name,
+                    getDefaultSettings().site_description,
+                    getDefaultSettings().footer_text,
+                    getDefaultSettings().faq_page_main_title,
+                    getDefaultSettings().faq_page_contact_prompt_text,
+                    getDefaultSettings().rules_page_content,
+                    getDefaultSettings().offer_page_content
+                ]);
+                console.log('[API GET /admin/site-settings] site_settings table created and default row inserted.');
+            } catch (createTableError) {
+                console.error('[API GET /admin/site-settings] CRITICAL: Failed to create site_settings table:', createTableError.message);
+            }
         } else {
             console.error('[API GET /admin/site-settings] Error fetching site_settings:', fetchError.message);
         }
@@ -299,10 +351,11 @@ async function GET(request) {
         ...defaults,
         ...settingsFromDb,
         id: SETTINGS_ROW_ID,
-        // Ensure boolean fields are correctly typed if coming from DB (0/1)
         footer_marketplace_is_visible: settingsFromDb.footer_marketplace_is_visible !== undefined ? Boolean(settingsFromDb.footer_marketplace_is_visible) : defaults.footer_marketplace_is_visible,
         faq_page_main_title: settingsFromDb.faq_page_main_title || defaults.faq_page_main_title,
-        faq_page_contact_prompt_text: settingsFromDb.faq_page_contact_prompt_text || defaults.faq_page_contact_prompt_text
+        faq_page_contact_prompt_text: settingsFromDb.faq_page_contact_prompt_text || defaults.faq_page_contact_prompt_text,
+        rules_page_content: settingsFromDb.rules_page_content || defaults.rules_page_content,
+        offer_page_content: settingsFromDb.offer_page_content || defaults.offer_page_content
     };
     console.log('[API GET /admin/site-settings] Returning merged settings:', mergedSettings);
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(mergedSettings);
@@ -333,7 +386,9 @@ async function PUT(request) {
             'footer_marketplace_link_url',
             'footer_marketplace_is_visible',
             'faq_page_main_title',
-            'faq_page_contact_prompt_text'
+            'faq_page_contact_prompt_text',
+            'rules_page_content',
+            'offer_page_content'
         ];
         editableFields.forEach((key)=>{
             if (body[key] !== undefined) {
@@ -341,7 +396,7 @@ async function PUT(request) {
                 let valueToPush = body[key];
                 if (key === 'footer_marketplace_is_visible') {
                     valueToPush = Boolean(body[key]);
-                } else if (valueToPush === '') {
+                } else if (valueToPush === '' && key !== 'rules_page_content' && key !== 'offer_page_content') {
                     valueToPush = null;
                 }
                 queryParams.push(valueToPush);
@@ -358,7 +413,9 @@ async function PUT(request) {
                     ...currentSettingsResult[0],
                     footer_marketplace_is_visible: Boolean(currentSettingsResult[0].footer_marketplace_is_visible),
                     faq_page_main_title: currentSettingsResult[0].faq_page_main_title || currentSettings.faq_page_main_title,
-                    faq_page_contact_prompt_text: currentSettingsResult[0].faq_page_contact_prompt_text || currentSettings.faq_page_contact_prompt_text
+                    faq_page_contact_prompt_text: currentSettingsResult[0].faq_page_contact_prompt_text || currentSettings.faq_page_contact_prompt_text,
+                    rules_page_content: currentSettingsResult[0].rules_page_content || currentSettings.rules_page_content,
+                    offer_page_content: currentSettingsResult[0].offer_page_content || currentSettings.offer_page_content
                 };
             }
             console.log('[API PUT /admin/site-settings] No fields to update. Returning current settings.');
@@ -385,7 +442,9 @@ async function PUT(request) {
                 ...updatedSettingsResult[0],
                 footer_marketplace_is_visible: Boolean(updatedSettingsResult[0].footer_marketplace_is_visible),
                 faq_page_main_title: updatedSettingsResult[0].faq_page_main_title || finalSettings.faq_page_main_title,
-                faq_page_contact_prompt_text: updatedSettingsResult[0].faq_page_contact_prompt_text || finalSettings.faq_page_contact_prompt_text
+                faq_page_contact_prompt_text: updatedSettingsResult[0].faq_page_contact_prompt_text || finalSettings.faq_page_contact_prompt_text,
+                rules_page_content: updatedSettingsResult[0].rules_page_content || finalSettings.rules_page_content,
+                offer_page_content: updatedSettingsResult[0].offer_page_content || finalSettings.offer_page_content
             };
         }
         console.log('[API PUT /admin/site-settings] Returning updated settings:', finalSettings);
