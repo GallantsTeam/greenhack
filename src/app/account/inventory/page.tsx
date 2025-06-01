@@ -45,23 +45,34 @@ export default function InventoryPage() {
     try {
       const response = await fetch(`/api/user/${currentUser.id}/inventory-items`);
       if (!response.ok) {
-        let errorDetailMessage = `Server error: ${response.status} ${response.statusText}`;
+        let errorDetailMessage = `HTTP ${response.status}: ${response.statusText || 'Неизвестная ошибка HTTP'}`;
         try {
           const errorData = await response.json();
-          errorDetailMessage = errorData.message || JSON.stringify(errorData) || `Failed to fetch inventory items. Status: ${response.status}`;
+          if (errorData && typeof errorData.message === 'string' && errorData.message.trim() !== '') {
+            errorDetailMessage = errorData.message;
+          } else if (errorData) {
+            const stringifiedError = JSON.stringify(errorData);
+            errorDetailMessage = stringifiedError.length < 256 ? stringifiedError : `Сложный объект ошибки от сервера (Статус: ${response.status})`;
+          }
         } catch (jsonError) {
-          // If response.json() fails, it means the body was not valid JSON or empty.
-          // The initial errorDetailMessage or statusText might be the best we have.
-          errorDetailMessage = `HTTP ${response.status}: ${response.statusText || 'Failed to retrieve inventory items, and error response was not valid JSON.'}`;
+          // If response.json() fails, the body might not be valid JSON or empty.
+          // The initial errorDetailMessage based on statusText is likely the best info.
+           errorDetailMessage = `HTTP ${response.status}: ${response.statusText || 'Ошибка ответа сервера (не JSON)'}`;
         }
-        throw new Error(errorDetailMessage);
+        // Ensure a non-empty string is thrown
+        const finalErrorMsg = errorDetailMessage.trim() !== '' ? errorDetailMessage : `HTTP Error ${response.status}: An unexpected issue occurred while fetching inventory.`;
+        throw new Error(finalErrorMsg);
       }
       const data: InventoryItemWithDetails[] = await response.json();
       setInventoryItems(data);
     } catch (err: any) {
       console.error("Error fetching inventory:", err);
-      setError(err.message || "Не удалось загрузить инвентарь.");
-      toast({ title: "Ошибка", description: err.message || "Не удалось загрузить инвентарь.", variant: "destructive" });
+      let displayErrorMessage = "Не удалось загрузить инвентарь. Произошла неизвестная ошибка.";
+      if (err instanceof Error && err.message && err.message.trim() !== '') {
+        displayErrorMessage = err.message;
+      }
+      setError(displayErrorMessage);
+      toast({ title: "Ошибка", description: displayErrorMessage, variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -284,6 +295,8 @@ export default function InventoryPage() {
     </div>
   );
 }
+    
+
     
 
     
