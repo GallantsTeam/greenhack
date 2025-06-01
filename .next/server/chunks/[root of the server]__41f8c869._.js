@@ -677,11 +677,12 @@ async function POST(request) {
         let allSentSuccessfully = true;
         let firstErrorResult = null;
         for (const chatId of chatIds){
+            console.log(`[API Test Telegram] Attempting to send to ${botType} bot, chat_id: '${chatId}', message: "${message}"`); // Added detailed log
             const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$telegram$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["sendTelegramMessage"])(token, chatId, message);
             if (!result.success) {
                 allSentSuccessfully = false;
                 if (!firstErrorResult) firstErrorResult = result;
-                console.error(`Failed to send test message to ${chatId} for ${botType} bot:`, result.error);
+                console.error(`Failed to send test message to ${chatId} for ${botType} bot:`, result.message, result.error);
             }
         }
         if (allSentSuccessfully) {
@@ -689,7 +690,7 @@ async function POST(request) {
                 message: `Тестовое сообщение успешно отправлено на ${chatIds.join(', ')} через ${botType} бота.`
             });
         } else {
-            const errorMessageDetail = firstErrorResult?.message || firstErrorResult?.error?.description || 'Неизвестная ошибка отправки.';
+            const errorMessageDetail = firstErrorResult?.message || (typeof firstErrorResult?.error === 'object' ? JSON.stringify(firstErrorResult.error) : firstErrorResult?.error) || 'Неизвестная ошибка отправки.';
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: `Не удалось отправить тестовое сообщение на один или несколько чатов. Первая ошибка: ${errorMessageDetail}`
             }, {

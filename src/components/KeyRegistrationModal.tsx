@@ -91,39 +91,41 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
             <AlertDialogTitle className="text-lg font-semibold text-primary">
               Активация лицензии для: {productName}
             </AlertDialogTitle>
-            <AlertDialogDescription className="mt-2 text-sm text-muted-foreground space-y-3">
-              <div>{data.intro_text || defaultRetrievalData.intro_text}</div>
-              <div>
-                {data.antivirus_text || defaultRetrievalData.antivirus_text}
-                {(data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) && (data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) !== "#" && (
-                  <Button variant="link" size="sm" className="p-0 h-auto ml-1 text-primary" asChild>
-                    <a href={data.antivirus_link_url || defaultRetrievalData.antivirus_link_url} target="_blank" rel="noopener noreferrer">
-                      {data.antivirus_link_text || defaultRetrievalData.antivirus_link_text}
+            <AlertDialogDescription className="mt-2 text-sm text-muted-foreground">
+              <div className="space-y-3"> {/* Wrapper div for children of AlertDialogDescription */}
+                <div>{data.intro_text || defaultRetrievalData.intro_text}</div>
+                <div>
+                  {data.antivirus_text || defaultRetrievalData.antivirus_text}
+                  {(data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) && (data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) !== "#" && (
+                    <Button variant="link" size="sm" className="p-0 h-auto ml-1 text-primary" asChild>
+                      <a href={data.antivirus_link_url || defaultRetrievalData.antivirus_link_url} target="_blank" rel="noopener noreferrer">
+                        {data.antivirus_link_text || defaultRetrievalData.antivirus_link_text}
+                      </a>
+                    </Button>
+                  )}
+                </div>
+                <div>
+                  {data.launcher_text || defaultRetrievalData.launcher_text}
+                  {loaderDownloadUrl && loaderDownloadUrl !== "#" && (
+                    <Button variant="secondary" size="sm" className="ml-2 mt-1 bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30" asChild>
+                      <a href={loaderDownloadUrl} target="_blank" rel="noopener noreferrer">
+                        <Download className="mr-2 h-4 w-4" /> {data.launcher_link_text || defaultRetrievalData.launcher_link_text}
+                      </a>
+                    </Button>
+                  )}
+                </div>
+                <div>{data.key_paste_text || defaultRetrievalData.key_paste_text}</div>
+                <div>
+                  {data.support_text || defaultRetrievalData.support_text}{' '}
+                  {(data.support_link_url || defaultRetrievalData.support_link_url) && (data.support_link_url || defaultRetrievalData.support_link_url) !== "#" ? (
+                    <a href={data.support_link_url || defaultRetrievalData.support_link_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                      {data.support_link_text || defaultRetrievalData.support_link_text}
                     </a>
-                  </Button>
-                )}
-              </div>
-              <div>
-                {data.launcher_text || defaultRetrievalData.launcher_text}
-                {loaderDownloadUrl && loaderDownloadUrl !== "#" && (
-                  <Button variant="secondary" size="sm" className="ml-2 mt-1 bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30" asChild>
-                    <a href={loaderDownloadUrl} target="_blank" rel="noopener noreferrer">
-                      <Download className="mr-2 h-4 w-4" /> {data.launcher_link_text || defaultRetrievalData.launcher_link_text}
-                    </a>
-                  </Button>
-                )}
-              </div>
-              <div>{data.key_paste_text || defaultRetrievalData.key_paste_text}</div>
-              <div>
-                {data.support_text || defaultRetrievalData.support_text}{' '}
-                {(data.support_link_url || defaultRetrievalData.support_link_url) && (data.support_link_url || defaultRetrievalData.support_link_url) !== "#" ? (
-                  <a href={data.support_link_url || defaultRetrievalData.support_link_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                    {data.support_link_text || defaultRetrievalData.support_link_text}
-                  </a>
-                ) : (
-                  data.support_link_text || defaultRetrievalData.support_link_text
-                )}
-                .
+                  ) : (
+                    data.support_link_text || defaultRetrievalData.support_link_text
+                  )}
+                  .
+                </div>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>

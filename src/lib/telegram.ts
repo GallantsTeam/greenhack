@@ -20,7 +20,7 @@ async function getTelegramSettingsFromDb(): Promise<{
 
     const telegramSettings: SiteTelegramSettings | null =
       (Array.isArray(tgSettingsResults) && tgSettingsResults.length > 0) ? tgSettingsResults[0] : null;
-
+    
     const adminPrefsDb = (Array.isArray(adminPrefsResults) && adminPrefsResults.length > 0) ? adminPrefsResults[0] : null;
     const notificationPrefs: AdminTelegramNotificationPrefs | null = adminPrefsDb ? {
         id: adminPrefsDb.id,
@@ -35,7 +35,7 @@ async function getTelegramSettingsFromDb(): Promise<{
     const siteNotificationSettingsDb = (Array.isArray(siteNotificationSettingsResults) && siteNotificationSettingsResults.length > 0) ? siteNotificationSettingsResults[0] : null;
     const siteNotificationSettings: SiteNotificationSettings | null = siteNotificationSettingsDb ? {
         id: siteNotificationSettingsDb.id || SETTINGS_ROW_ID,
-        notify_on_registration: Boolean(siteNotificationSettingsDb.notify_on_registration),
+        notify_on_registration: Boolean(siteNotificationSettingsDb.notify_on_registration), // Default to false if not present
         notify_on_balance_deposit: Boolean(siteNotificationSettingsDb.notify_on_balance_deposit),
         notify_on_product_purchase: Boolean(siteNotificationSettingsDb.notify_on_product_purchase),
         notify_on_support_reply: Boolean(siteNotificationSettingsDb.notify_on_support_reply),
@@ -71,7 +71,7 @@ export async function sendTelegramMessage(
   }
 
   const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-  console.log(`[TelegramLib] Attempting to send message to ${chatId} via URL: ${telegramApiUrl.replace(botToken, '***TOKEN***')}`);
+  console.log(`[TelegramLib] Attempting to send message to CHAT_ID: '${chatId}' using TOKEN: '${botToken.substring(0,10)}...' via URL: ${telegramApiUrl.replace(botToken, '***TOKEN***')}`);
   
   const bodyPayload: any = {
     chat_id: chatId,
@@ -96,7 +96,12 @@ export async function sendTelegramMessage(
       return { success: true, message: `Message sent to ${chatId}` };
     } else {
       console.error('[TelegramLib] Telegram API Error:', data);
-      return { success: false, message: `Telegram API Error: ${data.description}`, error: data };
+      const errorDescription = data.description || 'Unknown error from Telegram API';
+      let detailedMessage = `Telegram API Error: ${errorDescription}`;
+      if (errorDescription.toLowerCase().includes("chat not found")) {
+        detailedMessage += ` (Hint: Ensure bot has access to chat ID: ${chatId} and the ID is correct. If it's a user ID, the user must have started the bot. If it's a group/channel ID, the bot must be a member/admin and the ID should typically be negative for groups.)`;
+      }
+      return { success: false, message: detailedMessage, error: data };
     }
   } catch (error: any) {
     console.error('[TelegramLib] Error sending Telegram message via fetch:', error);
