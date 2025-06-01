@@ -239,8 +239,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$
 const SETTINGS_ROW_ID = 1; // Assuming settings are stored in a single row with id=1
 async function GET(request) {
     try {
-        const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT site_name, site_description, logo_url, footer_text, ' + 'contact_vk_label, contact_vk_url, ' + 'contact_telegram_bot_label, contact_telegram_bot_url, ' + 'contact_email_label, contact_email_address, ' + 'footer_marketplace_text, footer_marketplace_logo_url, footer_marketplace_link_url, footer_marketplace_is_visible, ' + 'faq_page_main_title, faq_page_contact_prompt_text, ' + // Added FAQ fields
-        'rules_page_content, offer_page_content, ' + // Added Rules and Offer content
+        const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT site_name, site_description, logo_url, footer_text, ' + 'contact_vk_label, contact_vk_url, ' + 'contact_telegram_bot_label, contact_telegram_bot_url, ' + 'contact_email_label, contact_email_address, ' + 'footer_marketplace_text, footer_marketplace_logo_url, footer_marketplace_link_url, footer_marketplace_is_visible, ' + 'faq_page_main_title, faq_page_contact_prompt_text, ' + 'rules_page_content, offer_page_content, ' + // Ensure these are selected
         'homepage_popular_categories_title, homepage_advantages, homepage_show_case_opening_block, ' + 'homepage_case_opening_title, homepage_case_opening_subtitle ' + 'FROM site_settings WHERE id = ? LIMIT 1', [
             SETTINGS_ROW_ID
         ]);
@@ -319,7 +318,6 @@ async function GET(request) {
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(settings);
     } catch (error) {
         console.error('API Public Site Settings GET Error:', error);
-        // Fallback to defaults in case of any error
         const defaultSettingsOnError = {
             id: SETTINGS_ROW_ID,
             site_name: 'Green Hack (Error)',

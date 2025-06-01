@@ -15,15 +15,18 @@ async function getProductBySlugForUpdate(slug: string): Promise<Product | null> 
          g.logo_url as gameLogoUrl 
        FROM products p
        LEFT JOIN games g ON p.game_slug = g.slug
-       WHERE p.slug = ?`, [slug]);
+       WHERE p.slug = ?`, [String(slug).trim()]); // Trim slug for query
     if (!Array.isArray(productResults) || productResults.length === 0) return null;
 
     const productData = productResults[0];
     
-    productData.gallery_image_urls = productData.gallery_image_urls ? productData.gallery_image_urls.split(',').map((url: string) => url.trim()) : [];
-    productData.functions_aim = productData.functions_aim ? productData.functions_aim.split(',').map((fn: string) => fn.trim()) : [];
-    productData.functions_wallhack = productData.functions_wallhack ? productData.functions_wallhack.split(',').map((fn: string) => fn.trim()) : [];
-    productData.functions_misc = productData.functions_misc ? productData.functions_misc.split(',').map((fn: string) => fn.trim()) : [];
+    productData.id = String(productData.id).trim();
+    productData.slug = String(productData.slug).trim();
+    productData.game_slug = String(productData.game_slug).trim();
+    productData.gallery_image_urls = productData.gallery_image_urls ? String(productData.gallery_image_urls).split(',').map((url: string) => url.trim()) : [];
+    productData.functions_aim = productData.functions_aim ? String(productData.functions_aim).split(',').map((fn: string) => fn.trim()) : [];
+    productData.functions_wallhack = productData.functions_wallhack ? String(productData.functions_wallhack).split(',').map((fn: string) => fn.trim()) : [];
+    productData.functions_misc = productData.functions_misc ? String(productData.functions_misc).split(',').map((fn: string) => fn.trim()) : [];
     
     productData.functions_aim_title = productData.functions_aim_title || 'Aimbot Функции';
     productData.functions_esp_title = productData.functions_esp_title || 'ESP/Wallhack Функции';
@@ -36,7 +39,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
-  const productSlug = params.slug;
+  const productSlug = params.slug ? String(params.slug).trim() : null;
   if (!productSlug) {
     return NextResponse.json({ message: 'Product slug is required' }, { status: 400 });
   }
@@ -51,6 +54,7 @@ export async function GET(
     );
     product.pricing_options = pricingOptionsResults.map((opt: any) => ({
       ...opt,
+      product_id: String(opt.product_id).trim(),
       price_rub: parseFloat(opt.price_rub),
       price_gh: parseFloat(opt.price_gh),
       is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : Boolean(opt.is_rub_payment_visible),
@@ -78,7 +82,7 @@ export async function PUT(
   request: NextRequest,
   { params: routeParams }: { params: { slug: string } }
 ) {
-  const productSlug = routeParams.slug;
+  const productSlug = routeParams.slug ? String(routeParams.slug).trim() : null;
 
   if (!productSlug) {
     return NextResponse.json({ message: 'Product slug is required' }, { status: 400 });
@@ -88,8 +92,8 @@ export async function PUT(
     body = await request.json();
     const {
       name, 
-      slug: newSlug,
-      game_slug, 
+      slug: newSlugRaw,
+      game_slug: gameSlugRaw, 
       status, 
       status_text, 
       short_description,
@@ -126,6 +130,9 @@ export async function PUT(
     
     const targetProductId = existingProduct.id; 
     let effectiveSlug = productSlug;
+    const newSlug = newSlugRaw ? String(newSlugRaw).trim() : null;
+    const gameSlug = gameSlugRaw ? String(gameSlugRaw).trim() : null;
+
 
     if (newSlug && newSlug !== productSlug) {
         const anotherProductWithNewSlug = await query('SELECT id FROM products WHERE slug = ? AND id != ?', [newSlug, targetProductId]);
@@ -146,7 +153,7 @@ export async function PUT(
     
     addFieldToUpdate('name', name);
     addFieldToUpdate('slug', effectiveSlug);
-    addFieldToUpdate('game_slug', game_slug);
+    addFieldToUpdate('game_slug', gameSlug); // Trimmed game_slug
     addFieldToUpdate('status', status);
     
     addFieldToUpdate('image_url', image_url);
@@ -240,7 +247,8 @@ export async function PUT(
   } catch (error: any) {
     console.error(`API Admin Product PUT (slug: ${productSlug}) Error:`, error);
      if (error.code === 'ER_NO_REFERENCED_ROW_2' || (error.message && error.message.includes('foreign key constraint fails'))) {
-        return NextResponse.json({ message: `Ошибка внешнего ключа: Убедитесь, что указанный 'game_slug' (${body?.game_slug}) существует в таблице категорий (games).`, error_details: error.toString() }, { status: 400 });
+        const submittedGameSlug = body?.game_slug ? String(body.game_slug).trim() : 'не указан';
+        return NextResponse.json({ message: `Ошибка внешнего ключа: Убедитесь, что указанный 'game_slug' (${submittedGameSlug}) существует в таблице категорий (games).`, error_details: error.toString() }, { status: 400 });
     }
     return NextResponse.json({ message: `Internal Server Error: ${error.message}`, error_details: error.toString() }, { status: 500 });
   }
@@ -250,7 +258,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
-  const productSlug = params.slug;
+  const productSlug = params.slug ? String(params.slug).trim() : null;
 
   if (!productSlug) {
     return NextResponse.json({ message: 'Product slug is required' }, { status: 400 });
