@@ -1,0 +1,3 @@
+{
+  "/api/admin/reviews/pending-count/route": "app/api/admin/reviews/pending-count/route.js"
+}
