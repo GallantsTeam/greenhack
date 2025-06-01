@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/contexts/AuthContext'; 
+import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, AlertCircle, Loader2, BadgeHelp } from 'lucide-react';
@@ -24,7 +24,7 @@ const registerSchema = z.object({
   referralCode: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Пароли не совпадают.",
-  path: ["confirmPassword"], 
+  path: ["confirmPassword"],
 });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
@@ -33,7 +33,7 @@ const REFERRAL_COOKIE_NAME = 'gh_referral_code';
 
 export default function RegisterForm() {
   const { toast } = useToast();
-  const { register: registerUser } = useAuth(); 
+  const { register: registerUser } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -59,11 +59,11 @@ export default function RegisterForm() {
       setReferralStatus('idle');
       setReferrerName(null);
       form.clearErrors('referralCode');
-      return true; 
+      return true;
     }
     setReferralStatus('checking');
     try {
-      const response = await fetch(\`/api/referral/check?code=\${encodeURIComponent(code)}\`);
+      const response = await fetch(`/api/referral/check?code=${encodeURIComponent(code)}`);
       const data: ReferralCodeCheckResponse = await response.json();
       if (response.ok && data.isValid) {
         setReferralStatus('valid');
@@ -87,9 +87,9 @@ export default function RegisterForm() {
 
   useEffect(() => {
     const refCodeFromUrl = searchParams.get('ref');
-    
+
     if (refCodeFromUrl) {
-      form.setValue('referralCode', refCodeFromUrl, { shouldValidate: false }); 
+      form.setValue('referralCode', refCodeFromUrl, { shouldValidate: false });
       setReferralCodeValue(refCodeFromUrl);
       Cookies.set(REFERRAL_COOKIE_NAME, refCodeFromUrl, { expires: 7, path: '/' });
       checkReferralCode(refCodeFromUrl);
@@ -108,8 +108,8 @@ export default function RegisterForm() {
     const subscription = form.watch(async (value, { name, type }) => {
       if (name === 'referralCode') {
         const code = value.referralCode || '';
-        setReferralCodeValue(code); 
-        
+        setReferralCodeValue(code);
+
         if (debounceTimeoutRef.current) {
           clearTimeout(debounceTimeoutRef.current);
         }
@@ -121,7 +121,7 @@ export default function RegisterForm() {
           Cookies.remove(REFERRAL_COOKIE_NAME, { path: '/' });
           return;
         }
-        
+
         debounceTimeoutRef.current = setTimeout(async () => {
           if (code.length > 2) {
             const isValid = await checkReferralCode(code);
@@ -146,7 +146,7 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
-    
+
     const finalReferralCode = data.referralCode?.trim();
 
     if (finalReferralCode && referralStatus === 'invalid') {
@@ -158,7 +158,7 @@ export default function RegisterForm() {
       setIsLoading(false);
       return;
     }
-    
+
     try {
       const submissionData = {
         ...data,
@@ -166,7 +166,7 @@ export default function RegisterForm() {
       };
 
       await registerUser(submissionData.username, submissionData.email, submissionData.password, submissionData.referralCode);
-      
+
       if (submissionData.referralCode) {
         Cookies.remove(REFERRAL_COOKIE_NAME, { path: '/' });
       }
@@ -198,10 +198,10 @@ export default function RegisterForm() {
             <FormItem>
               <FormLabel className="text-muted-foreground">Имя пользователя (Логин)</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="YourUsername123" 
-                  {...field} 
-                  disabled={isLoading} 
+                <Input
+                  placeholder="YourUsername123"
+                  {...field}
+                  disabled={isLoading}
                   className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
                 />
               </FormControl>
@@ -216,10 +216,10 @@ export default function RegisterForm() {
             <FormItem>
               <FormLabel className="text-muted-foreground">Email</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="you@example.com" 
-                  {...field} 
-                  disabled={isLoading} 
+                <Input
+                  placeholder="you@example.com"
+                  {...field}
+                  disabled={isLoading}
                   className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
                 />
               </FormControl>
@@ -234,11 +234,11 @@ export default function RegisterForm() {
             <FormItem>
               <FormLabel className="text-muted-foreground">Пароль</FormLabel>
               <FormControl>
-                <Input 
-                  type="password" 
-                  placeholder="••••••••" 
-                  {...field} 
-                  disabled={isLoading} 
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  {...field}
+                  disabled={isLoading}
                   className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
                 />
               </FormControl>
@@ -253,11 +253,11 @@ export default function RegisterForm() {
             <FormItem>
               <FormLabel className="text-muted-foreground">Подтвердите пароль</FormLabel>
               <FormControl>
-                <Input 
-                  type="password" 
-                  placeholder="••••••••" 
-                  {...field} 
-                  disabled={isLoading} 
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  {...field}
+                  disabled={isLoading}
                   className="bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50"
                 />
               </FormControl>
@@ -287,12 +287,12 @@ export default function RegisterForm() {
               </div>
               <FormControl>
                 <div className="relative">
-                  <Input 
-                    placeholder="REF-CODE-123 (необязательно)" 
-                    {...field} 
+                  <Input
+                    placeholder="REF-CODE-123 (необязательно)"
+                    {...field}
                     disabled={isLoading || referralStatus === 'valid'}
                     className={`bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50 ${
-                      referralStatus === 'valid' ? 'border-green-500 focus-visible:ring-green-500' : 
+                      referralStatus === 'valid' ? 'border-green-500 focus-visible:ring-green-500' :
                       referralStatus === 'invalid' && field.value && field.value.length > 0 ? 'border-destructive focus-visible:ring-destructive' : ''
                     }`}
                   />
@@ -315,4 +315,3 @@ export default function RegisterForm() {
     </Form>
   );
 }
-

@@ -38,6 +38,8 @@
   "/api/user/[userId]/inventory-items/route": "app/api/user/[userId]/inventory-items/route.js",
   "/api/user/[userId]/licenses/route": "app/api/user/[userId]/licenses/route.js",
   "/api/user/[userId]/referred-count/route": "app/api/user/[userId]/referred-count/route.js",
+  "/auth/login/page": "app/auth/login/page.js",
+  "/auth/register/page": "app/auth/register/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/games/page": "app/games/page.js",
   "/legal-info/page": "app/legal-info/page.js",
