@@ -49,7 +49,7 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
   onRegisterKey,
   productName,
   isLoading,
-  retrievalModalData, // This will be used for 'info_modal' in a later step
+  retrievalModalData, 
   activationType,
   loaderDownloadUrl,
   infoModalContentHtml,
@@ -68,7 +68,6 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
     return null;
   }
 
-  // Default texts if retrievalModalData is not provided or specific fields are missing
   const defaultRetrievalData = {
     intro_text: `Спасибо что приобрели софт ${productName}. Для активации лицензии, необходимо выполнить ряд небольших действий.`,
     antivirus_text: "Перед загрузкой убедитесь что у вас отсутствует Антивирусник и отключен пункт Безопасность Windows.",
@@ -93,8 +92,8 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
               Активация лицензии для: {productName}
             </AlertDialogTitle>
             <AlertDialogDescription className="mt-2 text-sm text-muted-foreground space-y-3">
-              <p>{data.intro_text || defaultRetrievalData.intro_text}</p>
-              <p>
+              <div>{data.intro_text || defaultRetrievalData.intro_text}</div>
+              <div>
                 {data.antivirus_text || defaultRetrievalData.antivirus_text}
                 {(data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) && (data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) !== "#" && (
                   <Button variant="link" size="sm" className="p-0 h-auto ml-1 text-primary" asChild>
@@ -103,8 +102,8 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
                     </a>
                   </Button>
                 )}
-              </p>
-              <p>
+              </div>
+              <div>
                 {data.launcher_text || defaultRetrievalData.launcher_text}
                 {loaderDownloadUrl && loaderDownloadUrl !== "#" && (
                   <Button variant="secondary" size="sm" className="ml-2 mt-1 bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30" asChild>
@@ -113,9 +112,9 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
                     </a>
                   </Button>
                 )}
-              </p>
-              <p>{data.key_paste_text || defaultRetrievalData.key_paste_text}</p>
-              <p>
+              </div>
+              <div>{data.key_paste_text || defaultRetrievalData.key_paste_text}</div>
+              <div>
                 {data.support_text || defaultRetrievalData.support_text}{' '}
                 {(data.support_link_url || defaultRetrievalData.support_link_url) && (data.support_link_url || defaultRetrievalData.support_link_url) !== "#" ? (
                   <a href={data.support_link_url || defaultRetrievalData.support_link_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
@@ -125,7 +124,7 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
                   data.support_link_text || defaultRetrievalData.support_link_text
                 )}
                 .
-              </p>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
 
@@ -182,7 +181,6 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
       );
   }
   
-  // Fallback if activationType is not set or unknown
   return (
      <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <AlertDialogContent>
@@ -199,3 +197,4 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
 };
 
 export default KeyRegistrationModal;
+    

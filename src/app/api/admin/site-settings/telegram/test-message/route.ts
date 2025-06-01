@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     // TODO: Add proper admin authentication check here
     const { botType, message } = await request.json();
 
-    if (!botType || !message || (botType !== 'client' && botType !== 'admin')) {
+    if (!botType || !message || !['client', 'admin', 'key'].includes(botType)) { // Updated this line
       return NextResponse.json({ message: 'Некорректный тип бота или отсутствует сообщение.' }, { status: 400 });
     }
 
@@ -22,19 +22,38 @@ export async function POST(request: NextRequest) {
     }
     const config: SiteTelegramSettings = settingsResults[0];
 
-    const token = botType === 'client' ? config.client_bot_token : config.admin_bot_token;
-    const chatIdInput = botType === 'client' ? config.client_bot_chat_id : config.admin_bot_chat_ids;
+    let token: string | null | undefined;
+    let chatIdInput: string | null | undefined;
+
+    switch(botType) {
+        case 'client':
+            token = config.client_bot_token;
+            chatIdInput = config.client_bot_chat_id;
+            break;
+        case 'admin':
+            token = config.admin_bot_token;
+            chatIdInput = config.admin_bot_chat_ids;
+            break;
+        case 'key': // Added case for key bot
+            token = config.key_bot_token;
+            chatIdInput = config.key_bot_admin_chat_ids;
+            break;
+        default:
+            // This case should not be reached due to the initial validation
+            return NextResponse.json({ message: 'Неизвестный тип бота.' }, { status: 400 });
+    }
+
 
     if (!token) {
-      return NextResponse.json({ message: `Токен для ${botType === 'client' ? 'клиентского' : 'админского'} бота не настроен.` }, { status: 400 });
+      return NextResponse.json({ message: `Токен для ${botType} бота не настроен.` }, { status: 400 });
     }
     if (!chatIdInput) {
-        return NextResponse.json({ message: `ID чата(ов) для ${botType === 'client' ? 'клиентского' : 'админского'} бота не настроен.` }, { status: 400 });
+        return NextResponse.json({ message: `ID чата(ов) для ${botType} бота не настроен.` }, { status: 400 });
     }
     
     const chatIds = chatIdInput.split(',').map(id => id.trim()).filter(id => id);
     if (chatIds.length === 0) {
-        return NextResponse.json({ message: `Не указаны корректные ID чата(ов) для ${botType === 'client' ? 'клиентского' : 'админского'} бота.` }, { status: 400 });
+        return NextResponse.json({ message: `Не указаны корректные ID чата(ов) для ${botType} бота.` }, { status: 400 });
     }
 
     let allSentSuccessfully = true;
@@ -46,12 +65,11 @@ export async function POST(request: NextRequest) {
             allSentSuccessfully = false;
             if (!firstError) firstError = result.error || 'Unknown error during sending.';
             console.error(`Failed to send test message to ${chatId} for ${botType} bot:`, result.error);
-            // Optionally break or continue sending to other admin chat IDs
         }
     }
 
     if (allSentSuccessfully) {
-      return NextResponse.json({ message: `Тестовое сообщение успешно отправлено на ${chatIds.join(', ')} через ${botType === 'client' ? 'клиентского' : 'админского'} бота.` });
+      return NextResponse.json({ message: `Тестовое сообщение успешно отправлено на ${chatIds.join(', ')} через ${botType} бота.` });
     } else {
       return NextResponse.json({ message: `Не удалось отправить тестовое сообщение на один или несколько чатов. Первая ошибка: ${firstError}` }, { status: 500 });
     }
