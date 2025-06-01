@@ -13,14 +13,13 @@ interface AuthContextType {
   logout: () => void;
   fetchUserDetails: (userId: number) => Promise<User | null>; 
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>; 
+  unreadNotificationsCount: number; // Added for global access if needed
+  fetchUnreadNotificationsCount: (userId: number) => Promise<void>; // Added
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Define AuthProviderClient that will wrap components needing useAuth
 export const AuthProviderClient: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // This component simply renders children, allowing useAuth to be called within them
-  // The actual AuthContext.Provider is in the RootLayout.
   return <>{children}</>;
 };
 
@@ -30,6 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
+  const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0); // Added state
 
   const processUser = (user: any): User | null => {
     if (user && user.id && user.username && user.email) {
@@ -50,6 +50,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return null;
   }
 
+  const fetchUnreadNotificationsCount = useCallback(async (userId: number) => {
+    // This function is for fetching the count specifically for the AuthContext.
+    // The UserNotificationBell component fetches its own data for display.
+    // This context state can be used if other parts of the app need the count.
+    try {
+      const response = await fetch(`/api/user/${userId}/notifications?countOnly=true&status=unread`); // API needs to support this
+      if (response.ok) {
+        const data = await response.json();
+        setUnreadNotificationsCount(data.count || 0);
+      } else {
+        // console.warn("AuthContext: Failed to fetch unread notifications count.");
+        setUnreadNotificationsCount(0);
+      }
+    } catch (error) {
+      // console.error("AuthContext: Error fetching unread notifications count:", error);
+      setUnreadNotificationsCount(0);
+    }
+  }, []);
+
+
   const fetchUserDetails = useCallback(async (userId: number): Promise<User | null> => {
     try {
       const response = await fetch(`/api/user/${userId}/details`);
@@ -61,8 +81,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const data = await response.json();
       const processedUser = processUser(data.user);
       if (processedUser) {
-        setCurrentUser(processedUser); // Update context state
-        localStorage.setItem('currentUser', JSON.stringify(processedUser)); // Update localStorage
+        setCurrentUser(processedUser); 
+        localStorage.setItem('currentUser', JSON.stringify(processedUser)); 
+        fetchUnreadNotificationsCount(processedUser.id); // Fetch count after user details are updated
         return processedUser;
       }
       return null;
@@ -70,7 +91,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error("Error fetching user details:", error);
       return null;
     }
-  }, []);
+  }, [fetchUnreadNotificationsCount]);
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -81,30 +102,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           const parsedUser = JSON.parse(storedUser);
           const processedUser = processUser(parsedUser);
           if (processedUser && processedUser.id) {
-            // Fetch fresh user details to ensure data is up-to-date
             const freshUser = await fetchUserDetails(processedUser.id); 
             if (freshUser) {
-              setCurrentUser(freshUser); // This will now update context state
+              // setCurrentUser handled by fetchUserDetails
             } else {
-              // If fetching fresh details fails, use stored (potentially stale) user
-              // Or, you could decide to log out the user here if fresh data is critical
               setCurrentUser(processedUser); 
+              fetchUnreadNotificationsCount(processedUser.id);
               console.warn("Used stored user details as fresh fetch failed.");
             }
           } else {
             localStorage.removeItem('currentUser');
             setCurrentUser(null);
+            setUnreadNotificationsCount(0);
           }
         } catch (e) {
           console.error("Failed to parse or refresh stored user:", e);
           localStorage.removeItem('currentUser');
           setCurrentUser(null);
+          setUnreadNotificationsCount(0);
         }
       }
       setLoading(false);
     };
     initializeAuth();
-  }, [fetchUserDetails]);
+  }, [fetchUserDetails, fetchUnreadNotificationsCount]);
 
 
   const login = useCallback(async (emailOrLogin: string, password: string): Promise<void> => {
@@ -121,16 +142,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       
       if (data.user && data.user.id) {
-        // Instead of just setting, fetch full details to ensure consistency
         const freshUser = await fetchUserDetails(data.user.id);
         if (freshUser) {
             router.push('/account');
         } else {
-            // Fallback to processed login data if fetch fails immediately after login
             const processedLoginUser = processUser(data.user); 
             if (processedLoginUser) {
                 setCurrentUser(processedLoginUser);
                 localStorage.setItem('currentUser', JSON.stringify(processedLoginUser));
+                fetchUnreadNotificationsCount(processedLoginUser.id);
                 router.push('/account');
             } else {
                 throw new Error('Invalid user data received from login.');
@@ -143,11 +163,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error("Login error in AuthContext:", error);
       setCurrentUser(null);
       localStorage.removeItem('currentUser');
-      throw error; // Re-throw to be caught by the form
+      setUnreadNotificationsCount(0);
+      throw error; 
     } finally {
       setLoading(false);
     }
-  }, [router, fetchUserDetails]);
+  }, [router, fetchUserDetails, fetchUnreadNotificationsCount]);
 
   const register = useCallback(async (username: string, email: string, password: string, referralCode?: string): Promise<void> => {
     setLoading(true);
@@ -161,11 +182,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
       }
-      // Registration successful, redirect to login page
-      router.push('/auth/login?registrationSuccess=true'); // Optionally, show a success message on login page
+      router.push('/auth/login?registrationSuccess=true'); 
     } catch (error: any) {
       console.error("Registration error in AuthContext:", error);
-      throw error; // Re-throw to be caught by the form
+      throw error; 
     } finally {
       setLoading(false);
     }
@@ -174,7 +194,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = useCallback(() => {
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
-    if (pathname.startsWith('/account') || pathname.startsWith('/admin')) { // Added admin check
+    setUnreadNotificationsCount(0);
+    if (pathname.startsWith('/account') || pathname.startsWith('/admin')) { 
       router.push('/auth/login'); 
     } else {
       router.push('/');
@@ -188,7 +209,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     register,
     logout,
     fetchUserDetails,
-    setCurrentUser, // Expose setCurrentUser for direct manipulation if needed (e.g., after admin actions)
+    setCurrentUser, 
+    unreadNotificationsCount, 
+    fetchUnreadNotificationsCount,
   };
 
   return (

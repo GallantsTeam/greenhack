@@ -2,7 +2,7 @@
 "use client";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { LayoutGrid, Star, HelpCircle, FileText, BarChart3, UserCircle, LogOut, Key, Search as SearchIcon, Home, type LucideIcon, PlusCircle, Menu as MenuIcon, ShieldCheck } from 'lucide-react'; // Added ShieldCheck
+import { LayoutGrid, Star, HelpCircle, FileText, BarChart3, UserCircle, LogOut, Key, Search as SearchIcon, Home, type LucideIcon, PlusCircle, Menu as MenuIcon, ShieldCheck, Bell } from 'lucide-react'; // Added Bell
 import type { NavItem as CustomNavItemType, SiteSettings } from '@/types';
 import SearchBar from '@/components/SearchBar';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,6 +13,7 @@ import BalanceDepositModal from '@/components/BalanceDepositModal';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import UserNotificationBell from '@/components/layout/UserNotificationBell'; // Import UserNotificationBell
 
 const iconMap: { [key: string]: LucideIcon } = {
   Home,
@@ -21,7 +22,8 @@ const iconMap: { [key: string]: LucideIcon } = {
   HelpCircle,
   FileText,
   BarChart3,
-  ShieldCheck, // Added ShieldCheck to map
+  ShieldCheck, 
+  Bell, // Added Bell to map
 };
 
 const staticDefaultNavItems: CustomNavItemType[] = [
@@ -30,7 +32,7 @@ const staticDefaultNavItems: CustomNavItemType[] = [
   { id: -3, label: 'Отзывы', href: '/reviews', icon_name: 'Star', item_order: 2, is_visible: true },
   { id: -4, label: 'FAQ', href: '/faq', icon_name: 'HelpCircle', item_order: 3, is_visible: true },
   { id: -5, label: 'Статусы', href: '/statuses', icon_name: 'BarChart3', item_order: 4, is_visible: true },
-  { id: -7, label: 'Правовая Инфо', href: '/legal-info', icon_name: 'ShieldCheck', item_order: 5, is_visible: true }, // Added Legal Info
+  { id: -7, label: 'Правовая Инфо', href: '/legal-info', icon_name: 'ShieldCheck', item_order: 5, is_visible: true }, 
 ];
 
 const Logo = ({ siteName, logoUrl }: { siteName?: string | null, logoUrl?: string | null }) => {
@@ -49,7 +51,7 @@ const Logo = ({ siteName, logoUrl }: { siteName?: string | null, logoUrl?: strin
 
 
 const Header = () => {
-  const { currentUser, logout, loading: authLoading, fetchUserDetails } = useAuth();
+  const { currentUser, logout, loading: authLoading, fetchUserDetails, unreadNotificationsCount, fetchUnreadNotificationsCount } = useAuth();
   const router = useRouter();
   const [navItems, setNavItems] = useState<CustomNavItemType[]>([]);
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
@@ -72,7 +74,7 @@ const Header = () => {
         setSiteSettings(settingsData);
       } else {
         console.warn("[Header] Failed to fetch site settings.");
-         setSiteSettings({ // Fallback settings
+         setSiteSettings({ 
             site_name: 'Green Hack',
             site_description: null, logo_url: null, footer_text: null,
             contact_vk_label: null, contact_vk_url: null,
@@ -80,6 +82,7 @@ const Header = () => {
             contact_email_label: null, contact_email_address: null,
             footer_marketplace_text: null, footer_marketplace_logo_url: null,
             footer_marketplace_link_url: null, footer_marketplace_is_visible: true,
+            rules_page_content: null, offer_page_content: null,
         });
       }
 
@@ -94,10 +97,8 @@ const Header = () => {
           visibleApiItems.forEach(apiItem => {
             const existingStaticIndex = combinedItems.findIndex(staticItem => staticItem.href === apiItem.href);
             if (existingStaticIndex !== -1) {
-              // Override static item with API item if href matches
               combinedItems[existingStaticIndex] = { ...combinedItems[existingStaticIndex], ...apiItem };
             } else {
-              // Add new item from API
               combinedItems.push(apiItem);
             }
           });
@@ -126,11 +127,12 @@ const Header = () => {
         duration: 7000,
       });
       setNavItems(staticDefaultNavItems.filter(item => item.is_visible).sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
-      setSiteSettings({ /* fallback site settings */
+      setSiteSettings({ 
             site_name: 'Green Hack', site_description: null, logo_url: null, footer_text: null,
             contact_vk_label: null, contact_vk_url: null, contact_telegram_bot_label: null, contact_telegram_bot_url: null,
             contact_email_label: null, contact_email_address: null, footer_marketplace_text: null, footer_marketplace_logo_url: null,
             footer_marketplace_link_url: null, footer_marketplace_is_visible: true,
+            rules_page_content: null, offer_page_content: null,
         });
     } finally {
       setIsLoadingNav(false);
@@ -139,7 +141,10 @@ const Header = () => {
 
   useEffect(() => {
     fetchHeaderData();
-  }, [fetchHeaderData]);
+    if (currentUser?.id) {
+      fetchUnreadNotificationsCount(currentUser.id); // Initial fetch for AuthContext
+    }
+  }, [fetchHeaderData, currentUser?.id, fetchUnreadNotificationsCount]);
 
   const handleLogout = () => {
     logout();
@@ -156,6 +161,7 @@ const Header = () => {
   const onBalanceUpdated = () => {
     if (currentUser?.id) {
       fetchUserDetails(currentUser.id);
+      fetchUnreadNotificationsCount(currentUser.id); // Re-fetch count on balance update
     }
   };
   
@@ -269,6 +275,7 @@ const Header = () => {
             <div className="hidden sm:flex"> 
                 <SearchBar />
             </div>
+            {currentUser && <UserNotificationBell />} {/* Render UserNotificationBell here */}
             {authLoading ? (
               <div className="h-9 w-24 md:w-36 bg-muted rounded-md animate-pulse"></div>
             ) : currentUser ? (

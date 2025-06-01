@@ -1077,6 +1077,14 @@ body {
   top: 50%;
 }
 
+.-right-1 {
+  right: -.25rem;
+}
+
+.-top-1 {
+  top: -.25rem;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -1464,6 +1472,10 @@ body {
   height: 100svh;
 }
 
+.h-\[300px\] {
+  height: 300px;
+}
+
 .max-h-10 {
   max-height: 2.5rem;
 }
@@ -1672,6 +1684,10 @@ body {
   width: 100%;
 }
 
+.w-80 {
+  width: 20rem;
+}
+
 .min-w-0 {
   min-width: 0;
 }
@@ -1690,6 +1706,10 @@ body {
 
 .min-w-\[var\(--radix-select-trigger-width\)\] {
   min-width: var(--radix-select-trigger-width);
+}
+
+.min-w-\[1rem\] {
+  min-width: 1rem;
 }
 
 .max-w-2xl {
@@ -2090,6 +2110,16 @@ body {
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+
+.divide-y > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-y-reverse: 0;
+  border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+}
+
+.divide-border > :not([hidden]) ~ :not([hidden]) {
+  border-color: hsl(var(--border));
 }
 
 .self-end {
@@ -2546,6 +2576,10 @@ body {
 
 .bg-input {
   background-color: hsl(var(--input));
+}
+
+.bg-primary\/5 {
+  background-color: hsl(var(--primary) / .05);
 }
 
 .bg-\[radial-gradient\(ellipse_at_bottom_right\,_var\(--tw-gradient-stops\)\)\] {
@@ -4754,6 +4788,10 @@ body {
     height: 250px;
   }
 
+  .sm\:h-\[350px\] {
+    height: 350px;
+  }
+
   .sm\:w-12 {
     width: 3rem;
   }
@@ -4772,6 +4810,10 @@ body {
 
   .sm\:w-auto {
     width: auto;
+  }
+
+  .sm\:w-96 {
+    width: 24rem;
   }
 
   .sm\:max-w-lg {
