@@ -11,7 +11,7 @@ import type { FaqItem, SiteSettings, FaqSidebarNavItem } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import FaqSidebarNav from '@/components/FaqSidebarNav';
 import { cn } from '@/lib/utils';
-import { Card, CardContent } from '@/components/ui/card'; // Added Card and CardContent import
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function FaqPage() {
   const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
@@ -96,11 +96,11 @@ export default function FaqPage() {
     if (activeSidebarHref === item.href) { 
       setSelectedSidebarItemContent(null);
       setActiveSidebarHref(null);
-      setSearchTerm(''); // Clear search when deselecting sidebar item
+      setSearchTerm(''); 
     } else {
       setSelectedSidebarItemContent(item.content || '<p>Содержимое для этого раздела еще не добавлено.</p>');
       setActiveSidebarHref(item.href);
-      setSearchTerm(''); // Clear search when selecting a new sidebar item
+      setSearchTerm(''); 
     }
   };
 
@@ -199,7 +199,7 @@ export default function FaqPage() {
                 <Link href="/#contacts" className="text-primary hover:underline">
                   Напишите в поддержку
                 </Link>
-                {contactPromptText.split('Напишите в поддержку')[1]}
+                {contactPromptText.split('Напишите в поддержку')[1] || ''}
               </p>
             </div>
           </div>

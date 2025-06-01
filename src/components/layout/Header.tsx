@@ -27,7 +27,7 @@ const staticDefaultNavItems: CustomNavItemType[] = [
   { id: -1, label: 'Главная', href: '/', icon_name: 'Home', item_order: 0, is_visible: true },
   { id: -2, label: 'Каталог игр', href: '/games', icon_name: 'LayoutGrid', item_order: 1, is_visible: true },
   { id: -3, label: 'Отзывы', href: '/reviews', icon_name: 'Star', item_order: 2, is_visible: true },
-  { id: -4, label: 'FAQ', href: '/faq', icon_name: 'HelpCircle', item_order: 3, is_visible: true }, // Added FAQ
+  { id: -4, label: 'FAQ', href: '/faq', icon_name: 'HelpCircle', item_order: 3, is_visible: true },
   { id: -6, label: 'Статусы', href: '/statuses', icon_name: 'BarChart3', item_order: 5, is_visible: true },
 ];
 
@@ -49,68 +49,97 @@ const Logo = ({ siteName, logoUrl }: { siteName?: string | null, logoUrl?: strin
 const Header = () => {
   const { currentUser, logout, loading: authLoading, fetchUserDetails } = useAuth();
   const router = useRouter();
-  const [navItems, setNavItems] = useState<CustomNavItemType[]>(staticDefaultNavItems);
+  const [navItems, setNavItems] = useState<CustomNavItemType[]>([]);
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { toast } = useToast();
+  const [isLoadingNav, setIsLoadingNav] = useState(true);
 
-  const fetchNavItems = useCallback(async () => {
-    console.log("[Header] Attempting to fetch nav items...");
+  const fetchHeaderData = useCallback(async () => {
+    console.log("[Header] Attempting to fetch nav items and site settings...");
+    setIsLoadingNav(true);
     try {
-      const response = await fetch('/api/site-navigation');
-      if (!response.ok) {
-        let errorMsg = 'Failed to fetch nav items';
-        try {
-          const errorData = await response.json();
-          errorMsg = errorData.message || `HTTP error ${response.status}`;
-        } catch (jsonError) {
-          errorMsg = `HTTP error ${response.status}: ${response.statusText}`;
-        }
-        console.error(`[Header] API Error: ${errorMsg}`);
-        throw new Error(errorMsg); 
-      }
-      const data: CustomNavItemType[] = await response.json();
-      console.log("[Header] Nav items fetched successfully:", data);
+      const [navResponse, settingsResponse] = await Promise.all([
+        fetch('/api/site-navigation').catch(e => { console.error("[Header] Nav fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch nav items"})} as any; }),
+        fetch('/api/site-settings-public').catch(e => { console.error("[Header] Settings fetch error:", e); return { ok: false, json: () => Promise.resolve({message: "Failed to fetch site settings"})} as any; })
+      ]);
 
-      if (data && data.length > 0) {
-        let combinedItems: CustomNavItemType[] = [...staticDefaultNavItems];
-        const apiHrefs = new Set(data.map(item => item.href));
-        const defaultHrefs = new Set(staticDefaultNavItems.map(item => item.href));
-
-        data.forEach(apiItem => {
-          if (apiItem.is_visible) {
-            if (!defaultHrefs.has(apiItem.href)) {
-              combinedItems.push(apiItem);
-            } else {
-              const defaultItemIndex = combinedItems.findIndex(item => item.href === apiItem.href);
-              if (defaultItemIndex !== -1) {
-                combinedItems[defaultItemIndex] = { ...combinedItems[defaultItemIndex], ...apiItem };
-              }
-            }
-          }
-        });
-        setNavItems(combinedItems.sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
+      if (settingsResponse.ok) {
+        const settingsData = await settingsResponse.json();
+        setSiteSettings(settingsData);
       } else {
-        console.warn("[Header] API for navigation items returned empty or invalid data. Using static defaults.");
-        setNavItems(staticDefaultNavItems.sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
+        console.warn("[Header] Failed to fetch site settings.");
+         setSiteSettings({ // Fallback settings
+            site_name: 'Green Hack',
+            site_description: null, logo_url: null, footer_text: null,
+            contact_vk_label: null, contact_vk_url: null,
+            contact_telegram_bot_label: null, contact_telegram_bot_url: null,
+            contact_email_label: null, contact_email_address: null,
+            footer_marketplace_text: null, footer_marketplace_logo_url: null,
+            footer_marketplace_link_url: null, footer_marketplace_is_visible: true,
+        });
+      }
+
+      if (navResponse.ok) {
+        const apiNavItems: CustomNavItemType[] = await navResponse.json();
+        console.log("[Header] API Nav items fetched successfully:", apiNavItems);
+
+        if (apiNavItems && apiNavItems.length > 0) {
+          // Merge API items with static defaults. API items take precedence if href matches.
+          // Only visible items from API are considered.
+          const visibleApiItems = apiNavItems.filter(item => item.is_visible);
+          const apiHrefs = new Set(visibleApiItems.map(item => item.href));
+          
+          let combinedItems = staticDefaultNavItems.map(staticItem => {
+            const apiOverride = visibleApiItems.find(apiItem => apiItem.href === staticItem.href);
+            return apiOverride ? { ...staticItem, ...apiOverride } : staticItem;
+          });
+
+          visibleApiItems.forEach(apiItem => {
+            if (!staticDefaultNavItems.some(staticItem => staticItem.href === apiItem.href)) {
+              combinedItems.push(apiItem);
+            }
+          });
+          
+          setNavItems(combinedItems.filter(item => item.is_visible).sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
+        } else {
+          console.warn("[Header] API for navigation items returned empty or invalid data. Using static defaults.");
+          setNavItems(staticDefaultNavItems.filter(item => item.is_visible).sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
+        }
+      } else {
+        console.error(`[Header] Nav API Error: ${(await navResponse.json()).message || `HTTP error ${navResponse.status}`}`);
+        toast({
+          title: "Ошибка загрузки навигации",
+          description: "Не удалось загрузить пункты меню. Используются стандартные.",
+          variant: "destructive",
+          duration: 7000,
+        });
+        setNavItems(staticDefaultNavItems.filter(item => item.is_visible).sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
       }
     } catch (error: any) {
-      console.error("[Header] Error in fetchNavItems catch block:", error.message);
+      console.error("[Header] Error in fetchHeaderData catch block:", error.message);
       toast({
-        title: "Ошибка загрузки навигации",
-        description: "Не удалось загрузить пункты меню. Используются стандартные.",
+        title: "Ошибка загрузки данных шапки",
+        description: "Не удалось загрузить полную конфигурацию. Используются стандартные значения.",
         variant: "destructive",
         duration: 7000,
       });
-      setNavItems(staticDefaultNavItems.sort((a, b) => (a.item_order || 0) - (b.item_order || 0))); // Fallback
+      setNavItems(staticDefaultNavItems.filter(item => item.is_visible).sort((a, b) => (a.item_order || 0) - (b.item_order || 0)));
+      setSiteSettings({ /* fallback site settings */
+            site_name: 'Green Hack', site_description: null, logo_url: null, footer_text: null,
+            contact_vk_label: null, contact_vk_url: null, contact_telegram_bot_label: null, contact_telegram_bot_url: null,
+            contact_email_label: null, contact_email_address: null, footer_marketplace_text: null, footer_marketplace_logo_url: null,
+            footer_marketplace_link_url: null, footer_marketplace_is_visible: true,
+        });
+    } finally {
+      setIsLoadingNav(false);
     }
   }, [toast]);
 
-
   useEffect(() => {
-    fetchNavItems();
-  }, [fetchNavItems]);
+    fetchHeaderData();
+  }, [fetchHeaderData]);
 
   const handleLogout = () => {
     logout();
@@ -218,7 +247,11 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item) => {
+            {isLoadingNav ? (
+              Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="h-7 w-20 bg-muted/50 rounded-md animate-pulse"></div>
+              ))
+            ) : navItems.map((item) => {
               const IconComponent = item.icon_name ? iconMap[item.icon_name] : null;
               return (
                 <Button key={item.id || item.label} asChild variant="ghost" className="text-icon-color hover:text-primary hover:bg-primary/10 px-2.5 py-1.5 h-auto">
