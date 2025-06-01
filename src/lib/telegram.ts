@@ -78,7 +78,6 @@ export async function sendTelegramMessage(
   }
 
   console.log(`[TelegramLib] Preparing to send. Token (partial): '${botToken.substring(0,10)}...', Final chat_id type: ${typeof bodyPayload.chat_id}, value: '${bodyPayload.chat_id}', message: "${message.substring(0,50)}..."`);
-  // Log the exact payload being sent, excluding token for security in logs
   console.log(`[TelegramLib] EXACT PAYLOAD TO TELEGRAM (token excluded):`, JSON.stringify({ ...bodyPayload, bot_token_info: `Token ending with ...${botToken.slice(-6)}` }, null, 2));
 
 
@@ -97,7 +96,7 @@ export async function sendTelegramMessage(
       console.error('[TelegramLib] Telegram API Error response data:', data);
       let detailedMessage = `Telegram API Error: ${data.description || 'Unknown error from Telegram API'}`;
       if (data.description && data.description.toLowerCase().includes("chat not found")) {
-        detailedMessage = `Telegram API Error: ${data.description} (Hint: Chat ID '${chatId}' not found or bot lacks access. If it's a user ID, the user must have started the bot. If it's a group/channel ID, the bot must be a member/admin and the ID should typically be negative for groups.)`;
+        detailedMessage = `Telegram API Error for Chat ID '${chatId}': ${data.description} (Hint: Ensure bot has access to this specific Chat ID. If it's a user ID, the user must have started the bot. If it's a group/channel ID, the bot must be a member/admin and the ID should typically be negative for groups/supergroups.)`;
       }
       return { success: false, message: detailedMessage, error: data };
     }
@@ -314,3 +313,4 @@ export async function sendKeyActivationRequestToAdmin(
 }
 
 export { getTelegramSettingsFromDb };
+
