@@ -325,7 +325,7 @@ async function PUT(request, { params: routeParams }) {
     let body;
     try {
         body = await request.json();
-        const { name, slug: newSlugRaw, game_slug: gameSlugRaw, status, status_text, short_description, long_description, image_url, data_ai_hint, mode, gallery_image_urls, functions_aim_title, functions_aim, functions_aim_description, functions_esp_title, functions_wallhack, functions_esp_description, functions_misc_title, functions_misc, functions_misc_description, system_os, system_build, system_gpu, system_cpu, price_text, retrieval_modal_intro_text, retrieval_modal_antivirus_text, retrieval_modal_antivirus_link_text, retrieval_modal_antivirus_link_url, retrieval_modal_launcher_text, retrieval_modal_launcher_link_text, retrieval_modal_launcher_link_url, retrieval_modal_key_paste_text, retrieval_modal_support_text, retrieval_modal_support_link_text, retrieval_modal_support_link_url, retrieval_modal_how_to_run_link, pricing_options } = body;
+        const { name, slug: newSlugRaw, game_slug: gameSlugRaw, status, status_text, short_description, long_description, image_url, data_ai_hint, mode, gallery_image_urls, functions_aim_title, functions_aim, functions_aim_description, functions_esp_title, functions_wallhack, functions_esp_description, functions_misc_title, functions_misc, functions_misc_description, system_os, system_build, system_gpu, system_cpu, price_text, retrieval_modal_intro_text, retrieval_modal_antivirus_text, retrieval_modal_antivirus_link_text, retrieval_modal_antivirus_link_url, retrieval_modal_launcher_text, retrieval_modal_launcher_link_text, retrieval_modal_launcher_link_url, retrieval_modal_key_paste_text, retrieval_modal_support_text, retrieval_modal_support_link_text, retrieval_modal_support_link_url, retrieval_modal_how_to_run_link, activation_type, loader_download_url, info_modal_content_html, info_modal_support_link_text, info_modal_support_link_url, pricing_options } = body;
         const existingProduct = await getProductBySlugForUpdate(productSlug);
         if (!existingProduct) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -361,7 +361,7 @@ async function PUT(request, { params: routeParams }) {
         };
         addFieldToUpdate('name', name);
         addFieldToUpdate('slug', effectiveSlug);
-        addFieldToUpdate('game_slug', gameSlug); // Trimmed game_slug
+        addFieldToUpdate('game_slug', gameSlug);
         addFieldToUpdate('status', status);
         addFieldToUpdate('image_url', image_url);
         addFieldToUpdate('status_text', status_text);
@@ -396,6 +396,11 @@ async function PUT(request, { params: routeParams }) {
         addFieldToUpdate('retrieval_modal_support_link_text', retrieval_modal_support_link_text);
         addFieldToUpdate('retrieval_modal_support_link_url', retrieval_modal_support_link_url);
         addFieldToUpdate('retrieval_modal_how_to_run_link', retrieval_modal_how_to_run_link);
+        addFieldToUpdate('activation_type', activation_type);
+        addFieldToUpdate('loader_download_url', loader_download_url);
+        addFieldToUpdate('info_modal_content_html', info_modal_content_html);
+        addFieldToUpdate('info_modal_support_link_text', info_modal_support_link_text);
+        addFieldToUpdate('info_modal_support_link_url', info_modal_support_link_url);
         if (Object.keys(productFields).length === 0 && (!pricing_options || pricing_options.length === (existingProduct.pricing_options || []).length)) {
             // More sophisticated check might be needed if pricing_options content changes without length change
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({

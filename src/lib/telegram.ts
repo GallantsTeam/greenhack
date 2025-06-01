@@ -13,7 +13,7 @@ async function getTelegramSettings(): Promise<{
   try {
     const [tgSettingsResults, adminPrefsResults] = await Promise.all([
       query('SELECT * FROM site_telegram_settings WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]),
-      query('SELECT * FROM admin_telegram_notification_prefs WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID])
+      query('SELECT * FROM admin_telegram_notification_prefs WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]) // Changed table name
     ]);
 
     const telegramSettings: SiteTelegramSettings | null =
@@ -27,10 +27,11 @@ async function getTelegramSettings(): Promise<{
         notify_admin_on_product_purchase: Boolean(adminPrefsDb.notify_admin_on_product_purchase),
         notify_admin_on_promo_code_creation: Boolean(adminPrefsDb.notify_admin_on_promo_code_creation),
         notify_admin_on_admin_login: Boolean(adminPrefsDb.notify_admin_on_admin_login),
+        notify_admin_on_key_activation_request: adminPrefsDb.notify_admin_on_key_activation_request === undefined ? true : Boolean(adminPrefsDb.notify_admin_on_key_activation_request),
         updated_at: adminPrefsDb.updated_at,
     } : null;
     
-    console.log("[TelegramLib] Fetched Telegram Settings:", telegramSettings ? { ...telegramSettings, client_bot_token: '***', admin_bot_token: '***'} : null);
+    console.log("[TelegramLib] Fetched Telegram Settings:", telegramSettings ? { ...telegramSettings, client_bot_token: '***', admin_bot_token: '***', key_bot_token: '***'} : null);
     console.log("[TelegramLib] Fetched Admin Notification Prefs:", notificationPrefs);
     return { telegramSettings, notificationPrefs };
   } catch (error) {
@@ -44,7 +45,8 @@ export async function sendTelegramMessage(
   botToken: string,
   chatId: string,
   message: string,
-  parseMode: 'MarkdownV2' | 'HTML' = 'MarkdownV2'
+  parseMode: 'MarkdownV2' | 'HTML' = 'MarkdownV2',
+  replyMarkup?: object // For inline keyboards
 ): Promise<{ success: boolean; message?: string; error?: any }> {
   if (!botToken || !chatId || !message) {
     const errorMsg = "[TelegramLib] Send Error: Missing botToken, chatId, or message for Telegram.";
@@ -55,15 +57,20 @@ export async function sendTelegramMessage(
   const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
   console.log(`[TelegramLib] Attempting to send message to ${chatId} via URL: ${telegramApiUrl.replace(botToken, '***TOKEN***')}`);
   
+  const bodyPayload: any = {
+    chat_id: chatId,
+    text: message,
+    parse_mode: parseMode,
+  };
+  if (replyMarkup) {
+    bodyPayload.reply_markup = replyMarkup;
+  }
+
   try {
     const response = await fetch(telegramApiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        parse_mode: parseMode,
-      }),
+      body: JSON.stringify(bodyPayload),
     });
     const data = await response.json();
     console.log(`[TelegramLib] Response from Telegram API for chat_id ${chatId}:`, data);
@@ -155,7 +162,7 @@ export async function notifyAdminOnProductPurchase(userId: number, username: str
 
 export async function notifyAdminOnPromoCodeCreation(
   adminUsername: string | null, 
-  promoCode: { code: string; type: string; value_gh?: number | null; product_name?: string; duration_days?: number | null; max_uses: number; expires_at?: string | null }
+  promoCode: { code: string; type: string; value_gh?: number | null; product_name?: string; duration_days?: number | null; mode_label?: string | null; max_uses: number; expires_at?: string | null }
 ) {
   console.log(`[TelegramLib] notifyAdminOnPromoCodeCreation called for code: ${promoCode.code}, created by: ${adminUsername || 'System'}`);
   const { telegramSettings, notificationPrefs } = await getTelegramSettings();
@@ -169,7 +176,8 @@ export async function notifyAdminOnPromoCodeCreation(
     rewardText = `Баланс: \`${escapeTelegramMarkdownV2(promoCode.value_gh.toFixed(2))}\` GH`;
   } else if (promoCode.type === 'product' && promoCode.product_name) {
     const duration = promoCode.duration_days ? ` (${escapeTelegramMarkdownV2(promoCode.duration_days)} дн\\.)` : '';
-    rewardText = `Товар: \`${escapeTelegramMarkdownV2(promoCode.product_name)}\`${duration}`;
+    const mode = promoCode.mode_label ? ` [${escapeTelegramMarkdownV2(promoCode.mode_label)}]` : '';
+    rewardText = `Товар: \`${escapeTelegramMarkdownV2(promoCode.product_name)}\`${duration}${mode}`;
   }
 
   const message = `🎁 *Создан новый промокод*
@@ -230,26 +238,27 @@ export async function sendKeyActivationRequestToAdmin(
   console.log(`[TelegramLib] sendKeyActivationRequestToAdmin called for item ID: ${item.id}, user: ${user.username}`);
   const { telegramSettings, notificationPrefs } = await getTelegramSettings();
   
-  const keyBotToken = telegramSettings?.key_bot_token || process.env.TELEGRAM_KEY_BOT_TOKEN;
-  const adminChatIdsString = telegramSettings?.key_bot_admin_chat_ids || process.env.TELEGRAM_KEY_BOT_ADMIN_CHAT_IDS;
+  const keyBotToken = telegramSettings?.key_bot_token; // Removed fallback to process.env
+  const adminChatIdsString = telegramSettings?.key_bot_admin_chat_ids; // Removed fallback to process.env
 
   if (!keyBotToken) {
-    const errorMsg = "[TelegramLib] Key Bot token not configured.";
+    const errorMsg = "[TelegramLib] Key Bot token not configured in site_telegram_settings.";
     console.error(errorMsg);
     return { success: false, message: errorMsg };
   }
   if (!adminChatIdsString) {
-    const errorMsg = "[TelegramLib] Key Bot admin chat IDs not configured.";
+    const errorMsg = "[TelegramLib] Key Bot admin chat IDs not configured in site_telegram_settings.";
     console.error(errorMsg);
     return { success: false, message: errorMsg };
   }
-  // Check for this specific notification type, though it's not in AdminTelegramNotificationPrefs yet
-  // For now, let's assume if key_bot is configured, we send.
-  // if (!notificationPrefs?.notify_admin_on_key_activation_request) {
-  //   console.log("[TelegramLib] sendKeyActivationRequestToAdmin check failed: Notification type is disabled.");
-  //   return { success: true, message: "Key activation request notification type disabled."};
-  // }
-
+  
+  // Check if this specific notification type is enabled
+  if (!notificationPrefs?.notify_admin_on_key_activation_request) {
+    const logMsg = "[TelegramLib] sendKeyActivationRequestToAdmin check failed: Notification type 'notify_admin_on_key_activation_request' is disabled in admin_telegram_notification_prefs.";
+    console.log(logMsg);
+    // Return success because the system is configured not to send, not an error.
+    return { success: true, message: "Key activation request notification type disabled in settings."}; 
+  }
 
   const productName = item.product_name || 'Неизвестный товар';
   const duration = item.duration_days ? ` (${item.duration_days} дн.)` : '';
@@ -276,25 +285,14 @@ export async function sendKeyActivationRequestToAdmin(
   for (const chatId of chatIds) {
     try {
       console.log(`[TelegramLib] Attempting to send key activation request to admin chat ID: ${chatId} using Key Bot`);
-      const telegramApiUrl = `https://api.telegram.org/bot${keyBotToken}/sendMessage`;
-      const response = await fetch(telegramApiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-          parse_mode: 'MarkdownV2',
-          reply_markup: { inline_keyboard },
-        }),
-      });
-      const data = await response.json();
-      console.log(`[TelegramLib] Response from Telegram API for key activation request to chat_id ${chatId}:`, data);
-      if (!data.ok) {
+      const result = await sendTelegramMessage(keyBotToken, chatId, message, 'MarkdownV2', { inline_keyboard });
+      
+      if (!result.success) {
         allSentSuccessfully = false;
         if (!firstErrorResult) {
-          firstErrorResult = { success: false, message: `Telegram API Error: ${data.description}`, error: data };
+          firstErrorResult = result;
         }
-        console.error(`[TelegramLib] Failed to send key activation request to ${chatId}:`, data.description);
+        console.error(`[TelegramLib] Failed to send key activation request to ${chatId}:`, result.message, result.error);
       } else {
          console.log(`[TelegramLib] Key activation request sent successfully to ${chatId}.`);
       }
@@ -308,5 +306,3 @@ export async function sendKeyActivationRequestToAdmin(
   }
   return allSentSuccessfully ? { success: true, message: "Уведомление администратору отправлено."} : (firstErrorResult || { success: false, message: "Неизвестная ошибка при отправке уведомлений администратору."});
 }
-    
-    

@@ -464,6 +464,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$plus$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__PlusCircle$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/circle-plus.js [app-ssr] (ecmascript) <export default as PlusCircle>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$square$2d$pen$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__EditIcon$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/square-pen.js [app-ssr] (ecmascript) <export default as EditIcon>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/x.js [app-ssr] (ecmascript) <export default as X>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$key$2d$round$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__KeyRound$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/key-round.js [app-ssr] (ecmascript) <export default as KeyRound>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/download.js [app-ssr] (ecmascript) <export default as Download>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-square.js [app-ssr] (ecmascript) <export default as MessageSquare>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/badge.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/tabs.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$separator$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/separator.tsx [app-ssr] (ecmascript)");
@@ -546,7 +549,54 @@ const productEditSchema = (0, __TURBOPACK__imported__module__$5b$project$5d2f$no
     system_build: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
     system_gpu: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
     system_cpu: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
+    retrieval_modal_intro_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
+    retrieval_modal_antivirus_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
+    retrieval_modal_antivirus_link_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().max(255).optional().nullable(),
+    retrieval_modal_antivirus_link_url: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().url({
+        message: "Неверный URL"
+    }).optional().or((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["literal"])('')).nullable(),
+    retrieval_modal_launcher_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
+    retrieval_modal_launcher_link_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().max(255).optional().nullable(),
+    retrieval_modal_launcher_link_url: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().url({
+        message: "Неверный URL"
+    }).optional().or((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["literal"])('')).nullable(),
+    retrieval_modal_key_paste_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
+    retrieval_modal_support_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
+    retrieval_modal_support_link_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().max(255).optional().nullable(),
+    retrieval_modal_support_link_url: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().url({
+        message: "Неверный URL"
+    }).optional().or((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["literal"])('')).nullable(),
+    retrieval_modal_how_to_run_link: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().url({
+        message: "Неверный URL"
+    }).optional().or((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["literal"])('')).nullable(),
+    // New fields for activation type
+    activation_type: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["enum"])([
+        'key_request',
+        'info_modal',
+        'direct_key'
+    ]).default('info_modal'),
+    loader_download_url: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().url({
+        message: "Неверный URL для лоадера"
+    }).optional().or((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["literal"])('')).nullable(),
+    info_modal_content_html: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().optional().nullable(),
+    info_modal_support_link_text: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().max(255).optional().nullable(),
+    info_modal_support_link_url: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["string"])().url({
+        message: "Неверный URL для ссылки поддержки в инфо-модале"
+    }).optional().or((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["literal"])('')).nullable(),
     pricing_options: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["array"])(pricingOptionSchema).optional().default([])
+}).refine((data)=>{
+    if (data.activation_type === 'key_request' && (!data.loader_download_url || data.loader_download_url.trim() === '')) {
+        return false;
+    }
+    if (data.activation_type === 'info_modal' && (!data.info_modal_content_html || data.info_modal_content_html.trim() === '')) {
+        return false;
+    }
+    return true;
+}, {
+    message: "Для типа 'Запрос ключа' нужен URL лоадера. Для 'Инфо-окно' нужен HTML контент.",
+    path: [
+        "activation_type"
+    ]
 });
 const NULL_VALUE_STRING = "__NULL_VALUE__";
 function EditProductPage() {
@@ -579,13 +629,15 @@ function EditProductPage() {
             functions_esp_description: '',
             functions_misc_title: 'Прочие Функции (Misc)',
             functions_misc_description: '',
-            mode: null
+            mode: null,
+            activation_type: 'info_modal'
         }
     });
     const { fields: pricingFields, append: appendPricingOption, remove: removePricingOption, replace: replacePricingOptions } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useFieldArray"])({
         control: form.control,
         name: "pricing_options"
     });
+    const watchedActivationType = form.watch("activation_type");
     const fetchCategories = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async ()=>{
         setIsCategoriesLoading(true);
         try {
@@ -609,7 +661,7 @@ function EditProductPage() {
     const fetchProductData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (slug)=>{
         setIsProductLoading(true);
         try {
-            const response = await fetch(`/api/products/${slug}`);
+            const response = await fetch(`/api/admin/products/${slug}`);
             if (!response.ok) {
                 const errorData = await response.json().catch(()=>({
                         message: 'Failed to fetch product'
@@ -652,6 +704,23 @@ function EditProductPage() {
                 system_build: data.system_build || '',
                 system_gpu: data.system_gpu || '',
                 system_cpu: data.system_cpu || '',
+                retrieval_modal_intro_text: data.retrieval_modal_intro_text || '',
+                retrieval_modal_antivirus_text: data.retrieval_modal_antivirus_text || '',
+                retrieval_modal_antivirus_link_text: data.retrieval_modal_antivirus_link_text || '',
+                retrieval_modal_antivirus_link_url: data.retrieval_modal_antivirus_link_url || '',
+                retrieval_modal_launcher_text: data.retrieval_modal_launcher_text || '',
+                retrieval_modal_launcher_link_text: data.retrieval_modal_launcher_link_text || '',
+                retrieval_modal_launcher_link_url: data.retrieval_modal_launcher_link_url || '',
+                retrieval_modal_key_paste_text: data.retrieval_modal_key_paste_text || '',
+                retrieval_modal_support_text: data.retrieval_modal_support_text || '',
+                retrieval_modal_support_link_text: data.retrieval_modal_support_link_text || '',
+                retrieval_modal_support_link_url: data.retrieval_modal_support_link_url || '',
+                retrieval_modal_how_to_run_link: data.retrieval_modal_how_to_run_link || '',
+                activation_type: data.activation_type || 'info_modal',
+                loader_download_url: data.loader_download_url || '',
+                info_modal_content_html: data.info_modal_content_html || '',
+                info_modal_support_link_text: data.info_modal_support_link_text || 'Поддержка',
+                info_modal_support_link_url: data.info_modal_support_link_url || '',
                 pricing_options: data.pricing_options?.map((opt)=>({
                         ...opt,
                         is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : opt.is_rub_payment_visible,
@@ -765,7 +834,7 @@ function EditProductPage() {
                             children: "Заголовок секции"
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                            lineNumber: 268,
+                            lineNumber: 323,
                             columnNumber: 9
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -776,13 +845,13 @@ function EditProductPage() {
                             disabled: isLoading
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                            lineNumber: 269,
+                            lineNumber: 324,
                             columnNumber: 9
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                    lineNumber: 267,
+                    lineNumber: 322,
                     columnNumber: 7
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -793,7 +862,7 @@ function EditProductPage() {
                             children: "Описание секции"
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                            lineNumber: 282,
+                            lineNumber: 337,
                             columnNumber: 9
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -804,13 +873,13 @@ function EditProductPage() {
                             disabled: isLoading
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                            lineNumber: 283,
+                            lineNumber: 338,
                             columnNumber: 9
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                    lineNumber: 281,
+                    lineNumber: 336,
                     columnNumber: 8
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -821,7 +890,7 @@ function EditProductPage() {
                             children: "Добавить функцию"
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                            lineNumber: 292,
+                            lineNumber: 347,
                             columnNumber: 9
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -841,7 +910,7 @@ function EditProductPage() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                    lineNumber: 294,
+                                    lineNumber: 349,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -854,19 +923,19 @@ function EditProductPage() {
                                     children: "Добавить"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                    lineNumber: 302,
+                                    lineNumber: 357,
                                     columnNumber: 11
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                            lineNumber: 293,
+                            lineNumber: 348,
                             columnNumber: 9
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                    lineNumber: 291,
+                    lineNumber: 346,
                     columnNumber: 7
                 }, this),
                 functions.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -887,29 +956,29 @@ function EditProductPage() {
                                         className: "h-3 w-3"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                        lineNumber: 320,
+                                        lineNumber: 375,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                    lineNumber: 312,
+                                    lineNumber: 367,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, `${type}-${index}-${func}`, true, {
                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                            lineNumber: 310,
+                            lineNumber: 365,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                    lineNumber: 308,
+                    lineNumber: 363,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-            lineNumber: 266,
+            lineNumber: 321,
             columnNumber: 5
         }, this);
     const onSubmit = async (formData)=>{
@@ -963,7 +1032,7 @@ function EditProductPage() {
                     className: "h-12 w-12 animate-spin text-primary"
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                    lineNumber: 376,
+                    lineNumber: 431,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -971,13 +1040,13 @@ function EditProductPage() {
                     children: "Загрузка данных товара..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                    lineNumber: 377,
+                    lineNumber: 432,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-            lineNumber: 375,
+            lineNumber: 430,
             columnNumber: 7
         }, this);
     }
@@ -989,12 +1058,12 @@ function EditProductPage() {
                 children: "Не удалось загрузить товар для редактирования."
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                lineNumber: 385,
+                lineNumber: 440,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-            lineNumber: 384,
+            lineNumber: 439,
             columnNumber: 7
         }, this);
     }
@@ -1011,7 +1080,7 @@ function EditProductPage() {
                                 className: "mr-2 h-6 w-6"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                lineNumber: 394,
+                                lineNumber: 449,
                                 columnNumber: 11
                             }, this),
                             "Редактировать товар: ",
@@ -1019,7 +1088,7 @@ function EditProductPage() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                        lineNumber: 393,
+                        lineNumber: 448,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1031,20 +1100,20 @@ function EditProductPage() {
                                 className: "mr-2 h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                lineNumber: 398,
+                                lineNumber: 453,
                                 columnNumber: 11
                             }, this),
                             "К списку товаров"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                        lineNumber: 397,
+                        lineNumber: 452,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                lineNumber: 392,
+                lineNumber: 447,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1059,8 +1128,9 @@ function EditProductPage() {
                                 className: "w-full",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsList"], {
-                                        className: "grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 mb-6",
+                                        className: "grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-7 mb-6",
                                         children: [
+                                            " ",
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
                                                 value: "general",
                                                 children: [
@@ -1068,14 +1138,14 @@ function EditProductPage() {
                                                         className: "mr-1.5 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 408,
+                                                        lineNumber: 463,
                                                         columnNumber: 46
                                                     }, this),
                                                     "Общие"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 408,
+                                                lineNumber: 463,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1085,14 +1155,14 @@ function EditProductPage() {
                                                         className: "mr-1.5 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 409,
+                                                        lineNumber: 464,
                                                         columnNumber: 46
                                                     }, this),
                                                     "Галерея"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 409,
+                                                lineNumber: 464,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1102,14 +1172,14 @@ function EditProductPage() {
                                                         className: "mr-1.5 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 410,
+                                                        lineNumber: 465,
                                                         columnNumber: 50
                                                     }, this),
                                                     "Описание"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 410,
+                                                lineNumber: 465,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1119,14 +1189,14 @@ function EditProductPage() {
                                                         className: "mr-1.5 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 411,
+                                                        lineNumber: 466,
                                                         columnNumber: 47
                                                     }, this),
                                                     "Функции"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 411,
+                                                lineNumber: 466,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1136,16 +1206,34 @@ function EditProductPage() {
                                                         className: "mr-1.5 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 412,
+                                                        lineNumber: 467,
                                                         columnNumber: 41
                                                     }, this),
                                                     "ОС"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 412,
+                                                lineNumber: 467,
                                                 columnNumber: 17
                                             }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
+                                                value: "activation",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$key$2d$round$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__KeyRound$3e$__["KeyRound"], {
+                                                        className: "mr-1.5 h-4 w-4"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 468,
+                                                        columnNumber: 49
+                                                    }, this),
+                                                    "Активация"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                lineNumber: 468,
+                                                columnNumber: 17
+                                            }, this),
+                                            " ",
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
                                                 value: "pricing",
                                                 children: [
@@ -1153,20 +1241,20 @@ function EditProductPage() {
                                                         className: "mr-1.5 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 413,
+                                                        lineNumber: 469,
                                                         columnNumber: 46
                                                     }, this),
                                                     "Стоимость"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 413,
+                                                lineNumber: 469,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                        lineNumber: 407,
+                                        lineNumber: 462,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1182,19 +1270,19 @@ function EditProductPage() {
                                                             className: "mr-2 h-5 w-5 text-primary"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 419,
+                                                            lineNumber: 475,
                                                             columnNumber: 22
                                                         }, this),
                                                         " Основная информация"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                    lineNumber: 418,
+                                                    lineNumber: 474,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 417,
+                                                lineNumber: 473,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1205,7 +1293,7 @@ function EditProductPage() {
                                                         children: "Название товара"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 423,
+                                                        lineNumber: 479,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1216,7 +1304,7 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 424,
+                                                        lineNumber: 480,
                                                         columnNumber: 19
                                                     }, this),
                                                     form.formState.errors.name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1224,13 +1312,13 @@ function EditProductPage() {
                                                         children: form.formState.errors.name.message
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 425,
+                                                        lineNumber: 481,
                                                         columnNumber: 50
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 422,
+                                                lineNumber: 478,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1241,7 +1329,7 @@ function EditProductPage() {
                                                         children: "Slug (URL)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 428,
+                                                        lineNumber: 484,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1252,7 +1340,7 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 429,
+                                                        lineNumber: 485,
                                                         columnNumber: 19
                                                     }, this),
                                                     form.formState.errors.slug && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1260,13 +1348,13 @@ function EditProductPage() {
                                                         children: form.formState.errors.slug.message
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 430,
+                                                        lineNumber: 486,
                                                         columnNumber: 50
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 427,
+                                                lineNumber: 483,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1277,7 +1365,7 @@ function EditProductPage() {
                                                         children: "Категория (Игра)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 433,
+                                                        lineNumber: 489,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Controller"], {
@@ -1294,12 +1382,12 @@ function EditProductPage() {
                                                                             placeholder: isCategoriesLoading ? "Загрузка категорий..." : "Выберите игру"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 440,
+                                                                            lineNumber: 496,
                                                                             columnNumber: 27
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                        lineNumber: 439,
+                                                                        lineNumber: 495,
                                                                         columnNumber: 25
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1308,23 +1396,23 @@ function EditProductPage() {
                                                                                 children: cat.name
                                                                             }, cat.id, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 444,
+                                                                                lineNumber: 500,
                                                                                 columnNumber: 29
                                                                             }, void 0))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                        lineNumber: 442,
+                                                                        lineNumber: 498,
                                                                         columnNumber: 25
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 438,
+                                                                lineNumber: 494,
                                                                 columnNumber: 23
                                                             }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 434,
+                                                        lineNumber: 490,
                                                         columnNumber: 19
                                                     }, this),
                                                     form.formState.errors.game_slug && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1332,13 +1420,13 @@ function EditProductPage() {
                                                         children: form.formState.errors.game_slug.message
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 450,
+                                                        lineNumber: 506,
                                                         columnNumber: 55
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 432,
+                                                lineNumber: 488,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1349,7 +1437,7 @@ function EditProductPage() {
                                                         children: "Статус"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 453,
+                                                        lineNumber: 509,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Controller"], {
@@ -1366,12 +1454,12 @@ function EditProductPage() {
                                                                             placeholder: "Выберите статус"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 460,
+                                                                            lineNumber: 516,
                                                                             columnNumber: 27
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                        lineNumber: 459,
+                                                                        lineNumber: 515,
                                                                         columnNumber: 25
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1381,15 +1469,15 @@ function EditProductPage() {
                                                                                 children: "Безопасен (safe)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 463,
+                                                                                lineNumber: 519,
                                                                                 columnNumber: 27
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                                 value: "updating",
-                                                                                children: "Обновляется (updating)"
+                                                                                children: "На обновлении (updating)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 464,
+                                                                                lineNumber: 520,
                                                                                 columnNumber: 27
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1397,7 +1485,7 @@ function EditProductPage() {
                                                                                 children: "Рискованно (risky)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 465,
+                                                                                lineNumber: 521,
                                                                                 columnNumber: 27
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1405,24 +1493,24 @@ function EditProductPage() {
                                                                                 children: "Неизвестно (unknown)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 466,
+                                                                                lineNumber: 522,
                                                                                 columnNumber: 27
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                        lineNumber: 462,
+                                                                        lineNumber: 518,
                                                                         columnNumber: 25
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 458,
+                                                                lineNumber: 514,
                                                                 columnNumber: 23
                                                             }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 454,
+                                                        lineNumber: 510,
                                                         columnNumber: 19
                                                     }, this),
                                                     form.formState.errors.status && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1430,13 +1518,13 @@ function EditProductPage() {
                                                         children: form.formState.errors.status.message
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 471,
+                                                        lineNumber: 527,
                                                         columnNumber: 52
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 452,
+                                                lineNumber: 508,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1447,7 +1535,7 @@ function EditProductPage() {
                                                         children: "Текст статуса (опционально)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 474,
+                                                        lineNumber: 530,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1458,13 +1546,13 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 475,
+                                                        lineNumber: 531,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 473,
+                                                lineNumber: 529,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1475,7 +1563,7 @@ function EditProductPage() {
                                                         children: 'Текст цены (напр. "от 100₽")'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 478,
+                                                        lineNumber: 534,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1486,7 +1574,7 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 479,
+                                                        lineNumber: 535,
                                                         columnNumber: 19
                                                     }, this),
                                                     form.formState.errors.price_text && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1494,19 +1582,19 @@ function EditProductPage() {
                                                         children: form.formState.errors.price_text.message
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 480,
+                                                        lineNumber: 536,
                                                         columnNumber: 56
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 477,
+                                                lineNumber: 533,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                        lineNumber: 416,
+                                        lineNumber: 472,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1522,19 +1610,19 @@ function EditProductPage() {
                                                             className: "mr-2 h-5 w-5 text-primary"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 486,
+                                                            lineNumber: 542,
                                                             columnNumber: 22
                                                         }, this),
                                                         " Медиафайлы"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                    lineNumber: 485,
+                                                    lineNumber: 541,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 484,
+                                                lineNumber: 540,
                                                 columnNumber: 18
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1545,7 +1633,7 @@ function EditProductPage() {
                                                         children: "URL основного изображения"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 490,
+                                                        lineNumber: 546,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1556,7 +1644,7 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 491,
+                                                        lineNumber: 547,
                                                         columnNumber: 19
                                                     }, this),
                                                     form.formState.errors.image_url && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1564,13 +1652,13 @@ function EditProductPage() {
                                                         children: form.formState.errors.image_url.message
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 492,
+                                                        lineNumber: 548,
                                                         columnNumber: 55
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 489,
+                                                lineNumber: 545,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1581,7 +1669,7 @@ function EditProductPage() {
                                                         children: "Подсказка для AI (для фото)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 495,
+                                                        lineNumber: 551,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1592,13 +1680,13 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 496,
+                                                        lineNumber: 552,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 494,
+                                                lineNumber: 550,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1609,7 +1697,7 @@ function EditProductPage() {
                                                         children: "URL изображений галереи (через запятую)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 499,
+                                                        lineNumber: 555,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1620,19 +1708,19 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 500,
+                                                        lineNumber: 556,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 498,
+                                                lineNumber: 554,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                        lineNumber: 483,
+                                        lineNumber: 539,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1649,14 +1737,14 @@ function EditProductPage() {
                                                                 className: "mr-2 h-5 w-5 text-primary"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 506,
+                                                                lineNumber: 562,
                                                                 columnNumber: 22
                                                             }, this),
                                                             " Описание"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 505,
+                                                        lineNumber: 561,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -1664,13 +1752,13 @@ function EditProductPage() {
                                                         children: "Эти поля являются общими для товара. PVE/PVP специфичные детали можно указать в описании ниже или создать отдельные товары."
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 508,
+                                                        lineNumber: 564,
                                                         columnNumber: 20
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 504,
+                                                lineNumber: 560,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1681,7 +1769,7 @@ function EditProductPage() {
                                                         children: "Краткое описание"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 513,
+                                                        lineNumber: 569,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1692,7 +1780,7 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 514,
+                                                        lineNumber: 570,
                                                         columnNumber: 19
                                                     }, this),
                                                     form.formState.errors.short_description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1700,13 +1788,13 @@ function EditProductPage() {
                                                         children: form.formState.errors.short_description.message
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 515,
+                                                        lineNumber: 571,
                                                         columnNumber: 63
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 512,
+                                                lineNumber: 568,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1717,7 +1805,7 @@ function EditProductPage() {
                                                         children: "Полное описание (Поддержка HTML)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 518,
+                                                        lineNumber: 574,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1728,19 +1816,19 @@ function EditProductPage() {
                                                         disabled: isLoading
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 519,
+                                                        lineNumber: 575,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 517,
+                                                lineNumber: 573,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                        lineNumber: 503,
+                                        lineNumber: 559,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1757,14 +1845,14 @@ function EditProductPage() {
                                                                 className: "mr-2 h-5 w-5 text-primary"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 525,
+                                                                lineNumber: 581,
                                                                 columnNumber: 22
                                                             }, this),
                                                             " Функционал (Общий)"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 524,
+                                                        lineNumber: 580,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -1772,13 +1860,13 @@ function EditProductPage() {
                                                         children: "Укажите общие функции товара."
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 527,
+                                                        lineNumber: 583,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 523,
+                                                lineNumber: 579,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1789,7 +1877,7 @@ function EditProductPage() {
                                                         children: "Основной режим товара (для фильтрации)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 532,
+                                                        lineNumber: 588,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Controller"], {
@@ -1806,12 +1894,12 @@ function EditProductPage() {
                                                                             placeholder: "Выберите режим"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 543,
+                                                                            lineNumber: 599,
                                                                             columnNumber: 27
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                        lineNumber: 542,
+                                                                        lineNumber: 598,
                                                                         columnNumber: 25
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1821,7 +1909,7 @@ function EditProductPage() {
                                                                                 children: "Не указан"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 546,
+                                                                                lineNumber: 602,
                                                                                 columnNumber: 28
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1829,7 +1917,7 @@ function EditProductPage() {
                                                                                 children: "PVE"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 547,
+                                                                                lineNumber: 603,
                                                                                 columnNumber: 27
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1837,7 +1925,7 @@ function EditProductPage() {
                                                                                 children: "PVP"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 548,
+                                                                                lineNumber: 604,
                                                                                 columnNumber: 27
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1845,24 +1933,24 @@ function EditProductPage() {
                                                                                 children: "BOTH (Оба)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                lineNumber: 549,
+                                                                                lineNumber: 605,
                                                                                 columnNumber: 27
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                        lineNumber: 545,
+                                                                        lineNumber: 601,
                                                                         columnNumber: 25
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 537,
+                                                                lineNumber: 593,
                                                                 columnNumber: 23
                                                             }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 533,
+                                                        lineNumber: 589,
                                                         columnNumber: 19
                                                     }, this),
                                                     form.formState.errors.mode && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1870,13 +1958,13 @@ function EditProductPage() {
                                                         children: form.formState.errors.mode.message
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 554,
+                                                        lineNumber: 610,
                                                         columnNumber: 50
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 531,
+                                                lineNumber: 587,
                                                 columnNumber: 17
                                             }, this),
                                             renderFunctionInputSection(aimFunctions, currentAimFunction, setCurrentAimFunction, 'aim', 'functions_aim_title', 'functions_aim_description'),
@@ -1885,7 +1973,7 @@ function EditProductPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                        lineNumber: 522,
+                                        lineNumber: 578,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1901,19 +1989,19 @@ function EditProductPage() {
                                                             className: "mr-2 h-5 w-5 text-primary"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 564,
+                                                            lineNumber: 620,
                                                             columnNumber: 22
                                                         }, this),
                                                         " Системные требования"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                    lineNumber: 563,
+                                                    lineNumber: 619,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 562,
+                                                lineNumber: 618,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1927,7 +2015,7 @@ function EditProductPage() {
                                                                 children: "ОС"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 569,
+                                                                lineNumber: 625,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1938,13 +2026,13 @@ function EditProductPage() {
                                                                 disabled: isLoading
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 570,
+                                                                lineNumber: 626,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 568,
+                                                        lineNumber: 624,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1955,7 +2043,7 @@ function EditProductPage() {
                                                                 children: "Сборка Windows"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 573,
+                                                                lineNumber: 629,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1966,19 +2054,19 @@ function EditProductPage() {
                                                                 disabled: isLoading
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 574,
+                                                                lineNumber: 630,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 572,
+                                                        lineNumber: 628,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 567,
+                                                lineNumber: 623,
                                                 columnNumber: 18
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1992,7 +2080,7 @@ function EditProductPage() {
                                                                 children: "Видеокарта"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 579,
+                                                                lineNumber: 635,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2003,13 +2091,13 @@ function EditProductPage() {
                                                                 disabled: isLoading
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 580,
+                                                                lineNumber: 636,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 578,
+                                                        lineNumber: 634,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2020,7 +2108,7 @@ function EditProductPage() {
                                                                 children: "Процессор"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 583,
+                                                                lineNumber: 639,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2031,25 +2119,346 @@ function EditProductPage() {
                                                                 disabled: isLoading
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 584,
+                                                                lineNumber: 640,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 582,
+                                                        lineNumber: 638,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 577,
+                                                lineNumber: 633,
                                                 columnNumber: 18
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                        lineNumber: 561,
+                                        lineNumber: 617,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
+                                        value: "activation",
+                                        className: "space-y-4",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardHeader"], {
+                                                className: "px-0 py-2",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
+                                                    className: "text-xl text-foreground flex items-center",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$key$2d$round$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__KeyRound$3e$__["KeyRound"], {
+                                                            className: "mr-2 h-5 w-5 text-primary"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                            lineNumber: 648,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        " Настройки активации"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                    lineNumber: 647,
+                                                    columnNumber: 21
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                lineNumber: 646,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                        htmlFor: "edit-activation_type",
+                                                        className: "text-foreground",
+                                                        children: "Тип активации"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 652,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Controller"], {
+                                                        control: form.control,
+                                                        name: "activation_type",
+                                                        render: ({ field })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
+                                                                onValueChange: field.onChange,
+                                                                value: field.value,
+                                                                disabled: isLoading,
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                        className: "w-full mt-1",
+                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                            placeholder: "Выберите тип активации"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                            lineNumber: 659,
+                                                                            columnNumber: 37
+                                                                        }, void 0)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                        lineNumber: 658,
+                                                                        columnNumber: 33
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                value: "info_modal",
+                                                                                children: "Информационное окно"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                                lineNumber: 662,
+                                                                                columnNumber: 37
+                                                                            }, void 0),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                value: "key_request",
+                                                                                children: "Запрос ключа (через админа)"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                                lineNumber: 663,
+                                                                                columnNumber: 37
+                                                                            }, void 0)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                        lineNumber: 661,
+                                                                        columnNumber: 33
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 657,
+                                                                columnNumber: 29
+                                                            }, void 0)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 653,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    form.formState.errors.activation_type && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-sm text-destructive mt-1",
+                                                        children: form.formState.errors.activation_type.message
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 669,
+                                                        columnNumber: 63
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                lineNumber: 651,
+                                                columnNumber: 17
+                                            }, this),
+                                            watchedActivationType === 'key_request' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "p-4 border border-dashed border-border/50 rounded-md space-y-3 bg-muted/20",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                        className: "text-sm font-medium text-foreground flex items-center",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
+                                                                className: "mr-2 h-4 w-4"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 674,
+                                                                columnNumber: 95
+                                                            }, this),
+                                                            'Настройки для "Запроса ключа"'
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 674,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                                htmlFor: "edit-loader_download_url",
+                                                                className: "text-foreground",
+                                                                children: "URL для скачивания Loader"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 676,
+                                                                columnNumber: 29
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
+                                                                id: "edit-loader_download_url",
+                                                                ...form.register("loader_download_url"),
+                                                                placeholder: "https://example.com/loader.exe",
+                                                                className: "mt-1",
+                                                                disabled: isLoading
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 677,
+                                                                columnNumber: 29
+                                                            }, this),
+                                                            form.formState.errors.loader_download_url && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-sm text-destructive mt-1",
+                                                                children: form.formState.errors.loader_download_url.message
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 678,
+                                                                columnNumber: 75
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 675,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-xs text-muted-foreground",
+                                                        children: "Инструкция по активации для этого типа будет стандартной."
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 680,
+                                                        columnNumber: 25
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                lineNumber: 673,
+                                                columnNumber: 21
+                                            }, this),
+                                            watchedActivationType === 'info_modal' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "p-4 border border-dashed border-border/50 rounded-md space-y-3 bg-muted/20",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                        className: "text-sm font-medium text-foreground flex items-center",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__["MessageSquare"], {
+                                                                className: "mr-2 h-4 w-4"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 686,
+                                                                columnNumber: 96
+                                                            }, this),
+                                                            'Настройки для "Информационного окна"'
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 686,
+                                                        columnNumber: 26
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                                htmlFor: "edit-info_modal_content_html",
+                                                                className: "text-foreground",
+                                                                children: "HTML контент для модального окна"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 688,
+                                                                columnNumber: 29
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
+                                                                id: "edit-info_modal_content_html",
+                                                                ...form.register("info_modal_content_html"),
+                                                                placeholder: "<p>Ваша инструкция или информация здесь...</p>",
+                                                                className: "mt-1 min-h-[120px]",
+                                                                disabled: isLoading
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 689,
+                                                                columnNumber: 29
+                                                            }, this),
+                                                            form.formState.errors.info_modal_content_html && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-sm text-destructive mt-1",
+                                                                children: form.formState.errors.info_modal_content_html.message
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 690,
+                                                                columnNumber: 79
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 687,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "grid grid-cols-1 sm:grid-cols-2 gap-3",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                                        htmlFor: "edit-info_modal_support_link_text",
+                                                                        className: "text-foreground",
+                                                                        children: "Текст кнопки поддержки"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                        lineNumber: 694,
+                                                                        columnNumber: 33
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
+                                                                        id: "edit-info_modal_support_link_text",
+                                                                        ...form.register("info_modal_support_link_text"),
+                                                                        placeholder: "Поддержка",
+                                                                        className: "mt-1",
+                                                                        disabled: isLoading
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                        lineNumber: 695,
+                                                                        columnNumber: 33
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 693,
+                                                                columnNumber: 29
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                                        htmlFor: "edit-info_modal_support_link_url",
+                                                                        className: "text-foreground",
+                                                                        children: "URL ссылки поддержки"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                        lineNumber: 698,
+                                                                        columnNumber: 33
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
+                                                                        id: "edit-info_modal_support_link_url",
+                                                                        ...form.register("info_modal_support_link_url"),
+                                                                        placeholder: "https://t.me/support",
+                                                                        className: "mt-1",
+                                                                        disabled: isLoading
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                        lineNumber: 699,
+                                                                        columnNumber: 33
+                                                                    }, this),
+                                                                    form.formState.errors.info_modal_support_link_url && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-sm text-destructive mt-1",
+                                                                        children: form.formState.errors.info_modal_support_link_url.message
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                        lineNumber: 700,
+                                                                        columnNumber: 87
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                                lineNumber: 697,
+                                                                columnNumber: 29
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                        lineNumber: 692,
+                                                        columnNumber: 25
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                                lineNumber: 685,
+                                                columnNumber: 21
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
+                                        lineNumber: 645,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2065,19 +2474,19 @@ function EditProductPage() {
                                                             className: "mr-2 h-5 w-5 text-primary"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 592,
+                                                            lineNumber: 710,
                                                             columnNumber: 22
                                                         }, this),
                                                         " Варианты цен"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                    lineNumber: 591,
+                                                    lineNumber: 709,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 590,
+                                                lineNumber: 708,
                                                 columnNumber: 18
                                             }, this),
                                             pricingFields.map((field, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2094,7 +2503,7 @@ function EditProductPage() {
                                                                             children: "Длительность (дни)"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 599,
+                                                                            lineNumber: 717,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2104,7 +2513,7 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 600,
+                                                                            lineNumber: 718,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         form.formState.errors.pricing_options?.[index]?.duration_days && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2112,13 +2521,13 @@ function EditProductPage() {
                                                                             children: form.formState.errors.pricing_options?.[index]?.duration_days?.message
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 601,
+                                                                            lineNumber: 719,
                                                                             columnNumber: 91
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 598,
+                                                                    lineNumber: 716,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2129,7 +2538,7 @@ function EditProductPage() {
                                                                             children: "Название режима (опционально)"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 604,
+                                                                            lineNumber: 722,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2139,7 +2548,7 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 605,
+                                                                            lineNumber: 723,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         form.formState.errors.pricing_options?.[index]?.mode_label && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2147,26 +2556,26 @@ function EditProductPage() {
                                                                             children: form.formState.errors.pricing_options?.[index]?.mode_label?.message
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 606,
+                                                                            lineNumber: 724,
                                                                             columnNumber: 89
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 603,
+                                                                    lineNumber: 721,
                                                                     columnNumber: 24
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 597,
+                                                            lineNumber: 715,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$separator$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Separator"], {
                                                             className: "my-3"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 610,
+                                                            lineNumber: 728,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2174,7 +2583,7 @@ function EditProductPage() {
                                                             children: "Стандартные способы оплаты:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 611,
+                                                            lineNumber: 729,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2188,7 +2597,7 @@ function EditProductPage() {
                                                                             children: "Цена (GH)"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 614,
+                                                                            lineNumber: 732,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2199,7 +2608,7 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 615,
+                                                                            lineNumber: 733,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         form.formState.errors.pricing_options?.[index]?.price_gh && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2207,13 +2616,13 @@ function EditProductPage() {
                                                                             children: form.formState.errors.pricing_options?.[index]?.price_gh?.message
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 616,
+                                                                            lineNumber: 734,
                                                                             columnNumber: 86
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 613,
+                                                                    lineNumber: 731,
                                                                     columnNumber: 24
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2224,7 +2633,7 @@ function EditProductPage() {
                                                                             children: "Цена (RUB)"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 619,
+                                                                            lineNumber: 737,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2235,7 +2644,7 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 620,
+                                                                            lineNumber: 738,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         form.formState.errors.pricing_options?.[index]?.price_rub && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2243,19 +2652,19 @@ function EditProductPage() {
                                                                             children: form.formState.errors.pricing_options?.[index]?.price_rub?.message
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 621,
+                                                                            lineNumber: 739,
                                                                             columnNumber: 87
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 618,
+                                                                    lineNumber: 736,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 612,
+                                                            lineNumber: 730,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2274,12 +2683,12 @@ function EditProductPage() {
                                                                                     disabled: isLoading
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                    lineNumber: 626,
+                                                                                    lineNumber: 744,
                                                                                     columnNumber: 159
                                                                                 }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 626,
+                                                                            lineNumber: 744,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
@@ -2288,13 +2697,13 @@ function EditProductPage() {
                                                                             children: "Показывать GH"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 627,
+                                                                            lineNumber: 745,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 625,
+                                                                    lineNumber: 743,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2310,12 +2719,12 @@ function EditProductPage() {
                                                                                     disabled: isLoading
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                                    lineNumber: 630,
+                                                                                    lineNumber: 748,
                                                                                     columnNumber: 160
                                                                                 }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 630,
+                                                                            lineNumber: 748,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
@@ -2324,26 +2733,26 @@ function EditProductPage() {
                                                                             children: "Показывать RUB"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 631,
+                                                                            lineNumber: 749,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 629,
+                                                                    lineNumber: 747,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 624,
+                                                            lineNumber: 742,
                                                             columnNumber: 22
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$separator$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Separator"], {
                                                             className: "my-3"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 636,
+                                                            lineNumber: 754,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2351,7 +2760,7 @@ function EditProductPage() {
                                                             children: "Пользовательский способ оплаты #1:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 637,
+                                                            lineNumber: 755,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2365,7 +2774,7 @@ function EditProductPage() {
                                                                             children: "Метка кнопки 1"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 640,
+                                                                            lineNumber: 758,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2375,13 +2784,13 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 641,
+                                                                            lineNumber: 759,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 639,
+                                                                    lineNumber: 757,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2392,7 +2801,7 @@ function EditProductPage() {
                                                                             children: "Цена (RUB) 1"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 644,
+                                                                            lineNumber: 762,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2403,13 +2812,13 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 645,
+                                                                            lineNumber: 763,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 643,
+                                                                    lineNumber: 761,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2420,7 +2829,7 @@ function EditProductPage() {
                                                                             children: "Ссылка 1"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 648,
+                                                                            lineNumber: 766,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2431,7 +2840,7 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 649,
+                                                                            lineNumber: 767,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         form.formState.errors.pricing_options?.[index]?.custom_payment_1_link && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2439,19 +2848,19 @@ function EditProductPage() {
                                                                             children: form.formState.errors.pricing_options?.[index]?.custom_payment_1_link?.message
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 650,
+                                                                            lineNumber: 768,
                                                                             columnNumber: 103
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 647,
+                                                                    lineNumber: 765,
                                                                     columnNumber: 26
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 638,
+                                                            lineNumber: 756,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2467,12 +2876,12 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 654,
+                                                                            lineNumber: 772,
                                                                             columnNumber: 161
                                                                         }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 654,
+                                                                    lineNumber: 772,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
@@ -2481,20 +2890,20 @@ function EditProductPage() {
                                                                     children: "Показывать способ #1"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 655,
+                                                                    lineNumber: 773,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 653,
+                                                            lineNumber: 771,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$separator$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Separator"], {
                                                             className: "my-3"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 659,
+                                                            lineNumber: 777,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2502,7 +2911,7 @@ function EditProductPage() {
                                                             children: "Пользовательский способ оплаты #2:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 660,
+                                                            lineNumber: 778,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2516,7 +2925,7 @@ function EditProductPage() {
                                                                             children: "Метка кнопки 2"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 663,
+                                                                            lineNumber: 781,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2526,13 +2935,13 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 664,
+                                                                            lineNumber: 782,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 662,
+                                                                    lineNumber: 780,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2543,7 +2952,7 @@ function EditProductPage() {
                                                                             children: "Цена (RUB) 2"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 667,
+                                                                            lineNumber: 785,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2554,13 +2963,13 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 668,
+                                                                            lineNumber: 786,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 666,
+                                                                    lineNumber: 784,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2571,7 +2980,7 @@ function EditProductPage() {
                                                                             children: "Ссылка 2"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 671,
+                                                                            lineNumber: 789,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2582,7 +2991,7 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 672,
+                                                                            lineNumber: 790,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         form.formState.errors.pricing_options?.[index]?.custom_payment_2_link && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2590,19 +2999,19 @@ function EditProductPage() {
                                                                             children: form.formState.errors.pricing_options?.[index]?.custom_payment_2_link?.message
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 673,
+                                                                            lineNumber: 791,
                                                                             columnNumber: 104
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 670,
+                                                                    lineNumber: 788,
                                                                     columnNumber: 26
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 661,
+                                                            lineNumber: 779,
                                                             columnNumber: 22
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2618,12 +3027,12 @@ function EditProductPage() {
                                                                             disabled: isLoading
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                            lineNumber: 677,
+                                                                            lineNumber: 795,
                                                                             columnNumber: 161
                                                                         }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 677,
+                                                                    lineNumber: 795,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
@@ -2632,13 +3041,13 @@ function EditProductPage() {
                                                                     children: "Показывать способ #2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 678,
+                                                                    lineNumber: 796,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 676,
+                                                            lineNumber: 794,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2654,23 +3063,23 @@ function EditProductPage() {
                                                                     className: "h-4 w-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                    lineNumber: 683,
+                                                                    lineNumber: 801,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                                lineNumber: 682,
+                                                                lineNumber: 800,
                                                                 columnNumber: 26
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                            lineNumber: 681,
+                                                            lineNumber: 799,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, field.id || `new-${index}`, true, {
                                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                    lineNumber: 596,
+                                                    lineNumber: 714,
                                                     columnNumber: 19
                                                 }, this)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2700,26 +3109,26 @@ function EditProductPage() {
                                                         className: "mr-2 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                        lineNumber: 696,
+                                                        lineNumber: 814,
                                                         columnNumber: 19
                                                     }, this),
                                                     " Добавить вариант цены"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                                lineNumber: 688,
+                                                lineNumber: 806,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                        lineNumber: 589,
+                                        lineNumber: 707,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                lineNumber: 406,
+                                lineNumber: 461,
                                 columnNumber: 14
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2733,41 +3142,41 @@ function EditProductPage() {
                                             className: "mr-2 h-4 w-4 animate-spin"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                            lineNumber: 703,
+                                            lineNumber: 821,
                                             columnNumber: 30
                                         }, this) : null,
                                         isLoading ? 'Сохранение...' : 'Сохранить изменения'
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                    lineNumber: 702,
+                                    lineNumber: 820,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                                lineNumber: 701,
+                                lineNumber: 819,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                        lineNumber: 405,
+                        lineNumber: 460,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                    lineNumber: 404,
+                    lineNumber: 459,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-                lineNumber: 403,
+                lineNumber: 458,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/admin/products/[slug]/edit/page.tsx",
-        lineNumber: 391,
+        lineNumber: 446,
         columnNumber: 5
     }, this);
 } // Ensure there's a newline at the very end of the file content.

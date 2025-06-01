@@ -1056,6 +1056,10 @@ body {
   max-height: 100vh;
 }
 
+.max-h-\[60vh\] {
+  max-height: 60vh;
+}
+
 .min-h-0 {
   min-height: 0;
 }
@@ -2098,6 +2102,10 @@ body {
 
 .bg-yellow-500\/10 {
   background-color: #eab3081a;
+}
+
+.bg-input {
+  background-color: hsl(var(--input));
 }
 
 .bg-\[radial-gradient\(ellipse_at_bottom_right\,_var\(--tw-gradient-stops\)\)\] {
@@ -3426,6 +3434,10 @@ body {
 
 .hover\:bg-transparent:hover {
   background-color: #0000;
+}
+
+.hover\:bg-primary\/20:hover {
+  background-color: hsl(var(--primary) / .2);
 }
 
 .hover\:text-accent-foreground:hover {
