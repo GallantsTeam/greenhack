@@ -37,8 +37,8 @@ interface KeyRegistrationModalProps {
     how_to_run_link?: string | null;
   };
   activationType?: 'key_request' | 'info_modal' | 'direct_key';
-  loaderDownloadUrl?: string | null; // Specifically for key_request
-  infoModalContentHtml?: string | null; // Specifically for info_modal
+  loaderDownloadUrl?: string | null; 
+  infoModalContentHtml?: string | null; 
   infoModalSupportLinkText?: string | null;
   infoModalSupportLinkUrl?: string | null;
 }
@@ -91,8 +91,8 @@ const KeyRegistrationModal: React.FC<KeyRegistrationModalProps> = ({
             <AlertDialogTitle className="text-lg font-semibold text-primary">
               Активация лицензии для: {productName}
             </AlertDialogTitle>
-            <AlertDialogDescription className="mt-2 text-sm text-muted-foreground">
-              <div className="space-y-3"> {/* Wrapper div for children of AlertDialogDescription */}
+            <AlertDialogDescription asChild>
+              <div className="mt-2 text-sm text-muted-foreground space-y-3"> {/* Wrapper div */}
                 <div>{data.intro_text || defaultRetrievalData.intro_text}</div>
                 <div>
                   {data.antivirus_text || defaultRetrievalData.antivirus_text}

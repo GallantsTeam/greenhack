@@ -542,114 +542,122 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AlertDialogDescription"], {
-                                className: "mt-2 text-sm text-muted-foreground space-y-3",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: data.intro_text || defaultRetrievalData.intro_text
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                        lineNumber: 95,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: [
-                                            data.antivirus_text || defaultRetrievalData.antivirus_text,
-                                            (data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) && (data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) !== "#" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                variant: "link",
-                                                size: "sm",
-                                                className: "p-0 h-auto ml-1 text-primary",
-                                                asChild: true,
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                    href: data.antivirus_link_url || defaultRetrievalData.antivirus_link_url,
-                                                    target: "_blank",
-                                                    rel: "noopener noreferrer",
-                                                    children: data.antivirus_link_text || defaultRetrievalData.antivirus_link_text
+                                className: "mt-2 text-sm text-muted-foreground",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-3",
+                                    children: [
+                                        " ",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: data.intro_text || defaultRetrievalData.intro_text
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                            lineNumber: 96,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: [
+                                                data.antivirus_text || defaultRetrievalData.antivirus_text,
+                                                (data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) && (data.antivirus_link_url || defaultRetrievalData.antivirus_link_url) !== "#" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                    variant: "link",
+                                                    size: "sm",
+                                                    className: "p-0 h-auto ml-1 text-primary",
+                                                    asChild: true,
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                        href: data.antivirus_link_url || defaultRetrievalData.antivirus_link_url,
+                                                        target: "_blank",
+                                                        rel: "noopener noreferrer",
+                                                        children: data.antivirus_link_text || defaultRetrievalData.antivirus_link_text
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                                        lineNumber: 101,
+                                                        columnNumber: 23
+                                                    }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/KeyRegistrationModal.tsx",
                                                     lineNumber: 100,
                                                     columnNumber: 21
                                                 }, this)
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                                lineNumber: 99,
-                                                columnNumber: 19
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                        lineNumber: 96,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: [
-                                            data.launcher_text || defaultRetrievalData.launcher_text,
-                                            loaderDownloadUrl && loaderDownloadUrl !== "#" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                variant: "secondary",
-                                                size: "sm",
-                                                className: "ml-2 mt-1 bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30",
-                                                asChild: true,
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                    href: loaderDownloadUrl,
-                                                    target: "_blank",
-                                                    rel: "noopener noreferrer",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
-                                                            className: "mr-2 h-4 w-4"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                                            lineNumber: 111,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        " ",
-                                                        data.launcher_link_text || defaultRetrievalData.launcher_link_text
-                                                    ]
-                                                }, void 0, true, {
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                            lineNumber: 97,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: [
+                                                data.launcher_text || defaultRetrievalData.launcher_text,
+                                                loaderDownloadUrl && loaderDownloadUrl !== "#" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                    variant: "secondary",
+                                                    size: "sm",
+                                                    className: "ml-2 mt-1 bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30",
+                                                    asChild: true,
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                        href: loaderDownloadUrl,
+                                                        target: "_blank",
+                                                        rel: "noopener noreferrer",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
+                                                                className: "mr-2 h-4 w-4"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                                                lineNumber: 112,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            " ",
+                                                            data.launcher_link_text || defaultRetrievalData.launcher_link_text
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                                        lineNumber: 111,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                }, void 0, false, {
                                                     fileName: "[project]/src/components/KeyRegistrationModal.tsx",
                                                     lineNumber: 110,
                                                     columnNumber: 21
                                                 }, this)
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                                lineNumber: 109,
-                                                columnNumber: 19
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                        lineNumber: 106,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: data.key_paste_text || defaultRetrievalData.key_paste_text
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                        lineNumber: 116,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: [
-                                            data.support_text || defaultRetrievalData.support_text,
-                                            ' ',
-                                            (data.support_link_url || defaultRetrievalData.support_link_url) && (data.support_link_url || defaultRetrievalData.support_link_url) !== "#" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                href: data.support_link_url || defaultRetrievalData.support_link_url,
-                                                target: "_blank",
-                                                rel: "noopener noreferrer",
-                                                className: "text-primary hover:underline",
-                                                children: data.support_link_text || defaultRetrievalData.support_link_text
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                                lineNumber: 120,
-                                                columnNumber: 19
-                                            }, this) : data.support_link_text || defaultRetrievalData.support_link_text,
-                                            "."
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                        lineNumber: 117,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                            lineNumber: 107,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: data.key_paste_text || defaultRetrievalData.key_paste_text
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                            lineNumber: 117,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: [
+                                                data.support_text || defaultRetrievalData.support_text,
+                                                ' ',
+                                                (data.support_link_url || defaultRetrievalData.support_link_url) && (data.support_link_url || defaultRetrievalData.support_link_url) !== "#" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                    href: data.support_link_url || defaultRetrievalData.support_link_url,
+                                                    target: "_blank",
+                                                    rel: "noopener noreferrer",
+                                                    className: "text-primary hover:underline",
+                                                    children: data.support_link_text || defaultRetrievalData.support_link_text
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                                    lineNumber: 121,
+                                                    columnNumber: 21
+                                                }, this) : data.support_link_text || defaultRetrievalData.support_link_text,
+                                                "."
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                            lineNumber: 118,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/KeyRegistrationModal.tsx",
+                                    lineNumber: 95,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
                                 fileName: "[project]/src/components/KeyRegistrationModal.tsx",
                                 lineNumber: 94,
                                 columnNumber: 13
@@ -669,7 +677,7 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                                 children: "Ваш ключ активации:"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                lineNumber: 132,
+                                lineNumber: 134,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -681,13 +689,13 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                                 className: "text-sm bg-input border-border"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                lineNumber: 135,
+                                lineNumber: 137,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                        lineNumber: 131,
+                        lineNumber: 133,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AlertDialogFooter"], {
@@ -700,7 +708,7 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                                 children: "Отмена"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                lineNumber: 146,
+                                lineNumber: 148,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -712,27 +720,27 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                                         className: "mr-2 h-4 w-4 animate-spin"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                        lineNumber: 150,
+                                        lineNumber: 152,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$key$2d$round$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__KeyRound$3e$__["KeyRound"], {
                                         className: "mr-2 h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                        lineNumber: 151,
+                                        lineNumber: 153,
                                         columnNumber: 15
                                     }, this),
                                     " Запросить активацию"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                lineNumber: 149,
+                                lineNumber: 151,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                        lineNumber: 145,
+                        lineNumber: 147,
                         columnNumber: 11
                     }, this)
                 ]
@@ -762,12 +770,12 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                            lineNumber: 162,
+                            lineNumber: 164,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                        lineNumber: 161,
+                        lineNumber: 163,
                         columnNumber: 18
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -777,7 +785,7 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                         }
                     }, void 0, false, {
                         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                        lineNumber: 166,
+                        lineNumber: 168,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AlertDialogFooter"], {
@@ -794,12 +802,12 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                                     children: infoModalSupportLinkText || "Поддержка"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                    lineNumber: 172,
+                                    lineNumber: 174,
                                     columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                lineNumber: 171,
+                                lineNumber: 173,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -808,24 +816,24 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                                 children: "Закрыть"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                                lineNumber: 177,
+                                lineNumber: 179,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                        lineNumber: 169,
+                        lineNumber: 171,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                lineNumber: 160,
+                lineNumber: 162,
                 columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-            lineNumber: 159,
+            lineNumber: 161,
             columnNumber: 9
         }, this);
     }
@@ -840,20 +848,20 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                             children: "Информация"
                         }, void 0, false, {
                             fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                            lineNumber: 188,
+                            lineNumber: 190,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AlertDialogDescription"], {
                             children: "Тип активации для этого продукта не настроен."
                         }, void 0, false, {
                             fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                            lineNumber: 189,
+                            lineNumber: 191,
                             columnNumber: 17
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                    lineNumber: 187,
+                    lineNumber: 189,
                     columnNumber: 13
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AlertDialogFooter"], {
@@ -862,23 +870,23 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
                         children: "OK"
                     }, void 0, false, {
                         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                        lineNumber: 192,
+                        lineNumber: 194,
                         columnNumber: 17
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-                    lineNumber: 191,
+                    lineNumber: 193,
                     columnNumber: 13
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-            lineNumber: 186,
+            lineNumber: 188,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/KeyRegistrationModal.tsx",
-        lineNumber: 185,
+        lineNumber: 187,
         columnNumber: 6
     }, this);
 };
