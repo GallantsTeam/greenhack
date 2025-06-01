@@ -120,6 +120,11 @@ export async function PUT(
       retrieval_modal_launcher_text, retrieval_modal_launcher_link_text, retrieval_modal_launcher_link_url,
       retrieval_modal_key_paste_text, retrieval_modal_support_text, retrieval_modal_support_link_text, retrieval_modal_support_link_url,
       retrieval_modal_how_to_run_link,
+      activation_type, // New activation fields
+      loader_download_url,
+      info_modal_content_html,
+      info_modal_support_link_text,
+      info_modal_support_link_url,
       pricing_options
     } = body;
 
@@ -153,7 +158,7 @@ export async function PUT(
     
     addFieldToUpdate('name', name);
     addFieldToUpdate('slug', effectiveSlug);
-    addFieldToUpdate('game_slug', gameSlug); // Trimmed game_slug
+    addFieldToUpdate('game_slug', gameSlug); 
     addFieldToUpdate('status', status);
     
     addFieldToUpdate('image_url', image_url);
@@ -192,6 +197,12 @@ export async function PUT(
     addFieldToUpdate('retrieval_modal_support_link_text', retrieval_modal_support_link_text);
     addFieldToUpdate('retrieval_modal_support_link_url', retrieval_modal_support_link_url);
     addFieldToUpdate('retrieval_modal_how_to_run_link', retrieval_modal_how_to_run_link);
+
+    addFieldToUpdate('activation_type', activation_type);
+    addFieldToUpdate('loader_download_url', loader_download_url);
+    addFieldToUpdate('info_modal_content_html', info_modal_content_html);
+    addFieldToUpdate('info_modal_support_link_text', info_modal_support_link_text);
+    addFieldToUpdate('info_modal_support_link_url', info_modal_support_link_url);
 
 
     if (Object.keys(productFields).length === 0 && (!pricing_options || pricing_options.length === (existingProduct.pricing_options || []).length)) {
@@ -321,5 +332,4 @@ export async function DELETE(
 }
 
 // Ensure there's a newline at the very end of the file content.
-
 

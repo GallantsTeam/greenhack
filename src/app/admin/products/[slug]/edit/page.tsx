@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Loader2, Palette, Tag, ImageIcon as ImageIconLucide, FileTextIcon, Settings2, CreditCardIcon, CogIcon, ListChecksIcon, Trash2, PlusCircle, EditIcon as EditProductIcon, X, VenetianMask, Eye, Sparkles, EyeOff } from 'lucide-react';
+import { ArrowLeft, Loader2, Palette, Tag, ImageIcon as ImageIconLucide, FileTextIcon, Settings2, CreditCardIcon, CogIcon, ListChecksIcon, Trash2, PlusCircle, EditIcon as EditProductIcon, X, VenetianMask, Eye, Sparkles, EyeOff, KeyRound, Download, MessageSquare } from 'lucide-react';
 import type { Product, Category, ProductPricingOption } from '@/types';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -70,8 +70,41 @@ const productEditSchema = z.object({
   system_build: z.string().optional().nullable(),
   system_gpu: z.string().optional().nullable(),
   system_cpu: z.string().optional().nullable(),
+
+  retrieval_modal_intro_text: z.string().optional().nullable(),
+  retrieval_modal_antivirus_text: z.string().optional().nullable(),
+  retrieval_modal_antivirus_link_text: z.string().max(255).optional().nullable(),
+  retrieval_modal_antivirus_link_url: z.string().url({ message: "Неверный URL" }).optional().or(z.literal('')).nullable(),
+  retrieval_modal_launcher_text: z.string().optional().nullable(),
+  retrieval_modal_launcher_link_text: z.string().max(255).optional().nullable(),
+  retrieval_modal_launcher_link_url: z.string().url({ message: "Неверный URL" }).optional().or(z.literal('')).nullable(),
+  retrieval_modal_key_paste_text: z.string().optional().nullable(),
+  retrieval_modal_support_text: z.string().optional().nullable(),
+  retrieval_modal_support_link_text: z.string().max(255).optional().nullable(),
+  retrieval_modal_support_link_url: z.string().url({ message: "Неверный URL" }).optional().or(z.literal('')).nullable(),
+  retrieval_modal_how_to_run_link: z.string().url({ message: "Неверный URL" }).optional().or(z.literal('')).nullable(),
+  
+  // New fields for activation type
+  activation_type: z.enum(['key_request', 'info_modal', 'direct_key']).default('info_modal'),
+  loader_download_url: z.string().url({message: "Неверный URL для лоадера"}).optional().or(z.literal('')).nullable(),
+  info_modal_content_html: z.string().optional().nullable(),
+  info_modal_support_link_text: z.string().max(255).optional().nullable(),
+  info_modal_support_link_url: z.string().url({message: "Неверный URL для ссылки поддержки в инфо-модале"}).optional().or(z.literal('')).nullable(),
+  
   pricing_options: z.array(pricingOptionSchema).optional().default([]),
+}).refine(data => {
+    if (data.activation_type === 'key_request' && (!data.loader_download_url || data.loader_download_url.trim() === '')) {
+        return false;
+    }
+    if (data.activation_type === 'info_modal' && (!data.info_modal_content_html || data.info_modal_content_html.trim() === '')) {
+         return false;
+    }
+    return true;
+}, {
+    message: "Для типа 'Запрос ключа' нужен URL лоадера. Для 'Инфо-окно' нужен HTML контент.",
+    path: ["activation_type"],
 });
+
 
 type ProductEditFormValues = z.infer<typeof productEditSchema>;
 const NULL_VALUE_STRING = "__NULL_VALUE__";
@@ -110,6 +143,7 @@ export default function EditProductPage() {
       functions_misc_title: 'Прочие Функции (Misc)',
       functions_misc_description: '',
       mode: null,
+      activation_type: 'info_modal',
     },
   });
 
@@ -117,6 +151,7 @@ export default function EditProductPage() {
     control: form.control,
     name: "pricing_options",
   });
+  const watchedActivationType = form.watch("activation_type");
 
   const fetchCategories = useCallback(async () => {
     setIsCategoriesLoading(true);
@@ -136,7 +171,7 @@ export default function EditProductPage() {
   const fetchProductData = useCallback(async (slug: string) => {
     setIsProductLoading(true);
     try {
-      const response = await fetch(`/api/products/${slug}`);
+      const response = await fetch(`/api/admin/products/${slug}`);
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to fetch product' }));
         throw new Error(errorData.message || 'Failed to fetch product');
@@ -184,6 +219,26 @@ export default function EditProductPage() {
         system_build: data.system_build || '',
         system_gpu: data.system_gpu || '',
         system_cpu: data.system_cpu || '',
+
+        retrieval_modal_intro_text: data.retrieval_modal_intro_text || '',
+        retrieval_modal_antivirus_text: data.retrieval_modal_antivirus_text || '',
+        retrieval_modal_antivirus_link_text: data.retrieval_modal_antivirus_link_text || '',
+        retrieval_modal_antivirus_link_url: data.retrieval_modal_antivirus_link_url || '',
+        retrieval_modal_launcher_text: data.retrieval_modal_launcher_text || '',
+        retrieval_modal_launcher_link_text: data.retrieval_modal_launcher_link_text || '',
+        retrieval_modal_launcher_link_url: data.retrieval_modal_launcher_link_url || '',
+        retrieval_modal_key_paste_text: data.retrieval_modal_key_paste_text || '',
+        retrieval_modal_support_text: data.retrieval_modal_support_text || '',
+        retrieval_modal_support_link_text: data.retrieval_modal_support_link_text || '',
+        retrieval_modal_support_link_url: data.retrieval_modal_support_link_url || '',
+        retrieval_modal_how_to_run_link: data.retrieval_modal_how_to_run_link || '',
+        
+        activation_type: data.activation_type || 'info_modal',
+        loader_download_url: data.loader_download_url || '',
+        info_modal_content_html: data.info_modal_content_html || '',
+        info_modal_support_link_text: data.info_modal_support_link_text || 'Поддержка',
+        info_modal_support_link_url: data.info_modal_support_link_url || '',
+
         pricing_options: data.pricing_options?.map(opt => ({
             ...opt, 
             is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : opt.is_rub_payment_visible,
@@ -404,12 +459,13 @@ export default function EditProductPage() {
         <CardContent className="pt-6">
           <form onSubmit={form.handleSubmit(onSubmit)}>
              <Tabs defaultValue="general" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 mb-6">
+              <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-7 mb-6"> {/* Adjusted for new tab */}
                 <TabsTrigger value="general"><ListChecksIcon className="mr-1.5 h-4 w-4"/>Общие</TabsTrigger>
                 <TabsTrigger value="gallery"><ImageIconLucide className="mr-1.5 h-4 w-4"/>Галерея</TabsTrigger>
                 <TabsTrigger value="description"><FileTextIcon className="mr-1.5 h-4 w-4"/>Описание</TabsTrigger>
                 <TabsTrigger value="features"><Palette className="mr-1.5 h-4 w-4"/>Функции</TabsTrigger>
                 <TabsTrigger value="os"><CogIcon className="mr-1.5 h-4 w-4"/>ОС</TabsTrigger>
+                <TabsTrigger value="activation"><KeyRound className="mr-1.5 h-4 w-4"/>Активация</TabsTrigger> {/* New Tab */}
                 <TabsTrigger value="pricing"><CreditCardIcon className="mr-1.5 h-4 w-4"/>Стоимость</TabsTrigger>
               </TabsList>
 
@@ -461,7 +517,7 @@ export default function EditProductPage() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="safe">Безопасен (safe)</SelectItem>
-                          <SelectItem value="updating">Обновляется (updating)</SelectItem>
+                          <SelectItem value="updating">На обновлении (updating)</SelectItem>
                           <SelectItem value="risky">Рискованно (risky)</SelectItem>
                           <SelectItem value="unknown">Неизвестно (unknown)</SelectItem>
                         </SelectContent>
@@ -584,6 +640,68 @@ export default function EditProductPage() {
                         <Input id="edit-system_cpu" {...form.register("system_cpu")} placeholder="Intel / AMD" className="mt-1" disabled={isLoading} />
                     </div>
                 </div>
+              </TabsContent>
+
+              <TabsContent value="activation" className="space-y-4">
+                <CardHeader className="px-0 py-2">
+                    <CardTitle className="text-xl text-foreground flex items-center">
+                        <KeyRound className="mr-2 h-5 w-5 text-primary"/> Настройки активации
+                    </CardTitle>
+                </CardHeader>
+                <div>
+                    <Label htmlFor="edit-activation_type" className="text-foreground">Тип активации</Label>
+                    <Controller
+                        control={form.control}
+                        name="activation_type"
+                        render={({ field }) => (
+                            <Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
+                                <SelectTrigger className="w-full mt-1">
+                                    <SelectValue placeholder="Выберите тип активации" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="info_modal">Информационное окно</SelectItem>
+                                    <SelectItem value="key_request">Запрос ключа (через админа)</SelectItem>
+                                    {/* <SelectItem value="direct_key" disabled>Прямой ключ (в разработке)</SelectItem> */}
+                                </SelectContent>
+                            </Select>
+                        )}
+                    />
+                    {form.formState.errors.activation_type && <p className="text-sm text-destructive mt-1">{form.formState.errors.activation_type.message}</p>}
+                </div>
+
+                {watchedActivationType === 'key_request' && (
+                    <div className="p-4 border border-dashed border-border/50 rounded-md space-y-3 bg-muted/20">
+                        <h4 className="text-sm font-medium text-foreground flex items-center"><Download className="mr-2 h-4 w-4"/>Настройки для "Запроса ключа"</h4>
+                        <div>
+                            <Label htmlFor="edit-loader_download_url" className="text-foreground">URL для скачивания Loader</Label>
+                            <Input id="edit-loader_download_url" {...form.register("loader_download_url")} placeholder="https://example.com/loader.exe" className="mt-1" disabled={isLoading}/>
+                            {form.formState.errors.loader_download_url && <p className="text-sm text-destructive mt-1">{form.formState.errors.loader_download_url.message}</p>}
+                        </div>
+                        <p className="text-xs text-muted-foreground">Инструкция по активации для этого типа будет стандартной.</p>
+                    </div>
+                )}
+
+                {watchedActivationType === 'info_modal' && (
+                    <div className="p-4 border border-dashed border-border/50 rounded-md space-y-3 bg-muted/20">
+                         <h4 className="text-sm font-medium text-foreground flex items-center"><MessageSquare className="mr-2 h-4 w-4"/>Настройки для "Информационного окна"</h4>
+                        <div>
+                            <Label htmlFor="edit-info_modal_content_html" className="text-foreground">HTML контент для модального окна</Label>
+                            <Textarea id="edit-info_modal_content_html" {...form.register("info_modal_content_html")} placeholder="<p>Ваша инструкция или информация здесь...</p>" className="mt-1 min-h-[120px]" disabled={isLoading}/>
+                            {form.formState.errors.info_modal_content_html && <p className="text-sm text-destructive mt-1">{form.formState.errors.info_modal_content_html.message}</p>}
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <Label htmlFor="edit-info_modal_support_link_text" className="text-foreground">Текст кнопки поддержки</Label>
+                                <Input id="edit-info_modal_support_link_text" {...form.register("info_modal_support_link_text")} placeholder="Поддержка" className="mt-1" disabled={isLoading}/>
+                            </div>
+                            <div>
+                                <Label htmlFor="edit-info_modal_support_link_url" className="text-foreground">URL ссылки поддержки</Label>
+                                <Input id="edit-info_modal_support_link_url" {...form.register("info_modal_support_link_url")} placeholder="https://t.me/support" className="mt-1" disabled={isLoading}/>
+                                {form.formState.errors.info_modal_support_link_url && <p className="text-sm text-destructive mt-1">{form.formState.errors.info_modal_support_link_url.message}</p>}
+                            </div>
+                        </div>
+                    </div>
+                )}
               </TabsContent>
               
               <TabsContent value="pricing" className="space-y-4">

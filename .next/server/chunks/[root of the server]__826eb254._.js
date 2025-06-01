@@ -251,12 +251,14 @@ async function POST(request) {
                 status: 400
             });
         }
+        // Updated SQL query
         const inventoryItemResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
          ui.*,
+         p.name as product_name_from_product_table,
          COALESCE(ppo.duration_days, cp.duration_days) as resolved_duration_days,
-         ppo.mode_label as pricing_option_mode_label,
-         cp.mode_label as case_prize_mode_label -- If case_prizes table also has mode_label
+         ppo.mode_label as pricing_option_mode_label -- mode_label comes only from ppo
        FROM user_inventory ui
+       LEFT JOIN products p ON ui.related_product_id = p.id
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
        LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id
        WHERE ui.id = ? AND ui.user_id = ?`, [
@@ -273,11 +275,13 @@ async function POST(request) {
         }
         const itemToActivateDb = inventoryItemResults[0];
         console.log('[API Activate] Found item in DB:', itemToActivateDb);
+        // Updated item mapping
         const itemToActivate = {
             ...itemToActivateDb,
+            product_name: itemToActivateDb.product_name || itemToActivateDb.product_name_from_product_table || 'Неизвестный продукт',
             is_used: Boolean(itemToActivateDb.is_used),
             duration_days: itemToActivateDb.resolved_duration_days ? parseInt(itemToActivateDb.resolved_duration_days, 10) : null,
-            mode_label: itemToActivateDb.pricing_option_mode_label || itemToActivateDb.case_prize_mode_label || null,
+            mode_label: itemToActivateDb.pricing_option_mode_label || null,
             activation_status: itemToActivateDb.activation_status || 'available'
         };
         if (itemToActivate.is_used) {
@@ -331,6 +335,14 @@ async function POST(request) {
         });
     } catch (error) {
         console.error('[API Inventory Activate Error]:', error);
+        // Check if the error is a MySQL error and has a code
+        if (error.code && error.sqlMessage) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: `Ошибка базы данных: ${error.sqlMessage} (Код: ${error.code})`
+            }, {
+                status: 500
+            });
+        }
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             message: `Internal Server Error: ${error.message}`
         }, {

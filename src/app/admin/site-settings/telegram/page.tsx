@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bot, Loader2, Send, MessageSquare, ShoppingCart, UserPlus, DollarSign, ShieldAlert, HelpCircle } from 'lucide-react';
+import { Bot, Loader2, Send, MessageSquare, ShoppingCart, UserPlus, DollarSign, ShieldAlert, HelpCircle, KeyRound } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import type { SiteTelegramSettings, AdminTelegramNotificationPrefs } from '@/types';
 import { Separator } from '@/components/ui/separator';
@@ -23,6 +23,8 @@ const telegramSettingsSchema = z.object({
   client_bot_chat_id: z.string().optional().nullable(),
   admin_bot_token: z.string().optional().nullable(),
   admin_bot_chat_ids: z.string().optional().nullable(), // Comma-separated
+  key_bot_token: z.string().optional().nullable(),
+  key_bot_admin_chat_ids: z.string().optional().nullable(),
 });
 
 const adminNotificationPrefsSchema = z.object({
@@ -30,6 +32,7 @@ const adminNotificationPrefsSchema = z.object({
   notify_admin_on_product_purchase: z.boolean().default(false),
   notify_admin_on_promo_code_creation: z.boolean().default(false),
   notify_admin_on_admin_login: z.boolean().default(false),
+  notify_admin_on_key_activation_request: z.boolean().default(true), // Default to true for new setting
 });
 
 type CombinedFormValues = z.infer<typeof telegramSettingsSchema> & z.infer<typeof adminNotificationPrefsSchema>;
@@ -46,6 +49,7 @@ const adminNotificationOptions: AdminNotificationOption[] = [
   { id: 'notify_admin_on_balance_deposit', label: 'Пополнение баланса', description: 'Уведомлять о пополнении баланса пользователем (включая промокоды).', icon: DollarSign, implemented: true },
   { id: 'notify_admin_on_product_purchase', label: 'Покупка товара', description: 'Уведомлять о покупке товара пользователем.', icon: ShoppingCart, implemented: true },
   { id: 'notify_admin_on_promo_code_creation', label: 'Создание промокода', description: 'Уведомлять о создании нового промокода.', icon: MessageSquare, implemented: true },
+  { id: 'notify_admin_on_key_activation_request', label: 'Запрос активации ключа', description: 'Уведомлять о новом запросе на активацию ключа через Key Bot.', icon: KeyRound, implemented: true },
   { id: 'notify_admin_on_admin_login', label: 'Вход в админ-панель', description: 'Уведомлять о входе в админ-панель. (Требуется доп. интеграция)', icon: ShieldAlert, implemented: false },
 ];
 
@@ -56,8 +60,10 @@ export default function AdminTelegramSettingsPage() {
   const [isFetching, setIsFetching] = useState(true);
   const [testMessageClient, setTestMessageClient] = useState('');
   const [testMessageAdmin, setTestMessageAdmin] = useState('');
+  const [testMessageKeyBot, setTestMessageKeyBot] = useState('');
   const [isSendingTestClient, setIsSendingTestClient] = useState(false);
   const [isSendingTestAdmin, setIsSendingTestAdmin] = useState(false);
+  const [isSendingTestKeyBot, setIsSendingTestKeyBot] = useState(false);
 
 
   const form = useForm<CombinedFormValues>({
@@ -67,10 +73,13 @@ export default function AdminTelegramSettingsPage() {
       client_bot_chat_id: '',
       admin_bot_token: '',
       admin_bot_chat_ids: '',
+      key_bot_token: '',
+      key_bot_admin_chat_ids: '',
       notify_admin_on_balance_deposit: false,
       notify_admin_on_product_purchase: false,
       notify_admin_on_promo_code_creation: false,
       notify_admin_on_admin_login: false,
+      notify_admin_on_key_activation_request: true,
     },
   });
 
@@ -88,10 +97,13 @@ export default function AdminTelegramSettingsPage() {
         client_bot_chat_id: data.telegramSettings?.client_bot_chat_id || '',
         admin_bot_token: data.telegramSettings?.admin_bot_token || '',
         admin_bot_chat_ids: data.telegramSettings?.admin_bot_chat_ids || '',
+        key_bot_token: data.telegramSettings?.key_bot_token || '',
+        key_bot_admin_chat_ids: data.telegramSettings?.key_bot_admin_chat_ids || '',
         notify_admin_on_balance_deposit: data.notificationPrefs?.notify_admin_on_balance_deposit || false,
         notify_admin_on_product_purchase: data.notificationPrefs?.notify_admin_on_product_purchase || false,
         notify_admin_on_promo_code_creation: data.notificationPrefs?.notify_admin_on_promo_code_creation || false,
         notify_admin_on_admin_login: data.notificationPrefs?.notify_admin_on_admin_login || false,
+        notify_admin_on_key_activation_request: data.notificationPrefs?.notify_admin_on_key_activation_request === undefined ? true : data.notificationPrefs.notify_admin_on_key_activation_request,
       });
     } catch (error: any) {
       toast({ title: "Ошибка загрузки Telegram настроек", description: error.message, variant: "destructive" });
@@ -121,10 +133,13 @@ export default function AdminTelegramSettingsPage() {
             client_bot_chat_id: result.settings.telegramSettings?.client_bot_chat_id || '',
             admin_bot_token: result.settings.telegramSettings?.admin_bot_token || '',
             admin_bot_chat_ids: result.settings.telegramSettings?.admin_bot_chat_ids || '',
+            key_bot_token: result.settings.telegramSettings?.key_bot_token || '',
+            key_bot_admin_chat_ids: result.settings.telegramSettings?.key_bot_admin_chat_ids || '',
             notify_admin_on_balance_deposit: result.settings.notificationPrefs?.notify_admin_on_balance_deposit || false,
             notify_admin_on_product_purchase: result.settings.notificationPrefs?.notify_admin_on_product_purchase || false,
             notify_admin_on_promo_code_creation: result.settings.notificationPrefs?.notify_admin_on_promo_code_creation || false,
             notify_admin_on_admin_login: result.settings.notificationPrefs?.notify_admin_on_admin_login || false,
+            notify_admin_on_key_activation_request: result.settings.notificationPrefs?.notify_admin_on_key_activation_request === undefined ? true : result.settings.notificationPrefs.notify_admin_on_key_activation_request,
         });
       }
     } catch (error: any) {
@@ -134,20 +149,39 @@ export default function AdminTelegramSettingsPage() {
     }
   };
 
-  const handleSendTest = async (botType: 'client' | 'admin', message: string) => {
+  const handleSendTest = async (botType: 'client' | 'admin' | 'key', message: string) => {
     if (!message.trim()) {
         toast({ title: "Ошибка", description: "Введите текст сообщения.", variant: "destructive"});
         return;
     }
-    const token = botType === 'client' ? form.getValues('client_bot_token') : form.getValues('admin_bot_token');
-    const chatIdInput = botType === 'client' ? form.getValues('client_bot_chat_id') : form.getValues('admin_bot_chat_ids')?.split(',')[0]?.trim(); // Use first admin chat ID for test
+    let token, chatIdInput;
+    switch(botType) {
+        case 'client':
+            token = form.getValues('client_bot_token');
+            chatIdInput = form.getValues('client_bot_chat_id');
+            setIsSendingTestClient(true);
+            break;
+        case 'admin':
+            token = form.getValues('admin_bot_token');
+            chatIdInput = form.getValues('admin_bot_chat_ids')?.split(',')[0]?.trim();
+            setIsSendingTestAdmin(true);
+            break;
+        case 'key':
+            token = form.getValues('key_bot_token');
+            chatIdInput = form.getValues('key_bot_admin_chat_ids')?.split(',')[0]?.trim();
+            setIsSendingTestKeyBot(true);
+            break;
+    }
+
 
     if (!token || !chatIdInput) {
-        toast({ title: "Ошибка", description: "Токен бота и ID чата должны быть заполнены для отправки тестового сообщения.", variant: "destructive"});
+        toast({ title: "Ошибка", description: `Токен бота и ID чата для ${botType} бота должны быть заполнены.`, variant: "destructive"});
+        if(botType === 'client') setIsSendingTestClient(false);
+        if(botType === 'admin') setIsSendingTestAdmin(false);
+        if(botType === 'key') setIsSendingTestKeyBot(false);
         return;
     }
 
-    botType === 'client' ? setIsSendingTestClient(true) : setIsSendingTestAdmin(true);
     try {
         const response = await fetch('/api/admin/site-settings/telegram/test-message', {
             method: 'POST',
@@ -155,12 +189,14 @@ export default function AdminTelegramSettingsPage() {
             body: JSON.stringify({ botType, message }),
         });
         const result = await response.json();
-        if (!response.ok) throw new Error(result.message || `Не удалось отправить тестовое сообщение для ${botType === 'client' ? 'клиентского' : 'админского'} бота.`);
+        if (!response.ok) throw new Error(result.message || `Не удалось отправить тестовое сообщение для ${botType} бота.`);
         toast({ title: "Тестовое сообщение", description: result.message });
     } catch (error: any) {
         toast({ title: "Ошибка отправки", description: error.message, variant: "destructive" });
     } finally {
-        botType === 'client' ? setIsSendingTestClient(false) : setIsSendingTestAdmin(false);
+        if(botType === 'client') setIsSendingTestClient(false);
+        if(botType === 'admin') setIsSendingTestAdmin(false);
+        if(botType === 'key') setIsSendingTestKeyBot(false);
     }
   };
 
@@ -180,14 +216,15 @@ export default function AdminTelegramSettingsPage() {
             <Bot className="mr-2 h-5 w-5" />
             Настройки Telegram Ботов
         </CardTitle>
-        <CardDescription className="text-muted-foreground">Управление ботами для клиентских и административных уведомлений.</CardDescription>
+        <CardDescription className="text-muted-foreground">Управление ботами для клиентских и административных уведомлений, а также для запросов активации ключей.</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)}>
             <Tabs defaultValue="client_bot" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsList className="grid w-full grid-cols-3 mb-6"> {/* Changed to grid-cols-3 */}
                     <TabsTrigger value="client_bot">Клиентский Бот</TabsTrigger>
                     <TabsTrigger value="admin_bot">Админский Бот</TabsTrigger>
+                    <TabsTrigger value="key_bot">Key Bot (Активация)</TabsTrigger> {/* New Tab */}
                 </TabsList>
 
                 <TabsContent value="client_bot" className="space-y-6">
@@ -274,6 +311,30 @@ export default function AdminTelegramSettingsPage() {
                         ))}
                     </div>
                 </TabsContent>
+                
+                <TabsContent value="key_bot" className="space-y-6">
+                    <CardDescription className="text-sm text-muted-foreground">
+                        Этот бот используется для получения запросов на активацию ключей от пользователей и позволяет администраторам одобрять/отклонять их прямо из Telegram.
+                    </CardDescription>
+                    <div>
+                        <Label htmlFor="key_bot_token" className="text-foreground">Токен Key Bot</Label>
+                        <Input id="key_bot_token" {...form.register("key_bot_token")} placeholder="777777:ABC-DEF..." className="mt-1" disabled={isLoading} />
+                    </div>
+                    <div>
+                        <Label htmlFor="key_bot_admin_chat_ids" className="text-foreground">ID Админ Чатов для Key Bot (через запятую)</Label>
+                        <Input id="key_bot_admin_chat_ids" {...form.register("key_bot_admin_chat_ids")} placeholder="-10012345, -10067890" className="mt-1" disabled={isLoading} />
+                    </div>
+                    <div className="pt-2 space-y-2">
+                        <Label htmlFor="test_message_key_bot" className="text-foreground">Тестовое сообщение для Key Bot</Label>
+                         <div className="flex gap-2">
+                            <Input id="test_message_key_bot" value={testMessageKeyBot} onChange={(e) => setTestMessageKeyBot(e.target.value)} placeholder="Тест Key Bot!" disabled={isSendingTestKeyBot} />
+                            <Button type="button" variant="outline" onClick={() => handleSendTest('key', testMessageKeyBot)} disabled={isSendingTestKeyBot || !form.getValues('key_bot_token') || !form.getValues('key_bot_admin_chat_ids')} className="border-primary text-primary hover:bg-primary/10">
+                                {isSendingTestKeyBot ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Send className="mr-2 h-4 w-4" />}
+                                Отправить
+                            </Button>
+                        </div>
+                    </div>
+                </TabsContent>
             </Tabs>
 
             <div className="flex justify-end pt-6 border-t border-border/50 mt-6">
@@ -287,5 +348,4 @@ export default function AdminTelegramSettingsPage() {
     </Card>
   );
 }
-
     

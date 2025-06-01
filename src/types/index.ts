@@ -117,6 +117,13 @@ export interface Product {
   retrieval_modal_support_link_text?: string | null;
   retrieval_modal_support_link_url?: string | null;
   retrieval_modal_how_to_run_link?: string | null;
+
+  // New fields for activation type
+  activation_type?: 'key_request' | 'info_modal' | 'direct_key'; // direct_key is a future placeholder
+  loader_download_url?: string | null;
+  info_modal_content_html?: string | null;
+  info_modal_support_link_text?: string | null;
+  info_modal_support_link_url?: string | null;
 }
 
 
@@ -277,8 +284,8 @@ export interface SiteTelegramSettings {
   client_bot_chat_id?: string | null;
   admin_bot_token?: string | null;
   admin_bot_chat_ids?: string | null; // Comma-separated list of chat IDs
-  key_bot_token?: string | null;
-  key_bot_admin_chat_ids?: string | null;
+  key_bot_token?: string | null; // Added for key activation bot
+  key_bot_admin_chat_ids?: string | null; // Added for key activation bot admin chats
   updated_at?: string;
 }
 
@@ -425,6 +432,12 @@ export interface ActiveLicense {
   productSlug: string;
   how_to_run_link?: string | null;
   mode_label?: string | null;
+  activation_type?: 'key_request' | 'info_modal' | 'direct_key';
+  loader_download_url?: string | null;
+  info_modal_content_html?: string | null;
+  info_modal_support_link_text?: string | null;
+  info_modal_support_link_url?: string | null;
+  related_product_id?: string; // For fetching product specific activation settings
 }
 
 export interface PromoCode {

@@ -32,6 +32,8 @@ export async function GET(request: NextRequest) {
          p.retrieval_modal_support_link_text,
          p.retrieval_modal_support_link_url,
          p.retrieval_modal_how_to_run_link,
+         p.activation_type, p.loader_download_url, p.info_modal_content_html, 
+         p.info_modal_support_link_text, p.info_modal_support_link_url,
          p.created_at, p.updated_at,
          (SELECT MIN(ppo.price_rub) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_rub_payment_visible = TRUE) as min_price_rub_calculated,
          (SELECT MIN(ppo.price_gh) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_gh_payment_visible = TRUE) as min_price_gh_calculated,
@@ -91,11 +93,16 @@ export async function GET(request: NextRequest) {
       retrieval_modal_support_link_text: row.retrieval_modal_support_link_text,
       retrieval_modal_support_link_url: row.retrieval_modal_support_link_url,   
       retrieval_modal_how_to_run_link: row.retrieval_modal_how_to_run_link,
+      activation_type: row.activation_type || 'info_modal',
+      loader_download_url: row.loader_download_url,
+      info_modal_content_html: row.info_modal_content_html,
+      info_modal_support_link_text: row.info_modal_support_link_text,
+      info_modal_support_link_url: row.info_modal_support_link_url,
       created_at: row.created_at,
       updated_at: row.updated_at,
       gameName: row.gameName,
       gameLogoUrl: row.gameLogoUrl ? String(row.gameLogoUrl).trim() : null,
-      gamePlatform: row.gamePlatform,
+      gamePlatform: row.gamePlatform, 
     }));
 
     return NextResponse.json(products, { status: 200 });
@@ -113,9 +120,14 @@ export async function POST(request: NextRequest) {
       id, 
       name,
       slug,
-      game_slug: raw_game_slug, // Use raw_game_slug to avoid conflict with local var
+      game_slug: raw_game_slug, 
       status,
       pricing_options,
+      activation_type, // New activation fields
+      loader_download_url,
+      info_modal_content_html,
+      info_modal_support_link_text,
+      info_modal_support_link_url,
       ...optionalFieldsData
     } = body;
 
@@ -142,6 +154,11 @@ export async function POST(request: NextRequest) {
       slug: trimmedSlug, 
       game_slug: trimmedGameSlug, 
       status, 
+      activation_type: activation_type || 'info_modal',
+      loader_download_url: loader_download_url || null,
+      info_modal_content_html: info_modal_content_html || null,
+      info_modal_support_link_text: info_modal_support_link_text || null,
+      info_modal_support_link_url: info_modal_support_link_url || null,
       created_at: new Date(), updated_at: new Date(),
       functions_aim_title: optionalFieldsData.functions_aim_title || 'Aimbot Функции',
       functions_esp_title: optionalFieldsData.functions_esp_title || 'ESP/Wallhack Функции',
@@ -276,6 +293,11 @@ export async function POST(request: NextRequest) {
         retrieval_modal_support_link_text: row.retrieval_modal_support_link_text, 
         retrieval_modal_support_link_url: row.retrieval_modal_support_link_url,   
         retrieval_modal_how_to_run_link: row.retrieval_modal_how_to_run_link,
+        activation_type: row.activation_type || 'info_modal',
+        loader_download_url: row.loader_download_url,
+        info_modal_content_html: row.info_modal_content_html,
+        info_modal_support_link_text: row.info_modal_support_link_text,
+        info_modal_support_link_url: row.info_modal_support_link_url,
         created_at: row.created_at,
         updated_at: row.updated_at,
         gameName: row.gameName,
@@ -302,5 +324,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: `Internal Server Error: ${error.message}`, error_details: error.toString() }, { status: 500 });
   }
 }
-
     
