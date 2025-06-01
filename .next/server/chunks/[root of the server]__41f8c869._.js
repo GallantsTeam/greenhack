@@ -646,7 +646,6 @@ async function POST(request) {
                 chatIdInput = config.key_bot_admin_chat_ids;
                 break;
             default:
-                // This case should not be reached due to the initial validation
                 return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                     message: 'Неизвестный тип бота.'
                 }, {
@@ -676,12 +675,12 @@ async function POST(request) {
             });
         }
         let allSentSuccessfully = true;
-        let firstError = null;
+        let firstErrorResult = null;
         for (const chatId of chatIds){
             const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$telegram$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["sendTelegramMessage"])(token, chatId, message);
             if (!result.success) {
                 allSentSuccessfully = false;
-                if (!firstError) firstError = result.error || 'Unknown error during sending.';
+                if (!firstErrorResult) firstErrorResult = result;
                 console.error(`Failed to send test message to ${chatId} for ${botType} bot:`, result.error);
             }
         }
@@ -690,8 +689,9 @@ async function POST(request) {
                 message: `Тестовое сообщение успешно отправлено на ${chatIds.join(', ')} через ${botType} бота.`
             });
         } else {
+            const errorMessageDetail = firstErrorResult?.message || firstErrorResult?.error?.description || 'Неизвестная ошибка отправки.';
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: `Не удалось отправить тестовое сообщение на один или несколько чатов. Первая ошибка: ${firstError}`
+                message: `Не удалось отправить тестовое сообщение на один или несколько чатов. Первая ошибка: ${errorMessageDetail}`
             }, {
                 status: 500
             });

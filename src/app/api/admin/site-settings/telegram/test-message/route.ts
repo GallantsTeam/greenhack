@@ -59,18 +59,19 @@ export async function POST(request: NextRequest) {
     let firstErrorResult: { success: boolean; message?: string; error?: any } | null = null;
 
     for (const chatId of chatIds) {
+        console.log(`[API Test Telegram] Attempting to send to ${botType} bot, chat_id: '${chatId}', message: "${message}"`); // Added detailed log
         const result = await sendTelegramMessage(token, chatId, message);
         if (!result.success) {
             allSentSuccessfully = false;
             if (!firstErrorResult) firstErrorResult = result;
-            console.error(`Failed to send test message to ${chatId} for ${botType} bot:`, result.error);
+            console.error(`Failed to send test message to ${chatId} for ${botType} bot:`, result.message, result.error);
         }
     }
 
     if (allSentSuccessfully) {
       return NextResponse.json({ message: `Тестовое сообщение успешно отправлено на ${chatIds.join(', ')} через ${botType} бота.` });
     } else {
-      const errorMessageDetail = firstErrorResult?.message || firstErrorResult?.error?.description || 'Неизвестная ошибка отправки.';
+      const errorMessageDetail = firstErrorResult?.message || (typeof firstErrorResult?.error === 'object' ? JSON.stringify(firstErrorResult.error) : firstErrorResult?.error) || 'Неизвестная ошибка отправки.';
       return NextResponse.json({ message: `Не удалось отправить тестовое сообщение на один или несколько чатов. Первая ошибка: ${errorMessageDetail}` }, { status: 500 });
     }
 
@@ -79,5 +80,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: `Внутренняя ошибка сервера: ${error.message}` }, { status: 500 });
   }
 }
+
+    
 
     
