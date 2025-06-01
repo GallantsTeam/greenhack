@@ -608,7 +608,11 @@ async function POST(request) {
     try {
         // TODO: Add proper admin authentication check here
         const { botType, message } = await request.json();
-        if (!botType || !message || botType !== 'client' && botType !== 'admin') {
+        if (!botType || !message || ![
+            'client',
+            'admin',
+            'key'
+        ].includes(botType)) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: 'Некорректный тип бота или отсутствует сообщение.'
             }, {
@@ -626,18 +630,39 @@ async function POST(request) {
             });
         }
         const config = settingsResults[0];
-        const token = botType === 'client' ? config.client_bot_token : config.admin_bot_token;
-        const chatIdInput = botType === 'client' ? config.client_bot_chat_id : config.admin_bot_chat_ids;
+        let token;
+        let chatIdInput;
+        switch(botType){
+            case 'client':
+                token = config.client_bot_token;
+                chatIdInput = config.client_bot_chat_id;
+                break;
+            case 'admin':
+                token = config.admin_bot_token;
+                chatIdInput = config.admin_bot_chat_ids;
+                break;
+            case 'key':
+                token = config.key_bot_token;
+                chatIdInput = config.key_bot_admin_chat_ids;
+                break;
+            default:
+                // This case should not be reached due to the initial validation
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    message: 'Неизвестный тип бота.'
+                }, {
+                    status: 400
+                });
+        }
         if (!token) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: `Токен для ${botType === 'client' ? 'клиентского' : 'админского'} бота не настроен.`
+                message: `Токен для ${botType} бота не настроен.`
             }, {
                 status: 400
             });
         }
         if (!chatIdInput) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: `ID чата(ов) для ${botType === 'client' ? 'клиентского' : 'админского'} бота не настроен.`
+                message: `ID чата(ов) для ${botType} бота не настроен.`
             }, {
                 status: 400
             });
@@ -645,7 +670,7 @@ async function POST(request) {
         const chatIds = chatIdInput.split(',').map((id)=>id.trim()).filter((id)=>id);
         if (chatIds.length === 0) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: `Не указаны корректные ID чата(ов) для ${botType === 'client' ? 'клиентского' : 'админского'} бота.`
+                message: `Не указаны корректные ID чата(ов) для ${botType} бота.`
             }, {
                 status: 400
             });
@@ -658,12 +683,11 @@ async function POST(request) {
                 allSentSuccessfully = false;
                 if (!firstError) firstError = result.error || 'Unknown error during sending.';
                 console.error(`Failed to send test message to ${chatId} for ${botType} bot:`, result.error);
-            // Optionally break or continue sending to other admin chat IDs
             }
         }
         if (allSentSuccessfully) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: `Тестовое сообщение успешно отправлено на ${chatIds.join(', ')} через ${botType === 'client' ? 'клиентского' : 'админского'} бота.`
+                message: `Тестовое сообщение успешно отправлено на ${chatIds.join(', ')} через ${botType} бота.`
             });
         } else {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({

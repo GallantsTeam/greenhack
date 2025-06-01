@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     // TODO: Add proper admin authentication check here
     const { botType, message } = await request.json();
 
-    if (!botType || !message || !['client', 'admin', 'key'].includes(botType)) { // Updated this line
+    if (!botType || !message || !['client', 'admin', 'key'].includes(botType)) {
       return NextResponse.json({ message: 'Некорректный тип бота или отсутствует сообщение.' }, { status: 400 });
     }
 
@@ -34,12 +34,11 @@ export async function POST(request: NextRequest) {
             token = config.admin_bot_token;
             chatIdInput = config.admin_bot_chat_ids;
             break;
-        case 'key': // Added case for key bot
+        case 'key': 
             token = config.key_bot_token;
             chatIdInput = config.key_bot_admin_chat_ids;
             break;
         default:
-            // This case should not be reached due to the initial validation
             return NextResponse.json({ message: 'Неизвестный тип бота.' }, { status: 400 });
     }
 
@@ -57,13 +56,13 @@ export async function POST(request: NextRequest) {
     }
 
     let allSentSuccessfully = true;
-    let firstError = null;
+    let firstErrorResult: { success: boolean; message?: string; error?: any } | null = null;
 
     for (const chatId of chatIds) {
         const result = await sendTelegramMessage(token, chatId, message);
         if (!result.success) {
             allSentSuccessfully = false;
-            if (!firstError) firstError = result.error || 'Unknown error during sending.';
+            if (!firstErrorResult) firstErrorResult = result;
             console.error(`Failed to send test message to ${chatId} for ${botType} bot:`, result.error);
         }
     }
@@ -71,7 +70,8 @@ export async function POST(request: NextRequest) {
     if (allSentSuccessfully) {
       return NextResponse.json({ message: `Тестовое сообщение успешно отправлено на ${chatIds.join(', ')} через ${botType} бота.` });
     } else {
-      return NextResponse.json({ message: `Не удалось отправить тестовое сообщение на один или несколько чатов. Первая ошибка: ${firstError}` }, { status: 500 });
+      const errorMessageDetail = firstErrorResult?.message || firstErrorResult?.error?.description || 'Неизвестная ошибка отправки.';
+      return NextResponse.json({ message: `Не удалось отправить тестовое сообщение на один или несколько чатов. Первая ошибка: ${errorMessageDetail}` }, { status: 500 });
     }
 
   } catch (error: any) {
