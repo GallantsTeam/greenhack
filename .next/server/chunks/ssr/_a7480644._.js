@@ -141,12 +141,12 @@ function AdminSidebar() {
     const [showTestPaymentsLink, setShowTestPaymentsLink] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isLoadingSettings, setIsLoadingSettings] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [pendingReviewCount, setPendingReviewCount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [pendingKeyActivationCount, setPendingKeyActivationCount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0); // New state for key activations
+    const [pendingKeyActivationCount, setPendingKeyActivationCount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
     const fetchPendingCounts = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async ()=>{
         try {
             const [reviewResponse, keyActivationResponse] = await Promise.all([
                 fetch('/api/admin/reviews/pending-count'),
-                fetch('/api/admin/key-activation-requests?status=pending_admin_approval') // Assuming API supports status filter or returns all and we filter client-side (better to filter API-side if possible)
+                fetch('/api/admin/key-activation-requests/pending-count')
             ]);
             if (reviewResponse.ok) {
                 const reviewData = await reviewResponse.json();
@@ -156,9 +156,7 @@ function AdminSidebar() {
             }
             if (keyActivationResponse.ok) {
                 const keyActivationData = await keyActivationResponse.json();
-                // If the API returns all requests, filter here. If it pre-filters, this is simpler.
-                // For now, assuming the API returns only pending or we count all returned as pending if no status filter.
-                setPendingKeyActivationCount(Array.isArray(keyActivationData) ? keyActivationData.length : 0);
+                setPendingKeyActivationCount(keyActivationData.count);
             } else {
                 console.warn("Failed to fetch pending key activation count.");
             }
@@ -168,6 +166,7 @@ function AdminSidebar() {
     }, []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         fetchPendingCounts();
+        // Refresh counts if user navigates to the relevant pages
         if (pathname.startsWith('/admin/reviews') || pathname.startsWith('/admin/key-activations')) {
             fetchPendingCounts();
         }
@@ -220,17 +219,17 @@ function AdminSidebar() {
                         children: "Admin Panel"
                     }, void 0, false, {
                         fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                        lineNumber: 129,
+                        lineNumber: 128,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                    lineNumber: 128,
+                    lineNumber: 127,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                lineNumber: 127,
+                lineNumber: 126,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$scroll$2d$area$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ScrollArea"], {
@@ -254,7 +253,7 @@ function AdminSidebar() {
                                         className: "mr-3 h-5 w-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                                        lineNumber: 152,
+                                        lineNumber: 151,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -262,7 +261,7 @@ function AdminSidebar() {
                                         children: item.label
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                                        lineNumber: 153,
+                                        lineNumber: 152,
                                         columnNumber: 19
                                     }, this),
                                     isReviewsLink && pendingReviewCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -271,7 +270,7 @@ function AdminSidebar() {
                                         children: pendingReviewCount
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                                        lineNumber: 155,
+                                        lineNumber: 154,
                                         columnNumber: 21
                                     }, this),
                                     isKeyActivationsLink && pendingKeyActivationCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -280,7 +279,7 @@ function AdminSidebar() {
                                         children: pendingKeyActivationCount
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                                        lineNumber: 160,
+                                        lineNumber: 159,
                                         columnNumber: 21
                                     }, this),
                                     active && !(isReviewsLink && pendingReviewCount > 0 || isKeyActivationsLink && pendingKeyActivationCount > 0) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
@@ -293,23 +292,23 @@ function AdminSidebar() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                                lineNumber: 151,
+                                lineNumber: 150,
                                 columnNumber: 17
                             }, this)
                         }, item.href, false, {
                             fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                            lineNumber: 140,
+                            lineNumber: 139,
                             columnNumber: 15
                         }, this);
                     })
                 }, void 0, false, {
                     fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                    lineNumber: 133,
+                    lineNumber: 132,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-                lineNumber: 132,
+                lineNumber: 131,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -322,7 +321,7 @@ function AdminSidebar() {
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/admin/AdminSidebar.tsx",
-        lineNumber: 126,
+        lineNumber: 125,
         columnNumber: 5
     }, this);
 }

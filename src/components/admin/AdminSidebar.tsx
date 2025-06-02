@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Package, ShoppingCart, Settings, LayoutDashboard, Layers, Palette, FileText, Ticket, ChevronRight, DollarSign, PercentSquare, HandCoins, CreditCard, Bot as BotIcon, MessageSquare as MessageSquareIcon, BarChart3, PencilRuler, KeyRound } from 'lucide-react'; // Added KeyRound
+import { Home, Users, Package, ShoppingCart, Settings, LayoutDashboard, Layers, Palette, FileText, Ticket, ChevronRight, DollarSign, PercentSquare, HandCoins, CreditCard, Bot as BotIcon, MessageSquare as MessageSquareIcon, BarChart3, PencilRuler, KeyRound } from 'lucide-react'; 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -135,6 +135,7 @@ export default function AdminSidebar() {
             const active = isActive(item.href, item.baseRoute, (item as any).exact);
             const isReviewsLink = item.href === '/admin/reviews';
             const isKeyActivationsLink = item.href === '/admin/key-activations';
+            const showBadge = (isReviewsLink && pendingReviewCount > 0) || (isKeyActivationsLink && pendingKeyActivationCount > 0);
             return (
               <Button
                 key={item.href}
@@ -160,8 +161,7 @@ export default function AdminSidebar() {
                       {pendingKeyActivationCount}
                     </Badge>
                   )}
-                  {/* Show chevron only if not showing a count badge */}
-                  {active && !((isReviewsLink && pendingReviewCount > 0) || (isKeyActivationsLink && pendingKeyActivationCount > 0)) && <ChevronRight className="ml-auto h-4 w-4" />}
+                  {active && !showBadge && <ChevronRight className="ml-auto h-4 w-4" />}
                 </Link>
               </Button>
             );
@@ -174,3 +174,4 @@ export default function AdminSidebar() {
     </aside>
   );
 }
+

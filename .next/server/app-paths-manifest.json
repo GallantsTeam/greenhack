@@ -17,6 +17,7 @@
   "/admin/users/page": "app/admin/users/page.js",
   "/api/admin/key-activation-requests/[inventoryItemId]/approve/route": "app/api/admin/key-activation-requests/[inventoryItemId]/approve/route.js",
   "/api/admin/key-activation-requests/[inventoryItemId]/reject/route": "app/api/admin/key-activation-requests/[inventoryItemId]/reject/route.js",
+  "/api/admin/key-activation-requests/pending-count/route": "app/api/admin/key-activation-requests/pending-count/route.js",
   "/api/admin/key-activation-requests/route": "app/api/admin/key-activation-requests/route.js",
   "/api/admin/products/[slug]/route": "app/api/admin/products/[slug]/route.js",
   "/api/admin/products/route": "app/api/admin/products/route.js",
