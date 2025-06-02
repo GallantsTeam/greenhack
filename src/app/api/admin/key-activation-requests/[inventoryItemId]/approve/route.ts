@@ -4,47 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/mysql';
 import type { OkPacket } from 'mysql2';
 import type { InventoryItemWithDetails, User, SiteTelegramSettings, SiteNotificationSettings } from '@/types';
-import { sendTelegramMessage } from '@/lib/telegram';
+import { sendTelegramMessage, getTelegramSettingsFromDb } from '@/lib/telegram';
 // import { sendEmail } from '@/lib/email'; // Placeholder for email notification
-
-const SETTINGS_ROW_ID = 1; 
-
-async function getClientBotToken(): Promise<string | null> {
-  try {
-    const settingsResults = await query('SELECT client_bot_token FROM site_telegram_settings WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]);
-    if (settingsResults.length > 0 && settingsResults[0].client_bot_token) {
-      return settingsResults[0].client_bot_token;
-    }
-    return null;
-  } catch (error) {
-    console.error("[ApproveKeyActivation] Error fetching client_bot_token:", error);
-    return null;
-  }
-}
-async function getNotificationSettings(): Promise<SiteNotificationSettings | null> {
-  try {
-    const results = await query('SELECT * FROM site_notification_settings WHERE id = ? LIMIT 1', [SETTINGS_ROW_ID]);
-    if (results.length > 0) {
-      const settings = results[0];
-      return {
-        id: settings.id,
-        notify_on_registration: Boolean(settings.notify_on_registration),
-        notify_on_balance_deposit: Boolean(settings.notify_on_balance_deposit),
-        notify_on_product_purchase: Boolean(settings.notify_on_product_purchase),
-        notify_on_support_reply: Boolean(settings.notify_on_support_reply),
-        notify_on_software_activation: Boolean(settings.notify_on_software_activation),
-        notify_on_license_expiry_soon: Boolean(settings.notify_on_license_expiry_soon),
-        notify_on_promotions: Boolean(settings.notify_on_promotions),
-        updated_at: settings.updated_at,
-      };
-    }
-    return null;
-  } catch (error) {
-    console.error("[ApproveKeyActivation] Error fetching site_notification_settings:", error);
-    return null;
-  }
-}
-
 
 export async function PUT(
   request: NextRequest,
@@ -98,8 +59,8 @@ export async function PUT(
     ) as OkPacket;
 
     if (result.affectedRows > 0) {
-      const clientBotToken = await getClientBotToken();
-      const notificationSettings = await getNotificationSettings();
+      const { telegramSettings, siteNotificationSettings } = await getTelegramSettingsFromDb();
+      const clientBotToken = telegramSettings?.client_bot_token;
 
       const userMessage = `Уважаемый пользователь, ваш ключ для "${item.product_name}"${item.duration_days ? ` на ${item.duration_days} дн.` : ''}${item.mode_label ? ` [${item.mode_label}]` : ''} был успешно активирован! Если вы не знаете как запустить софт, воспользуйтесь кнопкой "Как запускать?" в личном кабинете или напишите в техническую поддержку. Приятной игры!`;
       
@@ -116,7 +77,7 @@ export async function PUT(
       );
       console.log(`[ApproveKeyActivation] Added notification to user_notifications for user ${item.user_db_id}.`);
       
-      // if (notificationSettings?.notify_on_software_activation && item.user_email) {
+      // if (siteNotificationSettings?.notify_on_software_activation && item.user_email) {
       //   await sendEmail({
       //     to: item.user_email,
       //     subject: `Ваш ключ для ${item.product_name} активирован!`,

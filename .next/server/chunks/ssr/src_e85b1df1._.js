@@ -1055,12 +1055,12 @@ function AccountDashboardPage() {
                 children: "Загрузка данных аккаунта..."
             }, void 0, false, {
                 fileName: "[project]/src/app/account/page.tsx",
-                lineNumber: 254,
+                lineNumber: 257,
                 columnNumber: 69
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/account/page.tsx",
-            lineNumber: 254,
+            lineNumber: 257,
             columnNumber: 12
         }, this);
     }
@@ -1071,12 +1071,12 @@ function AccountDashboardPage() {
                 children: "Пожалуйста, войдите для доступа к этой странице."
             }, void 0, false, {
                 fileName: "[project]/src/app/account/page.tsx",
-                lineNumber: 259,
+                lineNumber: 262,
                 columnNumber: 82
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/account/page.tsx",
-            lineNumber: 259,
+            lineNumber: 262,
             columnNumber: 12
         }, this);
     }
@@ -1094,19 +1094,19 @@ function AccountDashboardPage() {
                             children: currentUser?.username || 'Пользователь'
                         }, void 0, false, {
                             fileName: "[project]/src/app/account/page.tsx",
-                            lineNumber: 266,
+                            lineNumber: 269,
                             columnNumber: 24
                         }, this),
                         "!"
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/account/page.tsx",
-                    lineNumber: 265,
+                    lineNumber: 268,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/account/page.tsx",
-                lineNumber: 264,
+                lineNumber: 267,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1125,19 +1125,19 @@ function AccountDashboardPage() {
                                                 className: "mr-2 h-6 w-6"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 275,
+                                                lineNumber: 278,
                                                 columnNumber: 17
                                             }, this),
                                             "Активные лицензии"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 274,
+                                        lineNumber: 277,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 273,
+                                    lineNumber: 276,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1148,7 +1148,7 @@ function AccountDashboardPage() {
                                                 className: "h-6 w-6 animate-spin text-primary"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 281,
+                                                lineNumber: 284,
                                                 columnNumber: 81
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1156,13 +1156,13 @@ function AccountDashboardPage() {
                                                 children: "Загрузка..."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 281,
+                                                lineNumber: 284,
                                                 columnNumber: 138
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 281,
+                                        lineNumber: 284,
                                         columnNumber: 17
                                     }, this) : activeLicenses.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
                                         className: "space-y-4",
@@ -1178,7 +1178,7 @@ function AccountDashboardPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 286,
+                                                        lineNumber: 289,
                                                         columnNumber: 23
                                                     }, this),
                                                     license.activated_at && license.activation_status === 'active' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1189,7 +1189,7 @@ function AccountDashboardPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 287,
+                                                        lineNumber: 290,
                                                         columnNumber: 90
                                                     }, this),
                                                     license.activation_status === 'active' && license.expiryDate && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1200,7 +1200,7 @@ function AccountDashboardPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 288,
+                                                        lineNumber: 291,
                                                         columnNumber: 88
                                                     }, this),
                                                     license.activation_status === 'pending_admin_approval' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1208,7 +1208,7 @@ function AccountDashboardPage() {
                                                         children: "Статус: Ожидает одобрения администратором"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 289,
+                                                        lineNumber: 292,
                                                         columnNumber: 82
                                                     }, this),
                                                     license.activation_status === 'rejected' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1216,7 +1216,7 @@ function AccountDashboardPage() {
                                                         children: "Статус: Запрос на активацию отклонен"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 290,
+                                                        lineNumber: 293,
                                                         columnNumber: 69
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1232,12 +1232,12 @@ function AccountDashboardPage() {
                                                                     children: "Продлить"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/account/page.tsx",
-                                                                    lineNumber: 293,
+                                                                    lineNumber: 296,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                                lineNumber: 292,
+                                                                lineNumber: 295,
                                                                 columnNumber: 25
                                                             }, this),
                                                             license.activation_type === 'key_request' && license.activation_status !== 'active' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1250,7 +1250,7 @@ function AccountDashboardPage() {
                                                                         className: "mr-1.5 h-4 w-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                                        lineNumber: 297,
+                                                                        lineNumber: 300,
                                                                         columnNumber: 33
                                                                     }, this),
                                                                     " ",
@@ -1258,7 +1258,7 @@ function AccountDashboardPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                                lineNumber: 296,
+                                                                lineNumber: 299,
                                                                 columnNumber: 29
                                                             }, this),
                                                             (license.activation_type === 'info_modal' || license.activation_type === 'key_request' && license.activation_status === 'active') && license.how_to_run_link && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1269,7 +1269,7 @@ function AccountDashboardPage() {
                                                                 children: "Как запускать?"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                                lineNumber: 301,
+                                                                lineNumber: 304,
                                                                 columnNumber: 29
                                                             }, this),
                                                             (license.activation_type === 'info_modal' || license.activation_type === 'key_request' && license.activation_status === 'active') && !license.how_to_run_link && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1280,24 +1280,24 @@ function AccountDashboardPage() {
                                                                 children: "Инструкция"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                                lineNumber: 304,
+                                                                lineNumber: 307,
                                                                 columnNumber: 30
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 291,
+                                                        lineNumber: 294,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, license.id, true, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 285,
+                                                lineNumber: 288,
                                                 columnNumber: 21
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 283,
+                                        lineNumber: 286,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "min-h-[100px] flex items-center justify-center",
@@ -1306,28 +1306,28 @@ function AccountDashboardPage() {
                                             children: "У вас нет активных лицензий."
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/account/page.tsx",
-                                            lineNumber: 312,
+                                            lineNumber: 315,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 311,
+                                        lineNumber: 314,
                                         columnNumber: 18
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 279,
+                                    lineNumber: 282,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/account/page.tsx",
-                            lineNumber: 272,
+                            lineNumber: 275,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/account/page.tsx",
-                        lineNumber: 271,
+                        lineNumber: 274,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1344,7 +1344,7 @@ function AccountDashboardPage() {
                                                 children: "Текущий Баланс"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 322,
+                                                lineNumber: 325,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1357,18 +1357,18 @@ function AccountDashboardPage() {
                                                     className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("h-4 w-4", isRefreshingBalance && "animate-spin")
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/account/page.tsx",
-                                                    lineNumber: 324,
+                                                    lineNumber: 327,
                                                     columnNumber: 17
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 323,
+                                                lineNumber: 326,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 321,
+                                        lineNumber: 324,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1383,13 +1383,13 @@ function AccountDashboardPage() {
                                                         children: "GH"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 328,
+                                                        lineNumber: 331,
                                                         columnNumber: 105
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 328,
+                                                lineNumber: 331,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1397,19 +1397,19 @@ function AccountDashboardPage() {
                                                 children: "Доступно для покупок и кейсов"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 329,
+                                                lineNumber: 332,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 327,
+                                        lineNumber: 330,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/account/page.tsx",
-                                lineNumber: 320,
+                                lineNumber: 323,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1422,12 +1422,12 @@ function AccountDashboardPage() {
                                             children: "Реферальная программа"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/account/page.tsx",
-                                            lineNumber: 335,
+                                            lineNumber: 338,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 334,
+                                        lineNumber: 337,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1442,7 +1442,7 @@ function AccountDashboardPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 338,
+                                                lineNumber: 341,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1453,7 +1453,7 @@ function AccountDashboardPage() {
                                                         children: "Ваш код:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 342,
+                                                        lineNumber: 345,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1463,7 +1463,7 @@ function AccountDashboardPage() {
                                                         className: "h-7 text-xs font-mono bg-muted/50 text-foreground flex-grow"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 343,
+                                                        lineNumber: 346,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1476,24 +1476,24 @@ function AccountDashboardPage() {
                                                             className: "h-3.5 w-3.5"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/account/page.tsx",
-                                                            lineNumber: 356,
+                                                            lineNumber: 359,
                                                             columnNumber: 41
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$copy$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Copy$3e$__["Copy"], {
                                                             className: "h-3.5 w-3.5"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/account/page.tsx",
-                                                            lineNumber: 356,
+                                                            lineNumber: 359,
                                                             columnNumber: 77
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 349,
+                                                        lineNumber: 352,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 341,
+                                                lineNumber: 344,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1504,7 +1504,7 @@ function AccountDashboardPage() {
                                                         children: "Приглашено:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 360,
+                                                        lineNumber: 363,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1512,13 +1512,13 @@ function AccountDashboardPage() {
                                                         children: isCountLoading ? '...' : referredCount?.count ?? 0
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 361,
+                                                        lineNumber: 364,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 359,
+                                                lineNumber: 362,
                                                 columnNumber: 15
                                             }, this),
                                             isReferrerLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1526,7 +1526,7 @@ function AccountDashboardPage() {
                                                 children: "Загрузка пригласившего..."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 363,
+                                                lineNumber: 366,
                                                 columnNumber: 37
                                             }, this),
                                             !isReferrerLoading && referrerFetchError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1534,7 +1534,7 @@ function AccountDashboardPage() {
                                                 children: referrerFetchError
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 364,
+                                                lineNumber: 367,
                                                 columnNumber: 60
                                             }, this),
                                             !isReferrerLoading && !referrerFetchError && referrerDetails && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1546,25 +1546,25 @@ function AccountDashboardPage() {
                                                         children: referrerDetails.username
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 366,
+                                                        lineNumber: 369,
                                                         columnNumber: 77
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 366,
+                                                lineNumber: 369,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 337,
+                                        lineNumber: 340,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/account/page.tsx",
-                                lineNumber: 333,
+                                lineNumber: 336,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1577,12 +1577,12 @@ function AccountDashboardPage() {
                                             children: "Промокод"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/account/page.tsx",
-                                            lineNumber: 373,
+                                            lineNumber: 376,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 372,
+                                        lineNumber: 375,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1598,7 +1598,7 @@ function AccountDashboardPage() {
                                                     disabled: isApplyingPromoCode
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/account/page.tsx",
-                                                    lineNumber: 377,
+                                                    lineNumber: 380,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1612,47 +1612,47 @@ function AccountDashboardPage() {
                                                         className: "h-4 w-4 animate-spin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 393,
+                                                        lineNumber: 396,
                                                         columnNumber: 42
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2d$big$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle$3e$__["CheckCircle"], {
                                                         className: "h-5 w-5"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 393,
+                                                        lineNumber: 396,
                                                         columnNumber: 89
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/account/page.tsx",
-                                                    lineNumber: 385,
+                                                    lineNumber: 388,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/account/page.tsx",
-                                            lineNumber: 376,
+                                            lineNumber: 379,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 375,
+                                        lineNumber: 378,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/account/page.tsx",
-                                lineNumber: 371,
+                                lineNumber: 374,
                                 columnNumber: 12
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/account/page.tsx",
-                        lineNumber: 319,
+                        lineNumber: 322,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/account/page.tsx",
-                lineNumber: 270,
+                lineNumber: 273,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1666,19 +1666,19 @@ function AccountDashboardPage() {
                                     className: "mr-2 h-6 w-6"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 404,
+                                    lineNumber: 407,
                                     columnNumber: 13
                                 }, this),
                                 "История транзакций"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/account/page.tsx",
-                            lineNumber: 403,
+                            lineNumber: 406,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/account/page.tsx",
-                        lineNumber: 402,
+                        lineNumber: 405,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1689,7 +1689,7 @@ function AccountDashboardPage() {
                                     className: "h-6 w-6 animate-spin text-primary"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 411,
+                                    lineNumber: 414,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1697,13 +1697,13 @@ function AccountDashboardPage() {
                                     children: "Загрузка истории..."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 412,
+                                    lineNumber: 415,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/account/page.tsx",
-                            lineNumber: 410,
+                            lineNumber: 413,
                             columnNumber: 14
                         }, this) : balanceTransactions.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$scroll$2d$area$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ScrollArea"], {
                             className: "h-[200px] w-full rounded-md border border-border p-1",
@@ -1717,7 +1717,7 @@ function AccountDashboardPage() {
                                                     children: "Дата"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/account/page.tsx",
-                                                    lineNumber: 419,
+                                                    lineNumber: 422,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -1725,7 +1725,7 @@ function AccountDashboardPage() {
                                                     children: "Тип"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/account/page.tsx",
-                                                    lineNumber: 420,
+                                                    lineNumber: 423,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -1733,7 +1733,7 @@ function AccountDashboardPage() {
                                                     children: "Сумма (GH)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/account/page.tsx",
-                                                    lineNumber: 421,
+                                                    lineNumber: 424,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -1741,18 +1741,18 @@ function AccountDashboardPage() {
                                                     children: "Описание"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/account/page.tsx",
-                                                    lineNumber: 422,
+                                                    lineNumber: 425,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/account/page.tsx",
-                                            lineNumber: 418,
+                                            lineNumber: 421,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 417,
+                                        lineNumber: 420,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -1763,7 +1763,7 @@ function AccountDashboardPage() {
                                                         children: formatDate(tx.created_at)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 428,
+                                                        lineNumber: 431,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1771,7 +1771,7 @@ function AccountDashboardPage() {
                                                         children: formatTransactionType(tx.transaction_type)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 429,
+                                                        lineNumber: 432,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1782,7 +1782,7 @@ function AccountDashboardPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 430,
+                                                        lineNumber: 433,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1790,47 +1790,47 @@ function AccountDashboardPage() {
                                                         children: tx.description || '-'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/account/page.tsx",
-                                                        lineNumber: 436,
+                                                        lineNumber: 439,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, tx.id, true, {
                                                 fileName: "[project]/src/app/account/page.tsx",
-                                                lineNumber: 427,
+                                                lineNumber: 430,
                                                 columnNumber: 21
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/account/page.tsx",
-                                        lineNumber: 425,
+                                        lineNumber: 428,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/account/page.tsx",
-                                lineNumber: 416,
+                                lineNumber: 419,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/account/page.tsx",
-                            lineNumber: 415,
+                            lineNumber: 418,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             className: "text-muted-foreground text-center py-6",
                             children: "История транзакций пуста."
                         }, void 0, false, {
                             fileName: "[project]/src/app/account/page.tsx",
-                            lineNumber: 443,
+                            lineNumber: 446,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/account/page.tsx",
-                        lineNumber: 408,
+                        lineNumber: 411,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/account/page.tsx",
-                lineNumber: 401,
+                lineNumber: 404,
                 columnNumber: 8
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1844,19 +1844,19 @@ function AccountDashboardPage() {
                                     className: "mr-2 h-6 w-6"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 451,
+                                    lineNumber: 454,
                                     columnNumber: 13
                                 }, this),
                                 "Быстрые действия"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/account/page.tsx",
-                            lineNumber: 450,
+                            lineNumber: 453,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/account/page.tsx",
-                        lineNumber: 449,
+                        lineNumber: 452,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1871,12 +1871,12 @@ function AccountDashboardPage() {
                                     children: "Каталог"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 456,
+                                    lineNumber: 459,
                                     columnNumber: 134
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/account/page.tsx",
-                                lineNumber: 456,
+                                lineNumber: 459,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1888,12 +1888,12 @@ function AccountDashboardPage() {
                                     children: "Пополнить баланс"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 457,
+                                    lineNumber: 460,
                                     columnNumber: 134
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/account/page.tsx",
-                                lineNumber: 457,
+                                lineNumber: 460,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1905,12 +1905,12 @@ function AccountDashboardPage() {
                                     children: "История покупок"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 458,
+                                    lineNumber: 461,
                                     columnNumber: 134
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/account/page.tsx",
-                                lineNumber: 458,
+                                lineNumber: 461,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1922,24 +1922,24 @@ function AccountDashboardPage() {
                                     children: "Открыть кейс"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/account/page.tsx",
-                                    lineNumber: 459,
+                                    lineNumber: 462,
                                     columnNumber: 134
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/account/page.tsx",
-                                lineNumber: 459,
+                                lineNumber: 462,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/account/page.tsx",
-                        lineNumber: 455,
+                        lineNumber: 458,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/account/page.tsx",
-                lineNumber: 448,
+                lineNumber: 451,
                 columnNumber: 8
             }, this),
             selectedLicenseForKeyModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$KeyRegistrationModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1956,13 +1956,13 @@ function AccountDashboardPage() {
                 retrievalModalData: selectedLicenseForKeyModal
             }, void 0, false, {
                 fileName: "[project]/src/app/account/page.tsx",
-                lineNumber: 464,
+                lineNumber: 467,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/account/page.tsx",
-        lineNumber: 263,
+        lineNumber: 266,
         columnNumber: 5
     }, this);
 }
