@@ -3703,36 +3703,29 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-function RootLayout({ children }) {
+// This wrapper component is needed to use usePathname in a Server Component context (RootLayout)
+function RootLayoutClientWrapper({ children }) {
     _s();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
     const [isMounted, setIsMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [currentTheme, setCurrentTheme] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('light-theme'); // Default to light-theme for public pages
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "RootLayout.useEffect": ()=>{
+        "RootLayoutClientWrapper.useEffect": ()=>{
             setIsMounted(true);
-            // Logic to determine theme based on path
-            const isAdminPage = pathname?.startsWith('/admin');
-            setCurrentTheme(isAdminPage ? 'dark' : 'light-theme'); // Admin uses 'dark', public uses 'light-theme'
         }
-    }["RootLayout.useEffect"], [
-        pathname
-    ]);
-    const safePathname = pathname || "";
-    const isCurrentAdminPage = safePathname.startsWith('/admin');
-    const isCurrentAuthPage = safePathname.startsWith('/auth');
-    const isHomePage = safePathname === '/';
-    const clientShouldShowHeaderFooter = !isCurrentAdminPage && !isCurrentAuthPage;
-    const clientFooterSimplified = safePathname.startsWith('/account');
+    }["RootLayoutClientWrapper.useEffect"], []);
+    const isAdminPage = isMounted && pathname?.startsWith('/admin');
+    const isAuthPage = isMounted && pathname?.startsWith('/auth');
+    const isHomePage = isMounted && pathname === '/';
+    const clientShouldShowHeaderFooter = !isAdminPage && !isAuthPage;
+    const clientFooterSimplified = isMounted && pathname?.startsWith('/account');
     let showPaddingTop = false;
     if (isMounted) {
-        showPaddingTop = clientShouldShowHeaderFooter && !isHomePage && !safePathname.startsWith('/games') && safePathname !== '/statuses' && safePathname !== '/reviews';
+        showPaddingTop = clientShouldShowHeaderFooter && !isHomePage && !pathname?.startsWith('/games') && pathname !== '/statuses' && pathname !== '/reviews';
     }
-    const mainClasses = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex-grow flex flex-col", showPaddingTop ? "pt-14" : "", isCurrentAdminPage ? "overflow-y-hidden" : "overflow-y-auto");
-    return(// Apply theme class to <html> dynamically
-    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("html", {
+    const mainClasses = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex-grow flex flex-col", showPaddingTop ? "pt-14" : "", isAdminPage ? "overflow-y-hidden" : "overflow-y-auto");
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("html", {
         lang: "ru",
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])(isMounted ? currentTheme : 'light-theme', __TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$exo_2_40ff2aa0$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].variable),
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])(__TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$exo_2_40ff2aa0$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].variable, isAdminPage ? "dark" : ""),
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("head", {
                 children: [
@@ -3741,7 +3734,7 @@ function RootLayout({ children }) {
                         href: "https://fonts.googleapis.com"
                     }, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
-                        lineNumber: 66,
+                        lineNumber: 55,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
@@ -3750,7 +3743,7 @@ function RootLayout({ children }) {
                         crossOrigin: "anonymous"
                     }, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
-                        lineNumber: 67,
+                        lineNumber: 56,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
@@ -3758,13 +3751,13 @@ function RootLayout({ children }) {
                         rel: "stylesheet"
                     }, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
-                        lineNumber: 68,
+                        lineNumber: 57,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/layout.tsx",
-                lineNumber: 65,
+                lineNumber: 54,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("body", {
@@ -3774,7 +3767,7 @@ function RootLayout({ children }) {
                         " ",
                         isMounted && clientShouldShowHeaderFooter && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$layout$2f$Header$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 78,
+                            lineNumber: 67,
                             columnNumber: 57
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -3782,47 +3775,58 @@ function RootLayout({ children }) {
                             children: children
                         }, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 80,
+                            lineNumber: 69,
                             columnNumber: 11
                         }, this),
                         isMounted && clientShouldShowHeaderFooter && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$layout$2f$Footer$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                             simplified: clientFooterSimplified
                         }, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 84,
+                            lineNumber: 73,
                             columnNumber: 57
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$toaster$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Toaster"], {}, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 86,
+                            lineNumber: 75,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/layout.tsx",
-                    lineNumber: 75,
+                    lineNumber: 64,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/layout.tsx",
-                lineNumber: 70,
+                lineNumber: 59,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/layout.tsx",
-        lineNumber: 64,
+        lineNumber: 53,
         columnNumber: 5
-    }, this));
+    }, this);
 }
-_s(RootLayout, "WCczgOjb1g3L9+Ee4qlCvOvB8KY=", false, function() {
+_s(RootLayoutClientWrapper, "/gfV49Sl73fKtUlWWTXsgfT/UL4=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
     ];
 });
-_c = RootLayout;
-var _c;
-__turbopack_context__.k.register(_c, "RootLayout");
+_c = RootLayoutClientWrapper;
+function RootLayout({ children }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RootLayoutClientWrapper, {
+        children: children
+    }, void 0, false, {
+        fileName: "[project]/src/app/layout.tsx",
+        lineNumber: 88,
+        columnNumber: 10
+    }, this);
+}
+_c1 = RootLayout;
+var _c, _c1;
+__turbopack_context__.k.register(_c, "RootLayoutClientWrapper");
+__turbopack_context__.k.register(_c1, "RootLayout");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
 }

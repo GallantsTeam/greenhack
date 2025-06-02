@@ -10,115 +10,91 @@ body {
 
 @layer base {
   :root {
-    /* Light theme as per PRD - This will be applied by default or via 'light-theme' class */
-    --background: 240 20% 97%; /* Светло-серый (#F5F5F5 equivalent: HSL(0, 0%, 96%)) - Adjusted for neutrality approx #F7F7FA */
-    --foreground: 240 10% 10%; /* Темный для текста на светлом фоне */
+    --background: 220 20% 10%; /* Darker gray-blue */
+    --foreground: 200 20% 85%; /* Light gray for text */
 
-    --card: 240 20% 100%; /* Белый для карточек */
-    --card-foreground: 240 10% 10%;
+    --card: 220 20% 14%; /* Slightly lighter dark gray-blue */
+    --card-foreground: 200 20% 85%;
 
-    --popover: 240 20% 100%;
-    --popover-foreground: 240 10% 10%;
+    --popover: 220 20% 11%;
+    --popover-foreground: 200 20% 85%;
 
-    --primary: 231 60% 30%; /* Темно-синий (#1A237E) */
-    --primary-foreground: 0 0% 100%; /* Белый текст на темно-синем */
+    --primary: 170 60% 45%; /* Cyan-Greenish */
+    --primary-foreground: 210 40% 98%; /* Very light gray/white */
 
-    --secondary: 240 10% 90%; /* Более темный серый для вторичных элементов */
-    --secondary-foreground: 240 10% 20%;
+    --secondary: 210 18% 28%; /* Muted blue-gray */
+    --secondary-foreground: 200 20% 80%;
 
-    --muted: 240 10% 85%; /* Еще более светлый серый для приглушенных элементов */
-    --muted-foreground: 240 10% 45%;
+    --muted: 210 18% 22%;
+    --muted-foreground: 200 20% 60%;
 
-    --accent: 48 100% 50%; /* Желтый (#FFD600) */
-    --accent-foreground: 240 10% 10%; /* Темный текст на желтом */
+    --accent: 170 50% 60%; /* Lighter Cyan-Greenish */
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 70% 50%; /* Красный */
-    --destructive-foreground: 0 0% 100%; /* Белый текст на красном */
+    --destructive: 0 70% 55%; /* Red */
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 240 10% 80%; /* Граница для светлой темы */
-    --input: 240 10% 92%;  /* Фон для инпутов */
-    --ring: 48 100% 50%;   /* Кольцо фокуса - желтое, как акцент */
+    --border: 210 18% 25%;
+    --input: 210 18% 18%;
+    --ring: 170 60% 55%; /* Brighter Cyan-Greenish for focus ring */
     
-    --icon-color-hsl: 48 100% 50%; /* Желтый для акцентных иконок */
-    --header-height: 3.5rem; 
+    --icon-color-hsl: 170 60% 45%; /* Cyan-Greenish for icons */
+    --header-height: 3.5rem; /* Existing header height */
 
-    --font-exo-2: 'Exo 2', sans-serif;
+    --font-inter: "Inter", sans-serif; /* Define Inter font variable */
+    --font-exo-2: "Exo 2", sans-serif; /* Define Exo 2 font variable */
 
-    --chart-1: 231 60% 30%; /* Темно-синий */
-    --chart-2: 48 100% 50%; /* Желтый */
-    --chart-3: 231 50% 50%; /* Более светлый синий */
-    --chart-4: 48 90% 60%;  /* Более светлый желтый */
-    --chart-5: 210 30% 70%; /* Нейтральный серый/голубой */
+
+    --chart-1: 170 60% 45%;
+    --chart-2: 170 50% 60%;
+    --chart-3: 170 70% 35%;
+    --chart-4: 170 40% 70%;
+    --chart-5: 210 30% 70%;
     --radius: 0.75rem;
 
-    /* Sidebar specific variables - for admin panel (remains dark, but uses new accents) */
-    --sidebar-background: 220 20% 11%; /* Existing dark sidebar background */
-    --sidebar-foreground: 200 20% 85%; /* Existing dark sidebar foreground */
-    --sidebar-border: 210 18% 18%;     /* Existing dark sidebar border */
-    --sidebar-ring: 48 100% 50%;       /* Yellow ring for admin focus */
-    --sidebar-primary: 48 100% 50%;    /* Yellow primary for admin active items */
-    --sidebar-primary-foreground: 240 10% 10%; /* Dark text on yellow */
-    --sidebar-accent: 210 18% 20%;     /* Existing dark sidebar accent background */
-    --sidebar-accent-foreground: 200 20% 95%; /* Existing dark sidebar accent foreground */
-  }
-
-  /* Dark theme variables - primarily for the admin panel */
-  html.dark { /* Using html.dark for admin panel context */
-    --background: 220 20% 10%; 
-    --foreground: 200 20% 85%; 
-    --card: 220 20% 14%; 
-    --card-foreground: 200 20% 85%; 
-    --popover: 220 20% 11%; 
-    --popover-foreground: 200 20% 85%; 
-    --primary: 231 60% 30%; /* Темно-синий для шапки админки и основных элементов */
-    --primary-foreground: 0 0% 100%; 
-    --secondary: 210 18% 28%; 
-    --secondary-foreground: 200 20% 80%; 
-    --muted: 210 18% 22%; 
-    --muted-foreground: 200 20% 60%; 
-    --accent: 48 100% 50%;  /* Желтый */
-    --accent-foreground: 240 10% 10%; 
-    --destructive: 0 65% 55%; 
-    --destructive-foreground: 200 20% 95%; 
-    --border: 210 18% 25%; 
-    --input: 210 18% 18%; 
-    --ring: 48 100% 50%; /* Желтое кольцо фокуса */
-    --icon-color-hsl: 48 100% 50%; /* Желтые иконки по умолчанию для админки */
-    --header-height: 3.5rem;
-
-    /* Sidebar specific variables - for admin panel */
-    --sidebar-background: 220 20% 8%; 
+    /* Sidebar specific variables - can be same as main dark theme if consistent */
+    --sidebar-background: 220 20% 8%; /* Even darker for sidebar */
     --sidebar-foreground: 200 20% 90%;
     --sidebar-border: 210 18% 15%;
-    --sidebar-ring: 48 100% 50%;
-    --sidebar-primary: 48 100% 50%;
-    --sidebar-primary-foreground: 240 10% 10%;
-    --sidebar-accent: 210 18% 25%;
+    --sidebar-ring: 170 60% 55%;
+    --sidebar-primary: 170 60% 45%; /* Match main primary */
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 18% 25%; /* Accent for hover etc in sidebar */
     --sidebar-accent-foreground: 200 20% 98%;
   }
 
-  /* Light theme specific overrides for public pages */
-  html.light-theme {
-    --background: 240 20% 97%; 
-    --foreground: 240 10% 10%; 
-    --card: 240 20% 100%; 
-    --card-foreground: 240 10% 10%; 
-    --popover: 240 20% 100%;
-    --popover-foreground: 240 10% 10%;
-    --primary: 231 60% 30%; 
-    --primary-foreground: 0 0% 100%; 
-    --secondary: 240 10% 90%; 
-    --secondary-foreground: 240 10% 20%; 
-    --muted: 240 10% 85%; 
-    --muted-foreground: 240 10% 45%; 
-    --accent: 48 100% 50%;  
-    --accent-foreground: 240 10% 10%; 
-    --destructive: 0 70% 50%; 
-    --destructive-foreground: 0 0% 100%; 
-    --border: 240 10% 80%; 
-    --input: 240 10% 92%; 
-    --ring: 48 100% 50%;  
-    --icon-color-hsl: 48 100% 50%;
+  html.dark {
+    --background: 220 20% 10%;
+    --foreground: 200 20% 85%;
+    --card: 220 20% 14%;
+    --card-foreground: 200 20% 85%;
+    --popover: 220 20% 11%;
+    --popover-foreground: 200 20% 85%;
+    --primary: 170 60% 45%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 18% 28%;
+    --secondary-foreground: 200 20% 80%;
+    --muted: 210 18% 22%;
+    --muted-foreground: 200 20% 60%;
+    --accent: 170 50% 60%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 18% 25%;
+    --input: 210 18% 18%;
+    --ring: 170 60% 55%;
+    --icon-color-hsl: 170 60% 45%;
+    --header-height: 3.5rem;
+
+    /* Sidebar specific variables - can be same as main dark theme if consistent */
+    --sidebar-background: 220 20% 8%;
+    --sidebar-foreground: 200 20% 90%;
+    --sidebar-border: 210 18% 15%;
+    --sidebar-ring: 170 60% 55%;
+    --sidebar-primary: 170 60% 45%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 18% 25%;
+    --sidebar-accent-foreground: 200 20% 98%;
   }
 }
 
@@ -129,17 +105,19 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-  .page-title {
-    @apply text-xl md:text-2xl text-center font-normal uppercase text-foreground; 
+  /* Titles */
+  .page-title { /* For main page titles like Каталог, Статус Читов */
+    @apply text-3xl md:text-4xl font-semibold text-center text-primary uppercase tracking-wider;
   }
-  .popular-categories-title {
-     @apply text-xl md:text-2xl text-center font-normal uppercase text-foreground; 
+  .popular-categories-title { /* For "Популярные Категории" on homepage */
+    @apply text-2xl md:text-3xl text-center font-semibold text-primary uppercase tracking-wider;
   }
-  .section-title {
-    @apply font-normal; 
+  .section-title { /* For other section titles like "Наши Преимущества", "Испытай Удачу" */
+    @apply text-2xl md:text-3xl font-semibold text-center uppercase text-foreground;
   }
 }
 
+/* Custom utilities */
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
       display: none;
@@ -148,44 +126,46 @@ body {
       -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
   }
-  .text-primary-accent { /* For dark blue text */
+  .text-primary-accent { /* Example - can be removed if primary is already the desired accent */
     color: hsl(var(--primary));
   }
-  .border-primary-accent { /* For dark blue borders */
+  .border-primary-accent {
     border-color: hsl(var(--primary));
   }
-  .bg-primary-accent { /* For dark blue backgrounds */
+  .bg-primary-accent {
     background-color: hsl(var(--primary));
   }
 
-  .text-icon-color { /* For yellow text/icons */
+  .text-icon-color { /* Use this for icons or text you want in the accent color */
     color: hsl(var(--icon-color-hsl));
   }
-  .border-icon-color { /* For yellow borders */
+  .border-icon-color {
     border-color: hsl(var(--icon-color-hsl));
   }
-  .bg-icon-color { /* For yellow backgrounds */
+  .bg-icon-color {
     background-color: hsl(var(--icon-color-hsl));
   }
-
-  .text-gradient-gh { /* Gradient from dark blue to yellow */
-    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--icon-color-hsl)));
+  /* Gradient Text */
+  .text-gradient-gh {
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
-    display: inline-block; 
+    display: inline-block; /* Important for background-clip to work as expected on text */
   }
-  
- .roulette-container {
+  /* Styles for roulette */
+  .roulette-container {
     position: relative;
-    overflow: hidden; 
+    overflow: hidden; /* Hides the parts of items that are off-screen */
+    /* background: hsl(var(--card) / 0.8); Lighten up the background a bit */
     background: linear-gradient(145deg, hsl(var(--card) / 0.9), hsl(var(--card) / 0.98) 70%, hsl(var(--card)));
     border-radius: 0.75rem; /* rounded-xl */
     padding: 0.5rem 0; /* py-2 */
     border: 1px solid hsl(var(--border) / 0.2);
-    box-shadow: 0 0 30px hsl(var(--accent) / 0.1), inset 0 0 15px hsl(var(--background) / 0.3); /* Yellow accent shadow */
-    height: 200px; 
+    /* box-shadow: 0 0 20px hsl(var(--primary) / 0.2), inset 0 0 10px hsl(var(--background) / 0.5); */
+    box-shadow: 0 0 30px hsl(var(--accent) / 0.1), inset 0 0 15px hsl(var(--background) / 0.3);
+    height: 200px; /* Fixed height for the roulette container */
   }
 
   .roulette-container::before,
@@ -194,9 +174,9 @@ body {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 120px; 
-    z-index: 5; 
-    pointer-events: none; 
+    width: 120px; /* Width of the fade effect */
+    z-index: 5; /* Above the items, below the marker */
+    pointer-events: none; /* Allow clicks through */
   }
   .roulette-container::before {
     left: 0;
@@ -207,8 +187,9 @@ body {
     background: linear-gradient(to left, hsl(var(--card)) 25%, transparent);
   }
 
-  .roulette-marker { /* Yellow marker */
-    width: 4px !important; 
+  .roulette-marker {
+    width: 4px !important; /* Force width */
+    /* background: hsl(var(--primary)); */
     background: linear-gradient(to bottom, hsl(var(--accent) / 0.6), hsl(var(--accent)), hsl(var(--accent) / 0.6));
     box-shadow: 0 0 10px 3px hsl(var(--accent) / 0.6);
     border-radius: 4px;
@@ -217,64 +198,70 @@ body {
 
   .roulette-item {
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
-    border-radius: 0.5rem; 
-    background-color: hsl(var(--card) / 0.7); 
+    border-radius: 0.5rem; /* rounded-lg */
+    /* background-color: hsl(var(--muted) / 0.7); */
+    background-color: hsl(var(--card) / 0.7); /* Slightly more opaque items */
+    /* border: 1px solid hsl(var(--border) / 0.5); */
     box-shadow: 0 2px 4px hsl(var(--background) / 0.2);
   }
 
-  .roulette-item.is-winning { /* Yellow highlight */
-    transform: scale(1.08);
+  .roulette-item.is-winning {
+    transform: scale(1.08); /* Slightly larger */
+    /* box-shadow: 0 0 20px hsl(var(--primary) / 0.5); */
     box-shadow: 0 0 20px hsl(var(--accent) / 0.4);
+    /* border-color: hsl(var(--primary)); */
   }
   
+  /* Ensure prize images within roulette items and lists are fully rounded */
   .roulette-item .prize-image-container, 
   .prize-list-item .prize-image-container,
   .dialog-prize-image-container {
     border-radius: 9999px; /* full */
     overflow: hidden;
-    border: none; 
+    border: none; /* Remove any default border */
   }
 
   .roulette-item .prize-image-container img, 
   .prize-list-item .prize-image-container img,
   .dialog-prize-image-container img {
-    border-radius: 9999px; 
-    border: none !important;
+    border-radius: 9999px; /* Ensure image itself is rounded if container has padding */
+    border: none !important; /* Override any other border styles */
   }
 
-  /* Nivo slider controls updated to accent (yellow) */
+  /* Styles for Nivo slider controls */
   .nivo-slider-theme-default .nivo-directionNav a {
-    background-color: hsl(var(--card) / 0.3) !important; 
-    border: 1px solid hsl(var(--accent) / 0.2) !important; 
-    color: hsl(var(--accent)) !important;
+    background-color: hsl(var(--card) / 0.3) !important; /* Semi-transparent card background */
+    border: 1px solid hsl(var(--primary) / 0.2) !important; /* Subtle primary border */
+    color: hsl(var(--primary)) !important;
     text-shadow: none !important;
     transition: background-color 0.3s, border-color 0.3s, opacity 0.3s;
-    opacity: 0.7; 
+    opacity: 0.7; /* Slightly transparent by default */
   }
   .nivo-slider-theme-default .nivo-directionNav a:hover {
-    background-color: transparent !important; 
-    border-color: hsl(var(--accent) / 0.5) !important;
-    color: hsl(var(--accent)) !important;
+    background-color: transparent !important; /* Fully transparent background on hover */
+    border-color: hsl(var(--primary) / 0.5) !important; /* Stronger primary border on hover */
+    color: hsl(var(--primary)) !important;
     opacity: 1;
   }
   .nivo-slider-theme-default .nivo-controlNav a {
-    background: hsl(var(--card) / 0.3) !important; 
-    border: 1px solid hsl(var(--accent) / 0.2) !important; 
+    background: hsl(var(--card) / 0.3) !important; /* Semi-transparent card background */
+    border: 1px solid hsl(var(--primary) / 0.2) !important; /* Subtle primary border */
     transition: background-color 0.3s, border-color 0.3s;
   }
   .nivo-slider-theme-default .nivo-controlNav a:hover,
   .nivo-slider-theme-default .nivo-controlNav a.active {
-    background: hsl(var(--accent)) !important;
-    border-color: hsl(var(--accent)) !important;
+    background: hsl(var(--primary)) !important;
+    border-color: hsl(var(--primary)) !important;
   }
 
-  .title-carousel { /* For homepage "Best sellers" badge */
+  /* For "Бестселлеры" badge on homepage hero */
+  .title-carousel {
     background: transparent !important;
-    border: 1px solid hsl(var(--accent)); /* Yellow border */
-    color: hsl(var(--accent)) !important; /* Yellow text */
+    border: 1px solid hsl(var(--accent));
+    color: hsl(var(--accent)) !important;
   }
   .title-carousel i {
-    color: hsl(var(--accent)) !important; /* Yellow icon */
+    color: hsl(var(--accent)) !important;
   }
   
   .animate-red-blink {
@@ -286,30 +273,31 @@ body {
   }
 }
 
-/* Custom styles for Auth pages - Now uses theme variables directly */
+/* Styles for Auth pages */
 @layer components {
   .auth-form-container {
-    @apply w-full p-6 md:p-8 space-y-6 rounded-xl bg-card/90 backdrop-blur-sm border border-border shadow-2xl;
+    @apply w-full p-6 md:p-8 space-y-6 rounded-xl bg-slate-900/50 backdrop-blur-md border border-slate-700/50 shadow-2xl;
   }
   .auth-title {
-    @apply text-2xl font-bold text-primary; /* Primary (dark blue) title */
+    @apply text-2xl font-bold text-foreground;
   }
   .auth-description {
     @apply text-muted-foreground text-sm mt-1;
   }
-  .auth-input { /* Uses theme's input styles */
-    @apply bg-input border-border placeholder:text-muted-foreground focus:border-ring focus:ring-ring text-foreground;
+  .auth-input {
+    @apply bg-slate-800/60 border-slate-700 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50;
   }
-  .auth-button { /* Uses accent (yellow) for main auth buttons */
-    @apply w-full bg-accent hover:bg-accent/90 text-accent-foreground h-11 text-base font-semibold;
+  .auth-button {
+    @apply w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 text-base font-semibold;
   }
-  .auth-link { /* Uses accent (yellow) for links */
-    @apply font-medium text-accent hover:underline;
+  .auth-link {
+    @apply font-medium text-primary hover:underline;
   }
-  .auth-logo-placeholder { 
-    @apply mb-5 inline-block text-primary; /* Primary (dark blue) for logo placeholder */
+  .auth-logo-placeholder { /* Assuming you might have a logo component or placeholder SVG */
+    @apply mb-5 inline-block text-primary;
   }
 }
     
-
+    
+    
     

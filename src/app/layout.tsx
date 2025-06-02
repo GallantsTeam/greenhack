@@ -18,50 +18,39 @@ const exo2 = Exo_2({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], 
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+// This wrapper component is needed to use usePathname in a Server Component context (RootLayout)
+function RootLayoutClientWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState('light-theme'); // Default to light-theme for public pages
 
   useEffect(() => {
     setIsMounted(true);
-    // Logic to determine theme based on path
-    const isAdminPage = pathname?.startsWith('/admin');
-    setCurrentTheme(isAdminPage ? 'dark' : 'light-theme'); // Admin uses 'dark', public uses 'light-theme'
-  }, [pathname]);
+  }, []);
 
+  const isAdminPage = isMounted && pathname?.startsWith('/admin');
+  const isAuthPage = isMounted && pathname?.startsWith('/auth');
+  const isHomePage = isMounted && pathname === '/';
 
-  const safePathname = pathname || "";
-
-  const isCurrentAdminPage = safePathname.startsWith('/admin');
-  const isCurrentAuthPage = safePathname.startsWith('/auth');
-  const isHomePage = safePathname === '/';
-
-  const clientShouldShowHeaderFooter = !isCurrentAdminPage && !isCurrentAuthPage;
-  const clientFooterSimplified = safePathname.startsWith('/account');
+  const clientShouldShowHeaderFooter = !isAdminPage && !isAuthPage;
+  const clientFooterSimplified = isMounted && pathname?.startsWith('/account');
   
   let showPaddingTop = false;
   if (isMounted) {
     showPaddingTop = clientShouldShowHeaderFooter &&
                      !isHomePage &&
-                     !safePathname.startsWith('/games') && 
-                     safePathname !== '/statuses' &&
-                     safePathname !== '/reviews';
+                     !pathname?.startsWith('/games') && 
+                     pathname !== '/statuses' &&
+                     pathname !== '/reviews';
   }
 
   const mainClasses = cn(
     "flex-grow flex flex-col",
     showPaddingTop ? "pt-14" : "", 
-    isCurrentAdminPage ? "overflow-y-hidden" : "overflow-y-auto" 
+    isAdminPage ? "overflow-y-hidden" : "overflow-y-auto" 
   );
-
+  
   return (
-    // Apply theme class to <html> dynamically
-    <html lang="ru" className={cn(isMounted ? currentTheme : 'light-theme', exo2.variable)}> 
+    <html lang="ru" className={cn(exo2.variable, isAdminPage ? "dark" : "")}> 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -73,7 +62,7 @@ export default function RootLayout({
         )}
       >
         <AuthProvider>
-          {/* <CustomCursor /> */} {/* Temporarily disable custom cursor */}
+          {/* <CustomCursor /> */} {/* Custom cursor is currently commented out globally */}
           
           {isMounted && clientShouldShowHeaderFooter && <Header />}
 
@@ -89,6 +78,15 @@ export default function RootLayout({
     </html>
   );
 }
-    
 
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return <RootLayoutClientWrapper>{children}</RootLayoutClientWrapper>;
+}
+    
+    
     

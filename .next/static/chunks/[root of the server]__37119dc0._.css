@@ -742,42 +742,43 @@ img, video {
 }
 
 :root {
-  --background: 240 20% 97%;
-  --foreground: 240 10% 10%;
-  --card: 240 20% 100%;
-  --card-foreground: 240 10% 10%;
-  --popover: 240 20% 100%;
-  --popover-foreground: 240 10% 10%;
-  --primary: 231 60% 30%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 240 10% 90%;
-  --secondary-foreground: 240 10% 20%;
-  --muted: 240 10% 85%;
-  --muted-foreground: 240 10% 45%;
-  --accent: 48 100% 50%;
-  --accent-foreground: 240 10% 10%;
-  --destructive: 0 70% 50%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 240 10% 80%;
-  --input: 240 10% 92%;
-  --ring: 48 100% 50%;
-  --icon-color-hsl: 48 100% 50%;
+  --background: 220 20% 10%;
+  --foreground: 200 20% 85%;
+  --card: 220 20% 14%;
+  --card-foreground: 200 20% 85%;
+  --popover: 220 20% 11%;
+  --popover-foreground: 200 20% 85%;
+  --primary: 170 60% 45%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 18% 28%;
+  --secondary-foreground: 200 20% 80%;
+  --muted: 210 18% 22%;
+  --muted-foreground: 200 20% 60%;
+  --accent: 170 50% 60%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 210 18% 25%;
+  --input: 210 18% 18%;
+  --ring: 170 60% 55%;
+  --icon-color-hsl: 170 60% 45%;
   --header-height: 3.5rem;
+  --font-inter: "Inter", sans-serif;
   --font-exo-2: "Exo 2", sans-serif;
-  --chart-1: 231 60% 30%;
-  --chart-2: 48 100% 50%;
-  --chart-3: 231 50% 50%;
-  --chart-4: 48 90% 60%;
+  --chart-1: 170 60% 45%;
+  --chart-2: 170 50% 60%;
+  --chart-3: 170 70% 35%;
+  --chart-4: 170 40% 70%;
   --chart-5: 210 30% 70%;
   --radius: .75rem;
-  --sidebar-background: 220 20% 11%;
-  --sidebar-foreground: 200 20% 85%;
-  --sidebar-border: 210 18% 18%;
-  --sidebar-ring: 48 100% 50%;
-  --sidebar-primary: 48 100% 50%;
-  --sidebar-primary-foreground: 240 10% 10%;
-  --sidebar-accent: 210 18% 20%;
-  --sidebar-accent-foreground: 200 20% 95%;
+  --sidebar-background: 220 20% 8%;
+  --sidebar-foreground: 200 20% 90%;
+  --sidebar-border: 210 18% 15%;
+  --sidebar-ring: 170 60% 55%;
+  --sidebar-primary: 170 60% 45%;
+  --sidebar-primary-foreground: 210 40% 98%;
+  --sidebar-accent: 210 18% 25%;
+  --sidebar-accent-foreground: 200 20% 98%;
 }
 
 html.dark {
@@ -787,52 +788,29 @@ html.dark {
   --card-foreground: 200 20% 85%;
   --popover: 220 20% 11%;
   --popover-foreground: 200 20% 85%;
-  --primary: 231 60% 30%;
-  --primary-foreground: 0 0% 100%;
+  --primary: 170 60% 45%;
+  --primary-foreground: 210 40% 98%;
   --secondary: 210 18% 28%;
   --secondary-foreground: 200 20% 80%;
   --muted: 210 18% 22%;
   --muted-foreground: 200 20% 60%;
-  --accent: 48 100% 50%;
-  --accent-foreground: 240 10% 10%;
-  --destructive: 0 65% 55%;
-  --destructive-foreground: 200 20% 95%;
+  --accent: 170 50% 60%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 0 0% 98%;
   --border: 210 18% 25%;
   --input: 210 18% 18%;
-  --ring: 48 100% 50%;
-  --icon-color-hsl: 48 100% 50%;
+  --ring: 170 60% 55%;
+  --icon-color-hsl: 170 60% 45%;
   --header-height: 3.5rem;
   --sidebar-background: 220 20% 8%;
   --sidebar-foreground: 200 20% 90%;
   --sidebar-border: 210 18% 15%;
-  --sidebar-ring: 48 100% 50%;
-  --sidebar-primary: 48 100% 50%;
-  --sidebar-primary-foreground: 240 10% 10%;
+  --sidebar-ring: 170 60% 55%;
+  --sidebar-primary: 170 60% 45%;
+  --sidebar-primary-foreground: 210 40% 98%;
   --sidebar-accent: 210 18% 25%;
   --sidebar-accent-foreground: 200 20% 98%;
-}
-
-html.light-theme {
-  --background: 240 20% 97%;
-  --foreground: 240 10% 10%;
-  --card: 240 20% 100%;
-  --card-foreground: 240 10% 10%;
-  --popover: 240 20% 100%;
-  --popover-foreground: 240 10% 10%;
-  --primary: 231 60% 30%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 240 10% 90%;
-  --secondary-foreground: 240 10% 20%;
-  --muted: 240 10% 85%;
-  --muted-foreground: 240 10% 45%;
-  --accent: 48 100% 50%;
-  --accent-foreground: 240 10% 10%;
-  --destructive: 0 70% 50%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 240 10% 80%;
-  --input: 240 10% 92%;
-  --ring: 48 100% 50%;
-  --icon-color-hsl: 48 100% 50%;
 }
 
 * {
@@ -846,38 +824,52 @@ body {
 
 .page-title {
   text-align: center;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 400;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 600;
   text-transform: uppercase;
-  color: hsl(var(--foreground));
+  letter-spacing: .05em;
+  color: hsl(var(--primary));
 }
 
 @media (width >= 768px) {
   .page-title {
-    font-size: 1.5rem;
-    line-height: 2rem;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 }
 
 .popular-categories-title {
   text-align: center;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: hsl(var(--primary));
+}
+
+@media (width >= 768px) {
+  .popular-categories-title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
   text-transform: uppercase;
   color: hsl(var(--foreground));
 }
 
 @media (width >= 768px) {
-  .popular-categories-title {
-    font-size: 1.5rem;
-    line-height: 2rem;
+  .section-title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
-}
-
-.section-title {
-  font-weight: 400;
 }
 
 .container {
@@ -3577,7 +3569,7 @@ body {
 }
 
 .text-gradient-gh {
-  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--icon-color-hsl)));
+  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -3648,13 +3640,13 @@ body {
 }
 
 .nivo-slider-theme-default .nivo-controlNav a.\!active {
-  background: hsl(var(--accent)) !important;
-  border-color: hsl(var(--accent)) !important;
+  background: hsl(var(--primary)) !important;
+  border-color: hsl(var(--primary)) !important;
 }
 
 .nivo-slider-theme-default .nivo-controlNav a:hover, .nivo-slider-theme-default .nivo-controlNav a.active {
-  background: hsl(var(--accent)) !important;
-  border-color: hsl(var(--accent)) !important;
+  background: hsl(var(--primary)) !important;
+  border-color: hsl(var(--primary)) !important;
 }
 
 .title-carousel {
