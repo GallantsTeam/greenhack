@@ -14,7 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import KeyRegistrationModal from '@/components/KeyRegistrationModal'; // Import the modal
+import KeyRegistrationModal from '@/components/KeyRegistrationModal';
 
 export default function AccountDashboardPage() {
   const { currentUser, fetchUserDetails, loading: authLoading } = useAuth();
@@ -295,16 +295,30 @@ export default function AccountDashboardPage() {
                         <Button asChild size="sm" variant="outline" className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
                           <Link href={`/products/${license.productSlug}`}>Продлить</Link>
                         </Button>
-                        {(license.activation_type === 'key_request' && license.activation_status !== 'active') && (
+                        
+                        {/* Updated button logic for instructions/activation */}
+                        {license.activation_type === 'info_modal' && (
+                            <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
+                                <Info className="mr-1.5 h-4 w-4"/> Инструкция
+                            </Button>
+                        )}
+
+                        {license.activation_type === 'key_request' && license.activation_status !== 'active' && (
                             <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
                                 <KeyRound className="mr-1.5 h-4 w-4"/> {license.activation_status === 'pending_admin_approval' ? 'Запрос отправлен' : license.activation_status === 'rejected' ? 'Запросить снова' : 'Активировать ключ'}
                             </Button>
                         )}
-                         {(license.activation_type === 'info_modal' || (license.activation_type === 'key_request' && license.activation_status === 'active')) && license.how_to_run_link && (
-                            <Button size="sm" variant="outline" onClick={() => window.open(license.how_to_run_link!, '_blank')} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">Как запускать?</Button>
-                        )}
-                         {(license.activation_type === 'info_modal' || (license.activation_type === 'key_request' && license.activation_status === 'active')) && !license.how_to_run_link && (
-                             <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">Инструкция</Button>
+                        
+                        {license.activation_type === 'key_request' && license.activation_status === 'active' && (
+                            license.how_to_run_link ? (
+                                <Button size="sm" variant="outline" onClick={() => window.open(license.how_to_run_link!, '_blank')} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
+                                    Как запускать?
+                                </Button>
+                            ) : (
+                                <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
+                                   <Info className="mr-1.5 h-4 w-4"/> Инструкция
+                                </Button>
+                            )
                         )}
                       </div>
                     </li>
@@ -481,5 +495,6 @@ export default function AccountDashboardPage() {
     </div>
   );
 }
+    
 
     
