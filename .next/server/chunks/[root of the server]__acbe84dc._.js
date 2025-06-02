@@ -250,7 +250,7 @@ async function PUT(request, { params }) {
         const { rejection_reason } = await request.json().catch(()=>({
                 rejection_reason: 'Отклонено администратором без указания причины.'
             }));
-        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET activation_status = ?, admin_notes = ?, updated_at = NOW() WHERE id = ? AND activation_status = ?', [
+        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET activation_status = ?, activation_status_reason = ?, updated_at = NOW() WHERE id = ? AND activation_status = ?', [
             'rejected',
             rejection_reason,
             inventoryItemId,

@@ -230,6 +230,7 @@ var { g: global, __dirname } = __turbopack_context__;
 {
 // src/lib/telegram.ts
 __turbopack_context__.s({
+    "getTelegramSettingsFromDb": (()=>getTelegramSettingsFromDb),
     "notifyAdminOnAdminLogin": (()=>notifyAdminOnAdminLogin),
     "notifyAdminOnBalanceDeposit": (()=>notifyAdminOnBalanceDeposit),
     "notifyAdminOnProductPurchase": (()=>notifyAdminOnProductPurchase),
@@ -241,7 +242,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$
 ;
 const SETTINGS_ROW_ID = 1; // Assuming settings are in a single row with id=1
 async function getTelegramSettingsFromDb() {
-    console.log("[TelegramLib][getTelegramSettingsFromDb] Fetching Telegram configuration from DB...");
+    // console.log("[TelegramLib][getTelegramSettingsFromDb] Fetching Telegram configuration from DB...");
     try {
         const [tgSettingsResults, adminPrefsResults, siteNotificationSettingsResults] = await Promise.all([
             (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT * FROM site_telegram_settings WHERE id = ? LIMIT 1', [
@@ -277,14 +278,6 @@ async function getTelegramSettingsFromDb() {
             notify_on_promotions: Boolean(siteNotificationSettingsDb.notify_on_promotions),
             updated_at: siteNotificationSettingsDb.updated_at
         } : null;
-        console.log("[TelegramLib][getTelegramSettingsFromDb] Fetched Telegram Settings (tokens hidden):", telegramSettings ? {
-            ...telegramSettings,
-            client_bot_token: '***',
-            admin_bot_token: '***',
-            key_bot_token: '***'
-        } : null);
-        console.log("[TelegramLib][getTelegramSettingsFromDb] Fetched Admin Notification Prefs:", notificationPrefs);
-        console.log("[TelegramLib][getTelegramSettingsFromDb] Fetched Site Notification Settings:", siteNotificationSettings);
         return {
             telegramSettings,
             notificationPrefs,
@@ -299,8 +292,8 @@ async function getTelegramSettingsFromDb() {
         };
     }
 }
-async function sendTelegramMessage(botToken, chatId, message, parseMode = 'MarkdownV2', replyMarkup// For inline keyboards
-) {
+async function sendTelegramMessage(botToken, chatId, message, parseMode = 'MarkdownV2', replyMarkup) {
+    console.log(`[TelegramLib] sendTelegramMessage called. Token (start): ${botToken ? botToken.substring(0, 10) + '...' : 'N/A'}, ChatID: ${chatId}, Message (start): "${message.substring(0, 30)}...", ParseMode: ${parseMode}`);
     if (!botToken || !chatId || !message) {
         const errorMsg = "[TelegramLib] Send Error: Missing botToken, chatId, or message for Telegram.";
         console.error(errorMsg);
@@ -310,7 +303,6 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
         };
     }
     const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    console.log(`[TelegramLib] Attempting to send message to ${chatId} via URL: ${telegramApiUrl.replace(botToken, '***TOKEN***')}`);
     const bodyPayload = {
         chat_id: chatId,
         text: message,
@@ -319,6 +311,11 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
     if (replyMarkup) {
         bodyPayload.reply_markup = replyMarkup;
     }
+    console.log(`[TelegramLib] Preparing to send. Final chat_id type: ${typeof bodyPayload.chat_id}, value: '${bodyPayload.chat_id}'`);
+    console.log(`[TelegramLib] EXACT PAYLOAD TO TELEGRAM (token details excluded):`, JSON.stringify({
+        ...bodyPayload,
+        bot_token_info: `Token ending with ...${botToken.slice(-6)}`
+    }, null, 2));
     try {
         const response = await fetch(telegramApiUrl, {
             method: 'POST',
@@ -328,7 +325,8 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
             body: JSON.stringify(bodyPayload)
         });
         const data = await response.json();
-        console.log(`[TelegramLib] Response from Telegram API for chat_id ${chatId}:`, JSON.stringify(data, null, 2));
+        console.log(`[TelegramLib] Telegram API response status: ${response.status}, ok: ${response.ok}`);
+        console.log('[TelegramLib] Telegram API response data:', JSON.stringify(data, null, 2));
         if (data.ok) {
             console.log(`[TelegramLib] Message sent successfully to chat_id ${chatId}.`);
             return {
@@ -336,10 +334,13 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
                 message: `Message sent to ${chatId}`
             };
         } else {
-            console.error('[TelegramLib] Telegram API Error:', data);
+            let detailedMessage = `Telegram API Error: ${data.description || 'Unknown error from Telegram API'}`;
+            if (data.description && String(data.description).toLowerCase().includes("chat not found")) {
+                detailedMessage = `Telegram API Error for Chat ID '${chatId}': ${data.description} (Hint: Ensure bot has access to this specific Chat ID. If it's a user ID, the user must have started the bot. If it's a group/channel ID, the bot must be a member/admin and the ID should typically be negative for groups/supergroups. Verify the bot is in the group/channel.)`;
+            }
             return {
                 success: false,
-                message: `Telegram API Error: ${data.description}`,
+                message: detailedMessage,
                 error: data
             };
         }
@@ -397,10 +398,8 @@ async function notifyAdminOnBalanceDeposit(userId, username, amountGh, reason) {
 Пользователь: \`${escapeTelegramMarkdownV2(username)}\` (ID: \`${userId}\`)
 Сумма: \`+${escapeTelegramMarkdownV2(amountGh.toFixed(2))}\` GH${reasonText}`;
     const chatIds = telegramSettings.admin_bot_chat_ids.split(',').map((id)=>id.trim()).filter((id)=>id);
-    console.log(`[TelegramLib] Prepared balance deposit notification. Admin chat IDs: ${chatIds.join(', ')}`);
     for (const chatId of chatIds){
         try {
-            console.log(`[TelegramLib] Attempting to send balance deposit notification to admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(telegramSettings.admin_bot_token, chatId, message);
             if (!result.success) {
                 console.error(`[TelegramLib] Failed to send balance deposit notification to ${chatId}:`, result.message, result.error);
@@ -423,10 +422,8 @@ async function notifyAdminOnProductPurchase(userId, username, productName, durat
 Товар: \`${escapeTelegramMarkdownV2(productName)}\`${durationText}
 Сумма: \`${escapeTelegramMarkdownV2(amountGh.toFixed(2))}\` GH`;
     const chatIds = telegramSettings.admin_bot_chat_ids.split(',').map((id)=>id.trim()).filter((id)=>id);
-    console.log(`[TelegramLib] Prepared product purchase notification. Admin chat IDs: ${chatIds.join(', ')}`);
     for (const chatId of chatIds){
         try {
-            console.log(`[TelegramLib] Attempting to send product purchase notification to admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(telegramSettings.admin_bot_token, chatId, message);
             if (!result.success) {
                 console.error(`[TelegramLib] Failed to send product purchase notification to ${chatId}:`, result.message, result.error);
@@ -459,10 +456,8 @@ async function notifyAdminOnPromoCodeCreation(adminUsername, promoCode) {
 Истекает: \`${promoCode.expires_at ? escapeTelegramMarkdownV2(new Date(promoCode.expires_at).toLocaleString('ru-RU')) : 'Бессрочно'}\`
 ${adminUsername ? `Создал: \`${escapeTelegramMarkdownV2(adminUsername)}\`` : 'Создан системой'}`;
     const chatIds = telegramSettings.admin_bot_chat_ids.split(',').map((id)=>id.trim()).filter((id)=>id);
-    console.log(`[TelegramLib] Prepared promo code creation notification. Admin chat IDs: ${chatIds.join(', ')}`);
     for (const chatId of chatIds){
         try {
-            console.log(`[TelegramLib] Attempting to send promo code creation notification to admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(telegramSettings.admin_bot_token, chatId, message);
             if (!result.success) {
                 console.error(`[TelegramLib] Failed to send promo code creation notification to ${chatId}:`, result.message, result.error);
@@ -485,10 +480,8 @@ async function notifyAdminOnAdminLogin(adminUsername, ipAddress) {
 ${ipText}
 Время: \`${escapeTelegramMarkdownV2(new Date().toLocaleString('ru-RU'))}\``;
     const chatIds = telegramSettings.admin_bot_chat_ids.split(',').map((id)=>id.trim()).filter((id)=>id);
-    console.log(`[TelegramLib] Prepared admin login notification. Admin chat IDs: ${chatIds.join(', ')}`);
     for (const chatId of chatIds){
         try {
-            console.log(`[TelegramLib] Attempting to send admin login notification to admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(telegramSettings.admin_bot_token, chatId, message);
             if (!result.success) {
                 console.error(`[TelegramLib] Failed to send admin login notification to ${chatId}:`, result.message, result.error);
@@ -551,10 +544,8 @@ async function sendKeyActivationRequestToAdmin(item, user) {
     const chatIds = adminChatIdsString.split(',').map((id)=>id.trim()).filter((id)=>id);
     let allSentSuccessfully = true;
     let firstErrorResult = null;
-    console.log(`[TelegramLib] Prepared key activation request notification. Key Bot Admin chat IDs: ${chatIds.join(', ')}`);
     for (const chatId of chatIds){
         try {
-            console.log(`[TelegramLib] Attempting to send key activation request to admin chat ID: ${chatId} using Key Bot`);
             const result = await sendTelegramMessage(keyBotToken, chatId, message, 'MarkdownV2', {
                 inline_keyboard
             });
@@ -587,6 +578,7 @@ async function sendKeyActivationRequestToAdmin(item, user) {
         message: "Неизвестная ошибка при отправке уведомлений администратору."
     };
 }
+;
 }}),
 "[project]/src/app/api/license/request-activation/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
