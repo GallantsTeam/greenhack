@@ -5,128 +5,120 @@
 
 body {
   font-family: var(--font-exo-2), Arial, Helvetica, sans-serif; /* Use the CSS variable for Exo 2 */
-  cursor: url('/cursors/green-target.svg'), auto;
+  /* cursor: url('/cursors/green-target.svg'), auto; */ /* Cursor can be re-enabled if desired */
 }
 
 @layer base {
   :root {
-    --background: 220 20% 10%; 
-    --foreground: 200 20% 85%; 
+    /* Light theme as per PRD - This will be applied by default or via 'light-theme' class */
+    --background: 240 20% 97%; /* Светло-серый (#F5F5F5 equivalent: HSL(0, 0%, 96%)) - Adjusted for neutrality approx #F7F7FA */
+    --foreground: 240 10% 10%; /* Темный для текста на светлом фоне */
 
-    --card: 220 20% 14%; 
-    --card-foreground: 200 20% 85%; 
+    --card: 240 20% 100%; /* Белый для карточек */
+    --card-foreground: 240 10% 10%;
 
-    --popover: 220 20% 11%; 
-    --popover-foreground: 200 20% 85%; 
+    --popover: 240 20% 100%;
+    --popover-foreground: 240 10% 10%;
 
-    --primary: 157 100% 59%; 
-    --primary-foreground: 220 20% 10%; 
+    --primary: 231 60% 30%; /* Темно-синий (#1A237E) */
+    --primary-foreground: 0 0% 100%; /* Белый текст на темно-синем */
 
-    --secondary: 210 18% 28%; 
-    --secondary-foreground: 200 20% 80%; 
+    --secondary: 240 10% 90%; /* Более темный серый для вторичных элементов */
+    --secondary-foreground: 240 10% 20%;
 
-    --muted: 210 18% 22%; 
-    --muted-foreground: 200 20% 60%; 
+    --muted: 240 10% 85%; /* Еще более светлый серый для приглушенных элементов */
+    --muted-foreground: 240 10% 45%;
 
-    --accent: 157 100% 59%;  
-    --accent-foreground: 220 20% 10%; 
+    --accent: 48 100% 50%; /* Желтый (#FFD600) */
+    --accent-foreground: 240 10% 10%; /* Темный текст на желтом */
 
-    --destructive: 0 65% 55%; 
-    --destructive-foreground: 200 20% 95%; 
+    --destructive: 0 70% 50%; /* Красный */
+    --destructive-foreground: 0 0% 100%; /* Белый текст на красном */
 
-    --border: 210 18% 25%; 
-    --input: 210 18% 18%; 
-    --ring: 157 100% 62%; 
+    --border: 240 10% 80%; /* Граница для светлой темы */
+    --input: 240 10% 92%;  /* Фон для инпутов */
+    --ring: 48 100% 50%;   /* Кольцо фокуса - желтое, как акцент */
     
-    --icon-color-hsl: 157 100% 59%;
-    --header-height: 3.5rem; /* Defined header height, matching pt-14 */
+    --icon-color-hsl: 48 100% 50%; /* Желтый для акцентных иконок */
+    --header-height: 3.5rem; 
 
-    --font-exo-2: 'Exo 2', sans-serif; /* Define the font variable */
+    --font-exo-2: 'Exo 2', sans-serif;
 
-
-    --chart-1: 157 100% 59%;
-    --chart-2: 157 85% 62%;
-    --chart-3: 157 75% 59%;
-    --chart-4: 157 90% 65%;
-    --chart-5: 157 80% 55%;
+    --chart-1: 231 60% 30%; /* Темно-синий */
+    --chart-2: 48 100% 50%; /* Желтый */
+    --chart-3: 231 50% 50%; /* Более светлый синий */
+    --chart-4: 48 90% 60%;  /* Более светлый желтый */
+    --chart-5: 210 30% 70%; /* Нейтральный серый/голубой */
     --radius: 0.75rem;
 
-    /* Sidebar specific variables - can be themed for admin */
-    --sidebar-background: 220 20% 11%; 
-    --sidebar-foreground: 200 20% 85%;
-    --sidebar-border: 210 18% 18%;
-    --sidebar-ring: 157 100% 62%;
-    --sidebar-primary: 157 100% 59%; 
-    --sidebar-primary-foreground: 220 20% 10%;
-    --sidebar-accent: 210 18% 20%; 
-    --sidebar-accent-foreground: 200 20% 95%;
+    /* Sidebar specific variables - for admin panel (remains dark, but uses new accents) */
+    --sidebar-background: 220 20% 11%; /* Existing dark sidebar background */
+    --sidebar-foreground: 200 20% 85%; /* Existing dark sidebar foreground */
+    --sidebar-border: 210 18% 18%;     /* Existing dark sidebar border */
+    --sidebar-ring: 48 100% 50%;       /* Yellow ring for admin focus */
+    --sidebar-primary: 48 100% 50%;    /* Yellow primary for admin active items */
+    --sidebar-primary-foreground: 240 10% 10%; /* Dark text on yellow */
+    --sidebar-accent: 210 18% 20%;     /* Existing dark sidebar accent background */
+    --sidebar-accent-foreground: 200 20% 95%; /* Existing dark sidebar accent foreground */
   }
 
-  .dark {
-    /* Same as root for now, can be customized for admin dark theme specifically */
+  /* Dark theme variables - primarily for the admin panel */
+  html.dark { /* Using html.dark for admin panel context */
     --background: 220 20% 10%; 
     --foreground: 200 20% 85%; 
     --card: 220 20% 14%; 
     --card-foreground: 200 20% 85%; 
     --popover: 220 20% 11%; 
     --popover-foreground: 200 20% 85%; 
-    --primary: 157 100% 59%; 
-    --primary-foreground: 220 20% 10%; 
+    --primary: 231 60% 30%; /* Темно-синий для шапки админки и основных элементов */
+    --primary-foreground: 0 0% 100%; 
     --secondary: 210 18% 28%; 
     --secondary-foreground: 200 20% 80%; 
     --muted: 210 18% 22%; 
     --muted-foreground: 200 20% 60%; 
-    --accent: 157 100% 59%;  
-    --accent-foreground: 220 20% 10%; 
+    --accent: 48 100% 50%;  /* Желтый */
+    --accent-foreground: 240 10% 10%; 
     --destructive: 0 65% 55%; 
     --destructive-foreground: 200 20% 95%; 
     --border: 210 18% 25%; 
     --input: 210 18% 18%; 
-    --ring: 157 100% 62%; 
-    --icon-color-hsl: 157 100% 59%;
-    --header-height: 3.5rem; /* Defined header height */
+    --ring: 48 100% 50%; /* Желтое кольцо фокуса */
+    --icon-color-hsl: 48 100% 50%; /* Желтые иконки по умолчанию для админки */
+    --header-height: 3.5rem;
 
+    /* Sidebar specific variables - for admin panel */
     --sidebar-background: 220 20% 8%; 
     --sidebar-foreground: 200 20% 90%;
     --sidebar-border: 210 18% 15%;
-    --sidebar-ring: 157 100% 62%;
-    --sidebar-primary: 157 100% 59%;
-    --sidebar-primary-foreground: 200 20% 10%;
+    --sidebar-ring: 48 100% 50%;
+    --sidebar-primary: 48 100% 50%;
+    --sidebar-primary-foreground: 240 10% 10%;
     --sidebar-accent: 210 18% 25%;
     --sidebar-accent-foreground: 200 20% 98%;
   }
 
-  html.light {
-    --background: 200 20% 98%;
-    --foreground: 220 20% 10%;
-    --card: 200 20% 96%;
-    --card-foreground: 220 20% 10%;
-    --popover: 200 20% 100%;
-    --popover-foreground: 220 20% 10%;
-    --primary: 157 90% 50%; 
-    --primary-foreground: 200 20% 98%;
-    --secondary: 210 20% 90%;
-    --secondary-foreground: 220 20% 15%;
-    --muted: 210 20% 94%;
-    --muted-foreground: 220 20% 45%;
-    --accent: 210 20% 90%;
-    --accent-foreground: 220 20% 10%;
-    --destructive: 0 70% 50%;
-    --destructive-foreground: 200 20% 98%;
-    --border: 210 20% 85%;
-    --input: 210 20% 92%;
-    --ring: 157 90% 55%;  
-    --icon-color-hsl: 157 90% 50%; 
-    --header-height: 3.5rem; /* Defined header height */
-
-    --sidebar-background: 200 20% 94%;
-    --sidebar-foreground: 220 20% 15%;
-    --sidebar-border: 210 20% 80%;
-    --sidebar-ring: 157 90% 55%;
-    --sidebar-primary: 157 90% 50%;
-    --sidebar-primary-foreground: 200 20% 98%;
-    --sidebar-accent: 210 20% 88%;
-    --sidebar-accent-foreground: 220 20% 10%;
+  /* Light theme specific overrides for public pages */
+  html.light-theme {
+    --background: 240 20% 97%; 
+    --foreground: 240 10% 10%; 
+    --card: 240 20% 100%; 
+    --card-foreground: 240 10% 10%; 
+    --popover: 240 20% 100%;
+    --popover-foreground: 240 10% 10%;
+    --primary: 231 60% 30%; 
+    --primary-foreground: 0 0% 100%; 
+    --secondary: 240 10% 90%; 
+    --secondary-foreground: 240 10% 20%; 
+    --muted: 240 10% 85%; 
+    --muted-foreground: 240 10% 45%; 
+    --accent: 48 100% 50%;  
+    --accent-foreground: 240 10% 10%; 
+    --destructive: 0 70% 50%; 
+    --destructive-foreground: 0 0% 100%; 
+    --border: 240 10% 80%; 
+    --input: 240 10% 92%; 
+    --ring: 48 100% 50%;  
+    --icon-color-hsl: 48 100% 50%;
   }
 }
 
@@ -136,9 +128,7 @@ body {
   }
   body {
     @apply bg-background text-foreground;
-    /* font-feature-settings: "rlig" 1, "calt" 1; */ /* Removed as Exo 2 might not need these or causes issues */
   }
-  /* Removed h1,h2,h3 specific Exo 2 application as it's now global */
   .page-title {
     @apply text-xl md:text-2xl text-center font-normal uppercase text-foreground; 
   }
@@ -158,27 +148,27 @@ body {
       -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
   }
-  .text-primary-accent {
+  .text-primary-accent { /* For dark blue text */
     color: hsl(var(--primary));
   }
-  .border-primary-accent {
+  .border-primary-accent { /* For dark blue borders */
     border-color: hsl(var(--primary));
   }
-  .bg-primary-accent {
+  .bg-primary-accent { /* For dark blue backgrounds */
     background-color: hsl(var(--primary));
   }
 
-  .text-icon-color {
+  .text-icon-color { /* For yellow text/icons */
     color: hsl(var(--icon-color-hsl));
   }
-  .border-icon-color {
+  .border-icon-color { /* For yellow borders */
     border-color: hsl(var(--icon-color-hsl));
   }
-  .bg-icon-color {
+  .bg-icon-color { /* For yellow backgrounds */
     background-color: hsl(var(--icon-color-hsl));
   }
 
-  .text-gradient-gh {
+  .text-gradient-gh { /* Gradient from dark blue to yellow */
     background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--icon-color-hsl)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -194,7 +184,7 @@ body {
     border-radius: 0.75rem; /* rounded-xl */
     padding: 0.5rem 0; /* py-2 */
     border: 1px solid hsl(var(--border) / 0.2);
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.1), inset 0 0 15px hsl(var(--background) / 0.3);
+    box-shadow: 0 0 30px hsl(var(--accent) / 0.1), inset 0 0 15px hsl(var(--background) / 0.3); /* Yellow accent shadow */
     height: 200px; 
   }
 
@@ -217,10 +207,10 @@ body {
     background: linear-gradient(to left, hsl(var(--card)) 25%, transparent);
   }
 
-  .roulette-marker {
+  .roulette-marker { /* Yellow marker */
     width: 4px !important; 
-    background: linear-gradient(to bottom, hsl(var(--primary) / 0.6), hsl(var(--primary)), hsl(var(--primary) / 0.6));
-    box-shadow: 0 0 10px 3px hsl(var(--primary) / 0.6);
+    background: linear-gradient(to bottom, hsl(var(--accent) / 0.6), hsl(var(--accent)), hsl(var(--accent) / 0.6));
+    box-shadow: 0 0 10px 3px hsl(var(--accent) / 0.6);
     border-radius: 4px;
     opacity: 0.9;
   }
@@ -232,9 +222,9 @@ body {
     box-shadow: 0 2px 4px hsl(var(--background) / 0.2);
   }
 
-  .roulette-item.is-winning { 
+  .roulette-item.is-winning { /* Yellow highlight */
     transform: scale(1.08);
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
+    box-shadow: 0 0 20px hsl(var(--accent) / 0.4);
   }
   
   .roulette-item .prize-image-container, 
@@ -252,38 +242,39 @@ body {
     border: none !important;
   }
 
+  /* Nivo slider controls updated to accent (yellow) */
   .nivo-slider-theme-default .nivo-directionNav a {
     background-color: hsl(var(--card) / 0.3) !important; 
-    border: 1px solid hsl(var(--icon-color-hsl) / 0.2) !important; 
-    color: hsl(var(--icon-color-hsl)) !important;
+    border: 1px solid hsl(var(--accent) / 0.2) !important; 
+    color: hsl(var(--accent)) !important;
     text-shadow: none !important;
     transition: background-color 0.3s, border-color 0.3s, opacity 0.3s;
     opacity: 0.7; 
   }
   .nivo-slider-theme-default .nivo-directionNav a:hover {
     background-color: transparent !important; 
-    border-color: hsl(var(--icon-color-hsl) / 0.5) !important;
-    color: hsl(var(--icon-color-hsl)) !important;
+    border-color: hsl(var(--accent) / 0.5) !important;
+    color: hsl(var(--accent)) !important;
     opacity: 1;
   }
   .nivo-slider-theme-default .nivo-controlNav a {
     background: hsl(var(--card) / 0.3) !important; 
-    border: 1px solid hsl(var(--icon-color-hsl) / 0.2) !important; 
+    border: 1px solid hsl(var(--accent) / 0.2) !important; 
     transition: background-color 0.3s, border-color 0.3s;
   }
   .nivo-slider-theme-default .nivo-controlNav a:hover,
   .nivo-slider-theme-default .nivo-controlNav a.active {
-    background: hsl(var(--icon-color-hsl)) !important;
-    border-color: hsl(var(--icon-color-hsl)) !important;
+    background: hsl(var(--accent)) !important;
+    border-color: hsl(var(--accent)) !important;
   }
 
-  .title-carousel {
+  .title-carousel { /* For homepage "Best sellers" badge */
     background: transparent !important;
-    border: 1px solid hsl(var(--icon-color-hsl));
-    color: hsl(var(--icon-color-hsl)) !important;
+    border: 1px solid hsl(var(--accent)); /* Yellow border */
+    color: hsl(var(--accent)) !important; /* Yellow text */
   }
   .title-carousel i {
-    color: hsl(var(--icon-color-hsl)) !important;
+    color: hsl(var(--accent)) !important; /* Yellow icon */
   }
   
   .animate-red-blink {
@@ -295,27 +286,30 @@ body {
   }
 }
 
-/* Custom styles for Auth pages based on the image */
+/* Custom styles for Auth pages - Now uses theme variables directly */
 @layer components {
   .auth-form-container {
-    @apply w-full p-6 md:p-8 space-y-6 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-700/60 shadow-2xl; /* Increased opacity a bit */
+    @apply w-full p-6 md:p-8 space-y-6 rounded-xl bg-card/90 backdrop-blur-sm border border-border shadow-2xl;
   }
   .auth-title {
-    @apply text-2xl font-bold text-foreground;
+    @apply text-2xl font-bold text-primary; /* Primary (dark blue) title */
   }
   .auth-description {
     @apply text-muted-foreground text-sm mt-1;
   }
-  .auth-input {
-    @apply bg-slate-800/70 border-slate-700/80 placeholder:text-slate-500 focus:border-primary focus:ring-primary/50 text-foreground;
+  .auth-input { /* Uses theme's input styles */
+    @apply bg-input border-border placeholder:text-muted-foreground focus:border-ring focus:ring-ring text-foreground;
   }
-  .auth-button {
-    @apply w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 text-base font-semibold;
+  .auth-button { /* Uses accent (yellow) for main auth buttons */
+    @apply w-full bg-accent hover:bg-accent/90 text-accent-foreground h-11 text-base font-semibold;
   }
-  .auth-link {
-    @apply font-medium text-primary hover:underline;
+  .auth-link { /* Uses accent (yellow) for links */
+    @apply font-medium text-accent hover:underline;
   }
-  .auth-logo-placeholder { /* Placeholder for logo */
-    @apply mb-5 inline-block text-primary;
+  .auth-logo-placeholder { 
+    @apply mb-5 inline-block text-primary; /* Primary (dark blue) for logo placeholder */
   }
 }
+    
+
+    

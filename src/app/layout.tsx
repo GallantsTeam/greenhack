@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from '@/contexts/AuthContext';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import CustomCursor from '@/components/CustomCursor';
+// import CustomCursor from '@/components/CustomCursor'; // Temporarily disable custom cursor
 import React, { useEffect, useState } from 'react';
 
 const exo2 = Exo_2({ 
@@ -25,10 +25,15 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState('light-theme'); // Default to light-theme for public pages
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    // Logic to determine theme based on path
+    const isAdminPage = pathname?.startsWith('/admin');
+    setCurrentTheme(isAdminPage ? 'dark' : 'light-theme'); // Admin uses 'dark', public uses 'light-theme'
+  }, [pathname]);
+
 
   const safePathname = pathname || "";
 
@@ -45,7 +50,7 @@ export default function RootLayout({
                      !isHomePage &&
                      !safePathname.startsWith('/games') && 
                      safePathname !== '/statuses' &&
-                     safePathname !== '/reviews'; // Added reviews page check
+                     safePathname !== '/reviews';
   }
 
   const mainClasses = cn(
@@ -55,7 +60,8 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="ru" className={cn("dark", exo2.variable)}>
+    // Apply theme class to <html> dynamically
+    <html lang="ru" className={cn(isMounted ? currentTheme : 'light-theme', exo2.variable)}> 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -67,7 +73,7 @@ export default function RootLayout({
         )}
       >
         <AuthProvider>
-          <CustomCursor />
+          {/* <CustomCursor /> */} {/* Temporarily disable custom cursor */}
           
           {isMounted && clientShouldShowHeaderFooter && <Header />}
 
@@ -83,3 +89,6 @@ export default function RootLayout({
     </html>
   );
 }
+    
+
+    
