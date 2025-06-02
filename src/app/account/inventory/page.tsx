@@ -4,12 +4,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
-import { Backpack, Loader2, PackageSearch, Trash2, PlayCircle, AlertTriangle, Info, KeyRound, CalendarClock, Timer } from "lucide-react";
+import { Backpack, Loader2, PackageSearch, Trash2, Info, KeyRound, CalendarClock, Timer, Layers } from "lucide-react"; // Added Layers, removed PlayCircle
 import { useAuth } from "@/contexts/AuthContext";
 import type { InventoryItemWithDetails } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation'; // Added useRouter
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,18 +21,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog"; // Kept for delete confirmation
 import { Badge } from '@/components/ui/badge';
 
 
 export default function InventoryPage() {
   const { currentUser, fetchUserDetails } = useAuth();
   const { toast } = useToast();
+  const router = useRouter(); // Initialized useRouter
   const [inventoryItems, setInventoryItems] = useState<InventoryItemWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [itemToDelete, setItemToDelete] = useState<InventoryItemWithDetails | null>(null);
-  const [itemToActivate, setItemToActivate] = useState<InventoryItemWithDetails | null>(null);
+  // itemToActivate and setItemToActivate are removed
   const [isProcessingAction, setIsProcessingAction] = useState<number | null>(null);
 
   const fetchInventory = useCallback(async () => {
@@ -41,7 +43,7 @@ export default function InventoryPage() {
       return;
     }
     setIsLoading(true);
-    setError(null); // Reset error before fetching
+    setError(null);
     try {
       const response = await fetch(`/api/user/${currentUser.id}/inventory-items`);
       if (!response.ok) {
@@ -52,26 +54,23 @@ export default function InventoryPage() {
             errorDetailMessage = errorData.message;
           } else if (errorData) {
             const stringifiedError = JSON.stringify(errorData);
-            // Limit length of stringified error to avoid overly long messages
             errorDetailMessage = stringifiedError.length < 256 ? stringifiedError : `Сложный объект ошибки от сервера (Статус: ${response.status})`;
           }
         } catch (jsonError) {
-          // If response.json() fails, the body might not be valid JSON or empty.
            errorDetailMessage = `HTTP ${response.status}: ${response.statusText || 'Ошибка ответа сервера (не JSON)'}`;
         }
-        // Ensure a non-empty string is set for the error state
         const finalErrorMsg = errorDetailMessage.trim() !== '' ? errorDetailMessage : `HTTP Error ${response.status}: An unexpected issue occurred while fetching inventory.`;
         
         console.error("Error fetching inventory (response not ok):", finalErrorMsg);
-        setError(finalErrorMsg); // Set the error state
+        setError(finalErrorMsg); 
         toast({ title: "Ошибка загрузки инвентаря", description: finalErrorMsg, variant: "destructive" });
-        setInventoryItems([]); // Clear items on error
-        setIsLoading(false); // Set loading to false as the fetch attempt finished
-        return; // Exit the function
+        setInventoryItems([]); 
+        setIsLoading(false); 
+        return; 
       }
       const data: InventoryItemWithDetails[] = await response.json();
       setInventoryItems(data);
-    } catch (err: any) { // This catch block handles network errors or errors from the `throw` above (if it were still there)
+    } catch (err: any) { 
       console.error("Error fetching inventory (outer catch):", err);
       let displayErrorMessage = "Не удалось загрузить инвентарь. Произошла неизвестная ошибка.";
       if (err instanceof Error && err.message && err.message.trim() !== '') {
@@ -79,7 +78,7 @@ export default function InventoryPage() {
       }
       setError(displayErrorMessage);
       toast({ title: "Ошибка", description: displayErrorMessage, variant: "destructive" });
-      setInventoryItems([]); // Clear items on error
+      setInventoryItems([]); 
     } finally {
       setIsLoading(false);
     }
@@ -89,36 +88,41 @@ export default function InventoryPage() {
     fetchInventory();
   }, [fetchInventory]);
 
-  const handleActivateItemConfirm = async () => {
-    if (!currentUser || !itemToActivate || !itemToActivate.id) return;
+  const handleItemAction = async (item: InventoryItemWithDetails) => {
+    if (!currentUser || !item || !item.id) return;
     
-    if (!itemToActivate.related_product_id && itemToActivate.case_prize_id) {
-        toast({ title: "Информация", description: "Этот тип приза (например, баланс GH) активируется автоматически при получении или не требует ручной активации.", variant: "default" });
-        setItemToActivate(null);
-        return;
-    }
-    
-    setIsProcessingAction(itemToActivate.id);
+    setIsProcessingAction(item.id);
+
     try {
-      const response = await fetch('/api/inventory/activate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: currentUser.id, inventoryItemId: itemToActivate.id }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || `Не удалось активировать предмет. Статус: ${response.statusText}`);
-      }
-      toast({ title: "Успешно", description: data.message || `${itemToActivate.product_name} активирован!` });
-      fetchInventory(); 
-      if (currentUser?.id) fetchUserDetails(currentUser.id);
+        const response = await fetch('/api/inventory/activate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: currentUser.id, inventoryItemId: item.id }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || `Не удалось обработать предмет.`);
+        }
+
+        if (!item.related_product_id && item.case_prize_id) {
+            // Non-product prize (e.g., balance) - API marks as used
+            toast({ title: "Приз получен", description: `${item.product_name} уже был автоматически зачислен или не требует ручной активации. Он помечен как использованный.`, variant: "default" });
+        } else {
+            // Product that requires activation
+            toast({ title: "Успешно получен!", description: `${item.product_name} активирован и доступен на странице "Обзор".` });
+        }
+        
+        fetchInventory(); 
+        if (currentUser?.id) fetchUserDetails(currentUser.id); // Refresh balance/details
+        router.push('/account'); // Navigate to overview page
+
     } catch (error: any) {
-      toast({ title: "Ошибка активации", description: error.message, variant: "destructive" });
+        toast({ title: "Ошибка", description: error.message, variant: "destructive" });
     } finally {
-      setIsProcessingAction(null);
-      setItemToActivate(null);
+        setIsProcessingAction(null);
     }
   };
+
 
   const handleDeleteItemConfirm = async () => {
     if (!itemToDelete || !currentUser || !itemToDelete.id) return;
@@ -148,7 +152,7 @@ export default function InventoryPage() {
     return new Date(dateString).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   };
 
-  if (isLoading && !error) { // Show loader only if not in error state
+  if (isLoading && !error) { 
     return (
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] p-4">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -167,11 +171,11 @@ export default function InventoryPage() {
             Ваши предметы
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            Призы, которые вы получили из кейсов или приобрели. Активируйте их, чтобы начать использовать.
+            Призы, которые вы получили из кейсов или приобрели. Нажмите "Получить", чтобы активировать и начать использовать.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {error && ( // Display error message if error state is set
+          {error && ( 
             <div className="min-h-[200px] flex flex-col items-center justify-center border-2 border-dashed border-destructive/50 rounded-lg p-6 bg-destructive/10">
               <AlertTriangle className="h-10 w-10 text-destructive mb-3" />
               <p className="text-destructive font-semibold mb-1">Ошибка загрузки инвентаря</p>
@@ -182,7 +186,7 @@ export default function InventoryPage() {
               </Button>
             </div>
           )}
-          {!error && inventoryItems.length === 0 && !isLoading && ( // Show "empty" message only if no error and not loading
+          {!error && inventoryItems.length === 0 && !isLoading && ( 
             <div className="min-h-[200px] flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-6">
               <PackageSearch className="h-12 w-12 text-muted-foreground mb-4" />
               <p className="text-lg text-muted-foreground">Ваш инвентарь пуст.</p>
@@ -219,7 +223,7 @@ export default function InventoryPage() {
                     </p>
                     {item.is_used && item.activated_at && (
                       <p className="text-xs text-muted-foreground flex items-center">
-                         <PlayCircle className="h-3 w-3 mr-1 text-primary"/> Активирован: {formatDate(item.activated_at)}
+                         <Layers className="h-3 w-3 mr-1 text-primary"/> Активирован: {formatDate(item.activated_at)}
                       </p>
                     )}
                     {item.expires_at && (
@@ -235,37 +239,15 @@ export default function InventoryPage() {
                   </CardHeader>
                   <CardContent className="p-3 pt-0 border-t border-border/50">
                     <div className="flex gap-2 mt-2">
-                      {!item.is_used && item.related_product_id && (
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button 
-                                  size="sm" 
-                                  className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground h-8 text-xs"
-                                  disabled={isProcessingAction === item.id}
-                                  onClick={() => setItemToActivate(item)}
-                                >
-                                  {isProcessingAction === item.id && itemToActivate?.id === item.id ? <Loader2 className="h-3 w-3 animate-spin mr-1.5"/> : <PlayCircle className="h-3 w-3 mr-1.5"/>}
-                                  Активировать
-                                </Button>
-                            </AlertDialogTrigger>
-                             <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Подтвердите активацию</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                    Вы уверены, что хотите активировать "{itemToActivate?.product_name}"? 
-                                    {itemToActivate?.duration_days ? ` Срок действия лицензии (${itemToActivate.duration_days} дн.${itemToActivate.mode_label ? `, ${itemToActivate.mode_label}` : ''}) начнет отсчитываться с момента активации.` : ' Этот предмет будет помечен как использованный.'}
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel onClick={() => setItemToActivate(null)}>Отмена</AlertDialogCancel>
-                                    <AlertDialogAction onClick={handleActivateItemConfirm} className="bg-primary hover:bg-primary/90">Активировать</AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                      )}
-                      {!item.is_used && !item.related_product_id && item.case_prize_id && ( 
-                        <Button size="sm" className="flex-1 h-8 text-xs bg-muted text-muted-foreground cursor-default" disabled>
-                            <Info className="h-3 w-3 mr-1.5"/> Детали приза
+                      {!item.is_used && (item.related_product_id || (!item.related_product_id && item.case_prize_id)) && (
+                        <Button 
+                          size="sm" 
+                          className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground h-8 text-xs"
+                          disabled={isProcessingAction === item.id}
+                          onClick={() => handleItemAction(item)}
+                        >
+                          {isProcessingAction === item.id ? <Loader2 className="h-3 w-3 animate-spin mr-1.5"/> : <Layers className="h-3 w-3 mr-1.5"/>}
+                          Получить
                         </Button>
                       )}
                       <AlertDialog>
