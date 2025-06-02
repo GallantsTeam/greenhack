@@ -16,6 +16,10 @@
       "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2",
       "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2"
     ],
+    "[project]/src/app/account/settings/page": [
+      "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2",
+      "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2"
+    ],
     "[project]/src/app/admin/key-activations/page": [
       "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2",
       "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2"
@@ -49,6 +53,10 @@
       "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2"
     ],
     "[project]/src/app/games/[gameId]/page": [
+      "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2",
+      "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2"
+    ],
+    "[project]/src/app/games/page": [
       "static/media/7cHmv4okm5zmbtYsK_4W4nIppT4-s.p.15e38f7a.woff2",
       "static/media/7cHmv4okm5zmbtYoK_4W4nIp-s.p.04edc821.woff2"
     ],

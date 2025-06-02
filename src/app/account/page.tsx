@@ -197,10 +197,13 @@ export default function AccountDashboardPage() {
         }),
       });
       const result = await response.json();
-      if (!response.ok && result.status !== 'pending_with_notification_issue') { // Allow 200 with warning for notification issue
+      if (!response.ok && result.status !== 'pending_with_notification_issue') { 
         throw new Error(result.message || 'Не удалось отправить запрос на активацию ключа.');
       }
-      toast({ title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (с нюансом)" : "Запрос отправлен", description: result.message });
+      toast({ 
+        title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (с нюансом)" : "Запрос отправлен", 
+        description: result.message 
+      });
       setIsKeyModalOpen(false);
       fetchActiveLicenses(); 
     } catch (error: any) {

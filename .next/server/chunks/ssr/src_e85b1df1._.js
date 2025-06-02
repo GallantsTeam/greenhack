@@ -969,15 +969,15 @@ function AccountDashboardPage() {
                 })
             });
             const result = await response.json();
-            if (!response.ok) {
+            if (!response.ok && result.status !== 'pending_with_notification_issue') {
                 throw new Error(result.message || 'Не удалось отправить запрос на активацию ключа.');
             }
             toast({
-                title: "Запрос отправлен",
+                title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (с нюансом)" : "Запрос отправлен",
                 description: result.message
             });
             setIsKeyModalOpen(false);
-            fetchActiveLicenses(); // Refresh the license list
+            fetchActiveLicenses();
         } catch (error) {
             toast({
                 title: "Ошибка",

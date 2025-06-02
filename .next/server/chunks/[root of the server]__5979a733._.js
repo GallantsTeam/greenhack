@@ -597,7 +597,7 @@ async function getTelegramSettingsFromDb() {
     }
 }
 async function sendTelegramMessage(botToken, chatId, message, parseMode = 'MarkdownV2', replyMarkup) {
-    console.log(`[TelegramLib] sendTelegramMessage called. Token (start): ${botToken ? botToken.substring(0, 10) + '...' : 'N/A'}, ChatID: ${chatId}, Message (start): "${message.substring(0, 30)}...", ParseMode: ${parseMode}`);
+    // console.log(`[TelegramLib] sendTelegramMessage called. Token (start): ${botToken ? botToken.substring(0,10) + '...' : 'N/A'}, ChatID: ${chatId}, Message (start): "${message.substring(0,30)}...", ParseMode: ${parseMode}`);
     if (!botToken || !chatId || !message) {
         const errorMsg = "[TelegramLib] Send Error: Missing botToken, chatId, or message for Telegram.";
         console.error(errorMsg);
@@ -615,11 +615,8 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
     if (replyMarkup) {
         bodyPayload.reply_markup = replyMarkup;
     }
-    console.log(`[TelegramLib] Preparing to send. Final chat_id type: ${typeof bodyPayload.chat_id}, value: '${bodyPayload.chat_id}'`);
-    console.log(`[TelegramLib] EXACT PAYLOAD TO TELEGRAM (token details excluded):`, JSON.stringify({
-        ...bodyPayload,
-        bot_token_info: `Token ending with ...${botToken.slice(-6)}`
-    }, null, 2));
+    // console.log(`[TelegramLib] Preparing to send. Final chat_id type: ${typeof bodyPayload.chat_id}, value: '${bodyPayload.chat_id}'`);
+    // console.log(`[TelegramLib] EXACT PAYLOAD TO TELEGRAM (token details excluded):`, JSON.stringify({ ...bodyPayload, bot_token_info: `Token ending with ...${botToken.slice(-6)}` }, null, 2));
     try {
         const response = await fetch(telegramApiUrl, {
             method: 'POST',
@@ -629,10 +626,10 @@ async function sendTelegramMessage(botToken, chatId, message, parseMode = 'Markd
             body: JSON.stringify(bodyPayload)
         });
         const data = await response.json();
-        console.log(`[TelegramLib] Telegram API response status: ${response.status}, ok: ${response.ok}`);
-        console.log('[TelegramLib] Telegram API response data:', JSON.stringify(data, null, 2));
+        // console.log(`[TelegramLib] Telegram API response status: ${response.status}, ok: ${response.ok}`);
+        // console.log('[TelegramLib] Telegram API response data:', JSON.stringify(data, null, 2));
         if (data.ok) {
-            console.log(`[TelegramLib] Message sent successfully to chat_id ${chatId}.`);
+            // console.log(`[TelegramLib] Message sent successfully to chat_id ${chatId}.`);
             return {
                 success: true,
                 message: `Message sent to ${chatId}`
@@ -683,20 +680,21 @@ function escapeTelegramMarkdownV2(text) {
     return textStr.split('').map((char)=>escapeChars.includes(char) ? `\\${char}` : char).join('');
 }
 async function notifyAdminOnBalanceDeposit(userId, username, amountGh, reason) {
-    console.log(`[TelegramLib] notifyAdminOnBalanceDeposit called for user: ${username} (ID: ${userId}), amount: ${amountGh}, reason: ${reason}`);
+    console.log(`[TelegramLib LOG] Attempting notifyAdminOnBalanceDeposit for user: ${username} (ID: ${userId}), amount: ${amountGh}, reason: ${reason || 'N/A'}`);
     const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
     if (!telegramSettings?.admin_bot_token) {
-        console.log("[TelegramLib] notifyAdminOnBalanceDeposit check failed: Admin bot token not configured.");
+        console.log("[TelegramLib LOG] notifyAdminOnBalanceDeposit: Admin bot token NOT configured.");
         return;
     }
     if (!telegramSettings.admin_bot_chat_ids) {
-        console.log("[TelegramLib] notifyAdminOnBalanceDeposit check failed: Admin bot chat IDs not configured.");
+        console.log("[TelegramLib LOG] notifyAdminOnBalanceDeposit: Admin bot chat IDs NOT configured.");
         return;
     }
     if (!notificationPrefs?.notify_admin_on_balance_deposit) {
-        console.log("[TelegramLib] notifyAdminOnBalanceDeposit check failed: Notification type is disabled in settings.");
+        console.log("[TelegramLib LOG] notifyAdminOnBalanceDeposit: Notification type is DISABLED in settings.");
         return;
     }
+    console.log("[TelegramLib LOG] notifyAdminOnBalanceDeposit: Settings OK. Proceeding to send.");
     const reasonText = reason ? `\nПричина: \`${escapeTelegramMarkdownV2(reason)}\`` : '';
     const message = `💰 *Пополнение баланса*
 Пользователь: \`${escapeTelegramMarkdownV2(username)}\` (ID: \`${userId}\`)
@@ -704,22 +702,26 @@ async function notifyAdminOnBalanceDeposit(userId, username, amountGh, reason) {
     const chatIds = telegramSettings.admin_bot_chat_ids.split(',').map((id)=>id.trim()).filter((id)=>id);
     for (const chatId of chatIds){
         try {
+            console.log(`[TelegramLib LOG] Sending balance deposit notification to admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(telegramSettings.admin_bot_token, chatId, message);
             if (!result.success) {
-                console.error(`[TelegramLib] Failed to send balance deposit notification to ${chatId}:`, result.message, result.error);
+                console.error(`[TelegramLib LOG] Failed to send balance deposit notification to ${chatId}:`, result.message, result.error);
+            } else {
+                console.log(`[TelegramLib LOG] Balance deposit notification sent successfully to ${chatId}.`);
             }
         } catch (e) {
-            console.error(`[TelegramLib] CRITICAL ERROR sending balance deposit notification to ${chatId}:`, e);
+            console.error(`[TelegramLib LOG] CRITICAL ERROR sending balance deposit notification to ${chatId}:`, e);
         }
     }
 }
 async function notifyAdminOnProductPurchase(userId, username, productName, durationDays, amountGh) {
-    console.log(`[TelegramLib] notifyAdminOnProductPurchase called for user: ${username}, product: ${productName}, amount: ${amountGh}`);
+    console.log(`[TelegramLib LOG] Attempting notifyAdminOnProductPurchase for user: ${username}, product: ${productName}, amount: ${amountGh}`);
     const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
     if (!telegramSettings?.admin_bot_token || !telegramSettings.admin_bot_chat_ids || !notificationPrefs?.notify_admin_on_product_purchase) {
-        console.log("[TelegramLib] notifyAdminOnProductPurchase check failed: Bot token, chat IDs, or setting disabled.");
+        console.log("[TelegramLib LOG] notifyAdminOnProductPurchase: Check failed - Bot token, chat IDs, or setting disabled.");
         return;
     }
+    console.log("[TelegramLib LOG] notifyAdminOnProductPurchase: Settings OK. Proceeding to send.");
     const durationText = durationDays ? ` (${escapeTelegramMarkdownV2(durationDays)} дн\\.)` : '';
     const message = `🛍️ *Новая покупка товара*
 Пользователь: \`${escapeTelegramMarkdownV2(username)}\` (ID: \`${userId}\`)
@@ -728,22 +730,26 @@ async function notifyAdminOnProductPurchase(userId, username, productName, durat
     const chatIds = telegramSettings.admin_bot_chat_ids.split(',').map((id)=>id.trim()).filter((id)=>id);
     for (const chatId of chatIds){
         try {
+            console.log(`[TelegramLib LOG] Sending product purchase notification to admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(telegramSettings.admin_bot_token, chatId, message);
             if (!result.success) {
-                console.error(`[TelegramLib] Failed to send product purchase notification to ${chatId}:`, result.message, result.error);
+                console.error(`[TelegramLib LOG] Failed to send product purchase notification to ${chatId}:`, result.message, result.error);
+            } else {
+                console.log(`[TelegramLib LOG] Product purchase notification sent successfully to ${chatId}.`);
             }
         } catch (e) {
-            console.error(`[TelegramLib] CRITICAL ERROR sending product purchase notification to ${chatId}:`, e);
+            console.error(`[TelegramLib LOG] CRITICAL ERROR sending product purchase notification to ${chatId}:`, e);
         }
     }
 }
 async function notifyAdminOnPromoCodeCreation(adminUsername, promoCode) {
-    console.log(`[TelegramLib] notifyAdminOnPromoCodeCreation called for code: ${promoCode.code}, created by: ${adminUsername || 'System'}`);
+    console.log(`[TelegramLib LOG] Attempting notifyAdminOnPromoCodeCreation for code: ${promoCode.code}, created by: ${adminUsername || 'System'}`);
     const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
     if (!telegramSettings?.admin_bot_token || !telegramSettings.admin_bot_chat_ids || !notificationPrefs?.notify_admin_on_promo_code_creation) {
-        console.log("[TelegramLib] notifyAdminOnPromoCodeCreation check failed: Bot token, chat IDs, or setting disabled.");
+        console.log("[TelegramLib LOG] notifyAdminOnPromoCodeCreation: Check failed - Bot token, chat IDs, or setting disabled.");
         return;
     }
+    console.log("[TelegramLib LOG] notifyAdminOnPromoCodeCreation: Settings OK. Proceeding to send.");
     let rewardText = '';
     if (promoCode.type === 'balance_gh' && promoCode.value_gh) {
         rewardText = `Баланс: \`${escapeTelegramMarkdownV2(promoCode.value_gh.toFixed(2))}\` GH`;
@@ -762,22 +768,26 @@ ${adminUsername ? `Создал: \`${escapeTelegramMarkdownV2(adminUsername)}\``
     const chatIds = telegramSettings.admin_bot_chat_ids.split(',').map((id)=>id.trim()).filter((id)=>id);
     for (const chatId of chatIds){
         try {
+            console.log(`[TelegramLib LOG] Sending promo code creation notification to admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(telegramSettings.admin_bot_token, chatId, message);
             if (!result.success) {
-                console.error(`[TelegramLib] Failed to send promo code creation notification to ${chatId}:`, result.message, result.error);
+                console.error(`[TelegramLib LOG] Failed to send promo code creation notification to ${chatId}:`, result.message, result.error);
+            } else {
+                console.log(`[TelegramLib LOG] Promo code creation notification sent successfully to ${chatId}.`);
             }
         } catch (e) {
-            console.error(`[TelegramLib] CRITICAL ERROR sending promo code creation notification to ${chatId}:`, e);
+            console.error(`[TelegramLib LOG] CRITICAL ERROR sending promo code creation notification to ${chatId}:`, e);
         }
     }
 }
 async function notifyAdminOnAdminLogin(adminUsername, ipAddress) {
-    console.log(`[TelegramLib] notifyAdminOnAdminLogin called for admin: ${adminUsername}, IP: ${ipAddress}`);
+    console.log(`[TelegramLib LOG] Attempting notifyAdminOnAdminLogin for admin: ${adminUsername}, IP: ${ipAddress}`);
     const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
     if (!telegramSettings?.admin_bot_token || !telegramSettings.admin_bot_chat_ids || !notificationPrefs?.notify_admin_on_admin_login) {
-        console.log("[TelegramLib] notifyAdminOnAdminLogin check failed: Bot token, chat IDs, or setting disabled.");
+        console.log("[TelegramLib LOG] notifyAdminOnAdminLogin: Check failed - Bot token, chat IDs, or setting disabled.");
         return;
     }
+    console.log("[TelegramLib LOG] notifyAdminOnAdminLogin: Settings OK. Proceeding to send.");
     const ipText = ipAddress ? `IP: \`${escapeTelegramMarkdownV2(ipAddress)}\`` : 'IP не определен';
     const message = `🛡️ *Вход в Админ-панель*
 Пользователь: \`${escapeTelegramMarkdownV2(adminUsername)}\`
@@ -786,22 +796,25 @@ ${ipText}
     const chatIds = telegramSettings.admin_bot_chat_ids.split(',').map((id)=>id.trim()).filter((id)=>id);
     for (const chatId of chatIds){
         try {
+            console.log(`[TelegramLib LOG] Sending admin login notification to admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(telegramSettings.admin_bot_token, chatId, message);
             if (!result.success) {
-                console.error(`[TelegramLib] Failed to send admin login notification to ${chatId}:`, result.message, result.error);
+                console.error(`[TelegramLib LOG] Failed to send admin login notification to ${chatId}:`, result.message, result.error);
+            } else {
+                console.log(`[TelegramLib LOG] Admin login notification sent successfully to ${chatId}.`);
             }
         } catch (e) {
-            console.error(`[TelegramLib] CRITICAL ERROR sending admin login notification to ${chatId}:`, e);
+            console.error(`[TelegramLib LOG] CRITICAL ERROR sending admin login notification to ${chatId}:`, e);
         }
     }
 }
 async function sendKeyActivationRequestToAdmin(item, user) {
-    console.log(`[TelegramLib] sendKeyActivationRequestToAdmin called for item ID: ${item.id}, user: ${user.username}`);
+    console.log(`[TelegramLib LOG] Attempting sendKeyActivationRequestToAdmin for item ID: ${item.id}, user: ${user.username}`);
     const { telegramSettings, notificationPrefs } = await getTelegramSettingsFromDb();
     const keyBotToken = telegramSettings?.key_bot_token;
     const adminChatIdsString = telegramSettings?.key_bot_admin_chat_ids;
     if (!keyBotToken) {
-        const errorMsg = "[TelegramLib] Key Bot token not configured in site_telegram_settings.";
+        const errorMsg = "[TelegramLib LOG] Key Bot token not configured in site_telegram_settings.";
         console.error(errorMsg);
         return {
             success: false,
@@ -809,7 +822,7 @@ async function sendKeyActivationRequestToAdmin(item, user) {
         };
     }
     if (!adminChatIdsString) {
-        const errorMsg = "[TelegramLib] Key Bot admin chat IDs not configured in site_telegram_settings.";
+        const errorMsg = "[TelegramLib LOG] Key Bot admin chat IDs not configured in site_telegram_settings.";
         console.error(errorMsg);
         return {
             success: false,
@@ -817,13 +830,14 @@ async function sendKeyActivationRequestToAdmin(item, user) {
         };
     }
     if (!notificationPrefs?.notify_admin_on_key_activation_request) {
-        const logMsg = "[TelegramLib] sendKeyActivationRequestToAdmin check failed: Notification type 'notify_admin_on_key_activation_request' is disabled.";
+        const logMsg = "[TelegramLib LOG] sendKeyActivationRequestToAdmin: Check failed - Notification type 'notify_admin_on_key_activation_request' is disabled.";
         console.log(logMsg);
         return {
             success: true,
             message: "Key activation request notification type disabled."
         };
     }
+    console.log("[TelegramLib LOG] sendKeyActivationRequestToAdmin: Settings OK. Proceeding to send.");
     const productName = item.product_name || 'Неизвестный товар';
     const duration = item.duration_days ? ` (${item.duration_days} дн.)` : '';
     const mode = item.mode_label ? ` [${item.mode_label}]` : '';
@@ -850,6 +864,7 @@ async function sendKeyActivationRequestToAdmin(item, user) {
     let firstErrorResult = null;
     for (const chatId of chatIds){
         try {
+            console.log(`[TelegramLib LOG] Sending key activation request to key bot admin chat ID: ${chatId}`);
             const result = await sendTelegramMessage(keyBotToken, chatId, message, 'MarkdownV2', {
                 inline_keyboard
             });
@@ -858,9 +873,9 @@ async function sendKeyActivationRequestToAdmin(item, user) {
                 if (!firstErrorResult) {
                     firstErrorResult = result;
                 }
-                console.error(`[TelegramLib] Failed to send key activation request to ${chatId}:`, result.message, result.error);
+                console.error(`[TelegramLib LOG] Failed to send key activation request to ${chatId}:`, result.message, result.error);
             } else {
-                console.log(`[TelegramLib] Key activation request sent successfully to ${chatId}.`);
+                console.log(`[TelegramLib LOG] Key activation request sent successfully to ${chatId}.`);
             }
         } catch (e) {
             allSentSuccessfully = false;
@@ -871,7 +886,7 @@ async function sendKeyActivationRequestToAdmin(item, user) {
                     error: e
                 };
             }
-            console.error(`[TelegramLib] CRITICAL ERROR sending key activation request to ${chatId}:`, e);
+            console.error(`[TelegramLib LOG] CRITICAL ERROR sending key activation request to ${chatId}:`, e);
         }
     }
     return allSentSuccessfully ? {

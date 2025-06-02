@@ -103,7 +103,6 @@ export async function PUT(
 
       const userMessage = `Уважаемый пользователь, ваш ключ для "${item.product_name}"${item.duration_days ? ` на ${item.duration_days} дн.` : ''}${item.mode_label ? ` [${item.mode_label}]` : ''} был успешно активирован! Если вы не знаете как запустить софт, воспользуйтесь кнопкой "Как запускать?" в личном кабинете или напишите в техническую поддержку. Приятной игры!`;
       
-      // Send Telegram notification to user if telegram_id and client_bot_token are available
       if (item.user_telegram_id && clientBotToken) {
         console.log(`[ApproveKeyActivation] Sending Telegram notification to user ${item.user_telegram_id}...`);
         await sendTelegramMessage(clientBotToken, item.user_telegram_id, userMessage, 'HTML');
@@ -111,14 +110,12 @@ export async function PUT(
         console.log(`[ApproveKeyActivation] User ${item.user_telegram_id} Telegram ID or Client Bot Token not available. Skipping Telegram notification.`);
       }
 
-      // Add to user_notifications table in the database
       await query(
         'INSERT INTO user_notifications (user_id, message, link_url) VALUES (?, ?, ?)',
         [item.user_db_id, userMessage, '/account/inventory']
       );
       console.log(`[ApproveKeyActivation] Added notification to user_notifications for user ${item.user_db_id}.`);
       
-      // Optional: Send email notification if enabled
       // if (notificationSettings?.notify_on_software_activation && item.user_email) {
       //   await sendEmail({
       //     to: item.user_email,

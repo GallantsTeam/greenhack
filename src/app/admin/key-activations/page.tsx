@@ -17,9 +17,9 @@ interface ActivationRequest {
   user_username: string;
   product_display_name: string;
   activation_code: string | null;
-  request_date: string; // This is updated_at from user_inventory when status becomes pending_admin_approval
-  activated_at?: string | null; // When approved
-  status_reason?: string | null; // For rejected status
+  request_date: string; 
+  activated_at?: string | null; 
+  status_reason?: string | null; 
   duration_days: number | null;
   mode_label: string | null;
   activation_status: 'pending_admin_approval' | 'active' | 'rejected';

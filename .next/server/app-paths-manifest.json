@@ -3,6 +3,7 @@
   "/account/inventory/page": "app/account/inventory/page.js",
   "/account/page": "app/account/page.js",
   "/account/purchase-history/page": "app/account/purchase-history/page.js",
+  "/account/settings/page": "app/account/settings/page.js",
   "/admin/key-activations/page": "app/admin/key-activations/page.js",
   "/admin/page": "app/admin/page.js",
   "/admin/products/[slug]/edit/page": "app/admin/products/[slug]/edit/page.js",
@@ -26,9 +27,11 @@
   "/api/cases/[caseId]/route": "app/api/cases/[caseId]/route.js",
   "/api/categories/route": "app/api/categories/route.js",
   "/api/inventory/activate/route": "app/api/inventory/activate/route.js",
+  "/api/inventory/delete/route": "app/api/inventory/delete/route.js",
   "/api/license/request-activation/route": "app/api/license/request-activation/route.js",
   "/api/products/[slug]/reviews/route": "app/api/products/[slug]/reviews/route.js",
   "/api/products/route": "app/api/products/route.js",
+  "/api/purchase/product/route": "app/api/purchase/product/route.js",
   "/api/site-navigation/route": "app/api/site-navigation/route.js",
   "/api/site-settings-public/route": "app/api/site-settings-public/route.js",
   "/api/user/[userId]/balance-transactions/route": "app/api/user/[userId]/balance-transactions/route.js",
@@ -42,6 +45,7 @@
   "/api/user/notifications/read-all/route": "app/api/user/notifications/read-all/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/games/[gameId]/page": "app/games/[gameId]/page.js",
+  "/games/page": "app/games/page.js",
   "/page": "app/page.js",
   "/products/[slug]/page": "app/products/[slug]/page.js"
 }

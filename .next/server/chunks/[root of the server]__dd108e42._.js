@@ -661,7 +661,6 @@ async function POST(request) {
                 status: 400
             });
         }
-        // Check if it was previously rejected and log it
         if (inventoryItem.activation_status === 'rejected') {
             console.log(`[API RequestActivation] Re-requesting activation for previously rejected item ID: ${inventoryItemId}. New key: ${enteredKey}`);
         }
@@ -689,13 +688,13 @@ async function POST(request) {
         const telegramResult = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$telegram$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["sendKeyActivationRequestToAdmin"])(notificationItemDetails, user);
         if (!telegramResult.success) {
             console.error("[API RequestActivation] Failed to send Telegram notification to admin for key activation:", telegramResult.error);
-            // Revert status? For now, proceed.
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: 'Запрос на активацию отправлен, но произошла ошибка при уведомлении администратора. Пожалуйста, свяжитесь с поддержкой, если активация не произойдет в ближайшее время.',
-                warning: telegramResult.message
+                message: 'Запрос на активацию отправлен! Если активация не произойдет в течение 10-15 минут, пожалуйста, свяжитесь с поддержкой.',
+                warning: 'Не удалось уведомить администратора через Telegram. Запрос все равно создан.',
+                status: 'pending_with_notification_issue' // Custom status to indicate success with a caveat
             }, {
-                status: 207
-            });
+                status: 200
+            }); // Return 200 but with a warning for the client to handle
         }
         console.log('[API RequestActivation] Key activation request sent to admin.');
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
