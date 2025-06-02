@@ -44,6 +44,7 @@
   "/api/products/[slug]/reviews/route": "app/api/products/[slug]/reviews/route.js",
   "/api/products/route": "app/api/products/route.js",
   "/api/purchase/product/route": "app/api/purchase/product/route.js",
+  "/api/reviews/route": "app/api/reviews/route.js",
   "/api/site-navigation/route": "app/api/site-navigation/route.js",
   "/api/site-settings-public/route": "app/api/site-settings-public/route.js",
   "/api/user/[userId]/balance-transactions/route": "app/api/user/[userId]/balance-transactions/route.js",
@@ -61,5 +62,6 @@
   "/legal-info/page": "app/legal-info/page.js",
   "/page": "app/page.js",
   "/products/[slug]/page": "app/products/[slug]/page.js",
+  "/reviews/page": "app/reviews/page.js",
   "/statuses/page": "app/statuses/page.js"
 }

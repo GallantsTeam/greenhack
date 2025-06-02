@@ -440,8 +440,8 @@ const KeyRegistrationModal = ({ isOpen, onClose, onRegisterKey, productName, isL
         launcher_link_text: "Скачать лаунчер",
         key_paste_text: "Введите ваш ключ (Сочетание клавиш Ctrl+V) и нажмите кнопку \"Запросить активацию ключа\" ниже.",
         support_text: "В течение 10-15 минут, перезапустите Лаунчер. В случае отсутствия лицензии, просьба написать в Техническую поддержку",
-        support_link_text: "@Gallant_kz",
-        support_link_url: "https://t.me/gallant_kz"
+        support_link_text: "@SanekGul",
+        support_link_url: "https://t.me/SanekGul"
     };
     const data = retrievalModalData || defaultRetrievalData;
     if (activationType === 'key_request') {

@@ -19,7 +19,7 @@ body {
     --popover: 220 20% 11%;
     --popover-foreground: 200 20% 85%;
 
-    --primary: 170 60% 45%; /* Cyan-Greenish */
+    --primary: 143 80% 56%; /* NEW GREENISH COLOR RGB(54, 233, 123) */
     --primary-foreground: 210 40% 98%; /* Very light gray/white */
 
     --secondary: 210 18% 28%; /* Muted blue-gray */
@@ -28,7 +28,7 @@ body {
     --muted: 210 18% 22%;
     --muted-foreground: 200 20% 60%;
 
-    --accent: 170 50% 60%; /* Lighter Cyan-Greenish */
+    --accent: 143 70% 66%; /* NEW GREENISH COLOR - slightly lighter for accent */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 70% 55%; /* Red */
@@ -36,30 +36,30 @@ body {
 
     --border: 210 18% 25%;
     --input: 210 18% 18%;
-    --ring: 170 60% 55%; /* Brighter Cyan-Greenish for focus ring */
+    --ring: 143 80% 56%; /* NEW GREENISH COLOR */
     
-    --icon-color-hsl: 170 60% 45%; /* Cyan-Greenish for icons */
+    --icon-color-hsl: 143 80% 56%; /* NEW GREENISH COLOR */
     --header-height: 3.5rem; /* Existing header height */
 
     --font-inter: "Inter", sans-serif; /* Define Inter font variable */
     --font-exo-2: "Exo 2", sans-serif; /* Define Exo 2 font variable */
 
 
-    --chart-1: 170 60% 45%;
-    --chart-2: 170 50% 60%;
-    --chart-3: 170 70% 35%;
-    --chart-4: 170 40% 70%;
-    --chart-5: 210 30% 70%;
+    --chart-1: 143 80% 56%;
+    --chart-2: 143 70% 66%;
+    --chart-3: 143 80% 46%;
+    --chart-4: 143 60% 70%;
+    --chart-5: 143 50% 60%;
     --radius: 0.75rem;
 
     /* Sidebar specific variables - can be same as main dark theme if consistent */
     --sidebar-background: 220 20% 8%; /* Even darker for sidebar */
     --sidebar-foreground: 200 20% 90%;
     --sidebar-border: 210 18% 15%;
-    --sidebar-ring: 170 60% 55%;
-    --sidebar-primary: 170 60% 45%; /* Match main primary */
+    --sidebar-ring: 143 80% 56%; /* NEW GREENISH COLOR */
+    --sidebar-primary: 143 80% 56%; /* NEW GREENISH COLOR */
     --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 210 18% 25%; /* Accent for hover etc in sidebar */
+    --sidebar-accent: 210 18% 25%; /* Accent for hover etc in sidebar - kept original dark accent */
     --sidebar-accent-foreground: 200 20% 98%;
   }
 
@@ -70,30 +70,30 @@ body {
     --card-foreground: 200 20% 85%;
     --popover: 220 20% 11%;
     --popover-foreground: 200 20% 85%;
-    --primary: 170 60% 45%;
+    --primary: 143 80% 56%; /* NEW GREENISH COLOR */
     --primary-foreground: 210 40% 98%;
     --secondary: 210 18% 28%;
     --secondary-foreground: 200 20% 80%;
     --muted: 210 18% 22%;
     --muted-foreground: 200 20% 60%;
-    --accent: 170 50% 60%;
+    --accent: 143 70% 66%; /* NEW GREENISH COLOR - slightly lighter */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 18% 25%;
     --input: 210 18% 18%;
-    --ring: 170 60% 55%;
-    --icon-color-hsl: 170 60% 45%;
+    --ring: 143 80% 56%; /* NEW GREENISH COLOR */
+    --icon-color-hsl: 143 80% 56%; /* NEW GREENISH COLOR */
     --header-height: 3.5rem;
 
     /* Sidebar specific variables - can be same as main dark theme if consistent */
     --sidebar-background: 220 20% 8%;
     --sidebar-foreground: 200 20% 90%;
     --sidebar-border: 210 18% 15%;
-    --sidebar-ring: 170 60% 55%;
-    --sidebar-primary: 170 60% 45%;
+    --sidebar-ring: 143 80% 56%; /* NEW GREENISH COLOR */
+    --sidebar-primary: 143 80% 56%; /* NEW GREENISH COLOR */
     --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 210 18% 25%;
+    --sidebar-accent: 210 18% 25%; /* Kept original dark accent */
     --sidebar-accent-foreground: 200 20% 98%;
   }
 }
@@ -297,6 +297,7 @@ body {
     @apply mb-5 inline-block text-primary;
   }
 }
+    
     
     
     
