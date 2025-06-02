@@ -251,12 +251,12 @@ async function POST(request) {
                 status: 400
             });
         }
-        // Updated SQL query
         const inventoryItemResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
          ui.*,
-         p.name as product_name_from_product_table,
+         p.name as product_name_from_product_table, 
+         p.activation_type, -- Get activation_type from products table
          COALESCE(ppo.duration_days, cp.duration_days) as resolved_duration_days,
-         ppo.mode_label as pricing_option_mode_label -- mode_label comes only from ppo
+         ppo.mode_label as pricing_option_mode_label
        FROM user_inventory ui
        LEFT JOIN products p ON ui.related_product_id = p.id
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
@@ -273,28 +273,61 @@ async function POST(request) {
                 status: 404
             });
         }
-        const itemToActivateDb = inventoryItemResults[0];
-        console.log('[API Activate] Found item in DB:', itemToActivateDb);
-        // Updated item mapping
+        const dbItem = inventoryItemResults[0];
+        console.log('[API Activate] Found item in DB:', dbItem);
         const itemToActivate = {
-            ...itemToActivateDb,
-            product_name: itemToActivateDb.product_name || itemToActivateDb.product_name_from_product_table || 'Неизвестный продукт',
-            is_used: Boolean(itemToActivateDb.is_used),
-            duration_days: itemToActivateDb.resolved_duration_days ? parseInt(itemToActivateDb.resolved_duration_days, 10) : null,
-            mode_label: itemToActivateDb.pricing_option_mode_label || null,
-            activation_status: itemToActivateDb.activation_status || 'available'
+            ...dbItem,
+            product_name: dbItem.product_name || dbItem.product_name_from_product_table || 'Неизвестный продукт',
+            is_used: Boolean(dbItem.is_used),
+            duration_days: dbItem.resolved_duration_days ? parseInt(dbItem.resolved_duration_days, 10) : null,
+            mode_label: dbItem.pricing_option_mode_label || null,
+            activation_status: dbItem.activation_status || 'available',
+            activation_type: dbItem.activation_type || 'info_modal'
         };
-        if (itemToActivate.is_used) {
-            console.log(`[API Activate] Item ${inventoryItemId} already used.`);
+        if (itemToActivate.is_used && itemToActivate.activation_status === 'active') {
+            console.log(`[API Activate] Item ${inventoryItemId} already used and active.`);
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: 'Этот предмет уже был активирован.'
             }, {
                 status: 400
             });
         }
+        if (itemToActivate.is_used && itemToActivate.activation_status !== 'active') {
+            console.log(`[API Activate] Item ${inventoryItemId} marked as used but status is not 'active'. Current status: ${itemToActivate.activation_status}`);
+            // This might be an inconsistent state, but for now, we treat 'is_used' as primary.
+            // Or, you might want to allow re-triggering certain flows if it's, for example, 'rejected'.
+            // For now, if is_used is true, we consider it processed unless specifically handled.
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: 'Этот предмет уже был обработан ранее.'
+            }, {
+                status: 400
+            });
+        }
+        if (itemToActivate.activation_type === 'key_request') {
+            if (itemToActivate.activation_status === 'pending_admin_approval') {
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    message: 'Активация этого ключа уже запрошена и ожидает одобрения администратором.'
+                }, {
+                    status: 400
+                });
+            }
+            if (itemToActivate.activation_status === 'rejected') {
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    message: 'Ваш предыдущий запрос на активацию этого ключа был отклонен. Пожалуйста, свяжитесь с поддержкой или используйте кнопку "Как активировать?" для повторного запроса.'
+                }, {
+                    status: 400
+                });
+            }
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: 'Для этого товара требуется запрос на активацию ключа через специальное окно. Используйте кнопку "Как активировать?".'
+            }, {
+                status: 400
+            });
+        }
         if (!itemToActivate.related_product_id && itemToActivate.case_prize_id) {
             console.log(`[API Activate] Item ${inventoryItemId} is a non-product prize (e.g., balance), marking as used.`);
-            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET is_used = TRUE, activated_at = NOW() WHERE id = ?', [
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET is_used = TRUE, activated_at = NOW(), activation_status = ? WHERE id = ?', [
+                'active',
                 inventoryItemId
             ]);
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -304,7 +337,7 @@ async function POST(request) {
             });
         }
         if (!itemToActivate.related_product_id) {
-            console.log(`[API Activate] Item ${inventoryItemId} has no related_product_id and is not a direct case_prize_id activation. Cannot determine license type.`);
+            console.log(`[API Activate] Item ${inventoryItemId} has no related_product_id. Cannot determine license type for non-key_request items.`);
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: 'Невозможно активировать этот тип предмета как лицензию (отсутствует ID продукта).'
             }, {
@@ -313,7 +346,7 @@ async function POST(request) {
         }
         let expiresAt = null;
         const activatedAt = new Date();
-        console.log(`[API Activate] Item duration_days: ${itemToActivate.duration_days}`);
+        console.log(`[API Activate] Item duration_days for product ID ${itemToActivate.related_product_id}: ${itemToActivate.duration_days}`);
         if (itemToActivate.duration_days && itemToActivate.duration_days > 0) {
             const expiryDate = new Date(activatedAt);
             expiryDate.setDate(expiryDate.getDate() + itemToActivate.duration_days);
@@ -322,12 +355,13 @@ async function POST(request) {
         } else {
             console.log(`[API Activate] No duration or duration is 0, expiresAt will be NULL (permanent).`);
         }
-        await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET is_used = TRUE, activated_at = ?, expires_at = ? WHERE id = ?', [
+        await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET is_used = TRUE, activated_at = ?, expires_at = ?, activation_status = ? WHERE id = ?', [
             activatedAt.toISOString().slice(0, 19).replace('T', ' '),
             expiresAt,
+            'active',
             inventoryItemId
         ]);
-        console.log(`[API Activate] Item ${inventoryItemId} updated successfully.`);
+        console.log(`[API Activate] Item ${inventoryItemId} updated successfully (status: active).`);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             message: `${itemToActivate.product_name} успешно активирован!`
         }, {
@@ -335,7 +369,6 @@ async function POST(request) {
         });
     } catch (error) {
         console.error('[API Inventory Activate Error]:', error);
-        // Check if the error is a MySQL error and has a code
         if (error.code && error.sqlMessage) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: `Ошибка базы данных: ${error.sqlMessage} (Код: ${error.code})`

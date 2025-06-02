@@ -18,7 +18,7 @@ const adminNavItemsBase = [
   { href: '/admin/categories', label: 'Категории', icon: Layers, baseRoute: '/admin/categories' },
   { href: '/admin/cases', label: 'Кейсы', icon: Palette, baseRoute: '/admin/cases' },
   { href: '/admin/promocodes', label: 'Промокоды', icon: PercentSquare, baseRoute: '/admin/promocodes' },
-  { href: '/admin/key-activations', label: 'Активация Ключей', icon: KeyRound, baseRoute: '/admin/key-activations' }, // Added Key Activations link
+  { href: '/admin/key-activations', label: 'Активация Ключей', icon: KeyRound, baseRoute: '/admin/key-activations' }, 
   { href: '/admin/reviews', label: 'Отзывы', icon: MessageSquareIcon, baseRoute: '/admin/reviews', dataTestId: 'admin-reviews-link' },
   { href: '/admin/orders', label: 'Заказы', icon: ShoppingCart, baseRoute: '/admin/orders' },
   { href: '/admin/accounting', label: 'Бухгалтерия', icon: DollarSign, baseRoute: '/admin/accounting' },
@@ -48,13 +48,13 @@ export default function AdminSidebar() {
   const [showTestPaymentsLink, setShowTestPaymentsLink] = useState(false);
   const [isLoadingSettings, setIsLoadingSettings] = useState(true);
   const [pendingReviewCount, setPendingReviewCount] = useState(0);
-  const [pendingKeyActivationCount, setPendingKeyActivationCount] = useState(0); // New state for key activations
+  const [pendingKeyActivationCount, setPendingKeyActivationCount] = useState(0);
 
   const fetchPendingCounts = useCallback(async () => {
     try {
       const [reviewResponse, keyActivationResponse] = await Promise.all([
         fetch('/api/admin/reviews/pending-count'),
-        fetch('/api/admin/key-activation-requests?status=pending_admin_approval') // Assuming API supports status filter or returns all and we filter client-side (better to filter API-side if possible)
+        fetch('/api/admin/key-activation-requests/pending-count') 
       ]);
 
       if (reviewResponse.ok) {
@@ -66,9 +66,7 @@ export default function AdminSidebar() {
 
       if (keyActivationResponse.ok) {
         const keyActivationData = await keyActivationResponse.json();
-        // If the API returns all requests, filter here. If it pre-filters, this is simpler.
-        // For now, assuming the API returns only pending or we count all returned as pending if no status filter.
-        setPendingKeyActivationCount(Array.isArray(keyActivationData) ? keyActivationData.length : 0);
+        setPendingKeyActivationCount(keyActivationData.count);
       } else {
         console.warn("Failed to fetch pending key activation count.");
       }
@@ -82,6 +80,7 @@ export default function AdminSidebar() {
   useEffect(() => {
     fetchPendingCounts(); 
 
+    // Refresh counts if user navigates to the relevant pages
     if (pathname.startsWith('/admin/reviews') || pathname.startsWith('/admin/key-activations')) { 
         fetchPendingCounts();
     }
@@ -161,6 +160,7 @@ export default function AdminSidebar() {
                       {pendingKeyActivationCount}
                     </Badge>
                   )}
+                  {/* Show chevron only if not showing a count badge */}
                   {active && !((isReviewsLink && pendingReviewCount > 0) || (isKeyActivationsLink && pendingKeyActivationCount > 0)) && <ChevronRight className="ml-auto h-4 w-4" />}
                 </Link>
               </Button>
@@ -169,6 +169,7 @@ export default function AdminSidebar() {
         </nav>
       </ScrollArea>
       <div className="p-4 border-t border-border mt-auto">
+        {/* Could add admin logout or other actions here */}
       </div>
     </aside>
   );

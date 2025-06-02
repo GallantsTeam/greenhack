@@ -250,6 +250,23 @@ async function PUT(request, { params }) {
         const { rejection_reason } = await request.json().catch(()=>({
                 rejection_reason: 'Отклонено администратором без указания причины.'
             }));
+        // First, fetch the inventory item details to get user_id and product_name
+        const itemResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT ui.user_id, p.name as product_name 
+       FROM user_inventory ui 
+       LEFT JOIN products p ON ui.related_product_id = p.id
+       WHERE ui.id = ?`, [
+            inventoryItemId
+        ]);
+        if (!itemResults || itemResults.length === 0) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                message: 'Предмет инвентаря не найден.'
+            }, {
+                status: 404
+            });
+        }
+        const itemDetails = itemResults[0];
+        const userIdToNotify = itemDetails.user_id;
+        const productName = itemDetails.product_name || 'Неизвестный товар';
         const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('UPDATE user_inventory SET activation_status = ?, activation_status_reason = ?, updated_at = NOW() WHERE id = ? AND activation_status = ?', [
             'rejected',
             rejection_reason,
@@ -257,13 +274,35 @@ async function PUT(request, { params }) {
             'pending_admin_approval'
         ]);
         if (result.affectedRows > 0) {
-            // TODO: Send notification to user
+            // Create a notification for the user
+            const notificationMessage = `Ваш запрос на активацию ключа для "${productName}" был отклонен. Причина: ${rejection_reason || 'не указана'}. Пожалуйста, проверьте ключ или обратитесь в поддержку.`;
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('INSERT INTO user_notifications (user_id, message, link_url) VALUES (?, ?, ?)', [
+                userIdToNotify,
+                notificationMessage,
+                '/account/inventory'
+            ]);
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: 'Запрос на активацию ключа успешно отклонен.'
+                message: 'Запрос на активацию ключа успешно отклонен и пользователь уведомлен.'
             });
         } else {
+            // Check current status if no rows affected
+            const currentStatusResult = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT activation_status FROM user_inventory WHERE id = ?', [
+                inventoryItemId
+            ]);
+            let currentStatus = 'unknown';
+            if (currentStatusResult.length > 0) {
+                currentStatus = currentStatusResult[0].activation_status;
+            }
+            if (currentStatus === 'rejected') {
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    message: 'Запрос уже был отклонен ранее.'
+                }, {
+                    status: 200
+                });
+            }
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                message: 'Запрос не найден в статусе ожидания или уже обработан.'
+                message: 'Запрос не найден в статусе ожидания или уже обработан.',
+                current_status: currentStatus
             }, {
                 status: 404
             });
