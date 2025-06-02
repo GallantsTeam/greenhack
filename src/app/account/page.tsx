@@ -197,13 +197,19 @@ export default function AccountDashboardPage() {
         }),
       });
       const result = await response.json();
+      
+      // Check if the response is OK OR if it's the specific "pending_with_notification_issue" status
       if (!response.ok && result.status !== 'pending_with_notification_issue') { 
         throw new Error(result.message || 'Не удалось отправить запрос на активацию ключа.');
       }
+      
+      // Display the message from the API regardless of ok status if it's pending_with_notification_issue
       toast({ 
-        title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (с нюансом)" : "Запрос отправлен", 
-        description: result.message 
+        title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (уведомление)" : "Запрос отправлен", 
+        description: result.message,
+        variant: result.status === 'pending_with_notification_issue' ? "default" : "default" // or "warning" if preferred
       });
+      
       setIsKeyModalOpen(false);
       fetchActiveLicenses(); 
     } catch (error: any) {
@@ -296,7 +302,6 @@ export default function AccountDashboardPage() {
                           <Link href={`/products/${license.productSlug}`}>Продлить</Link>
                         </Button>
                         
-                        {/* Updated button logic for instructions/activation */}
                         {license.activation_type === 'info_modal' && (
                             <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
                                 <Info className="mr-1.5 h-4 w-4"/> Инструкция
@@ -497,4 +502,5 @@ export default function AccountDashboardPage() {
 }
     
 
+    
     

@@ -70,11 +70,10 @@ export async function POST(request: NextRequest) {
 
     if (!telegramResult.success) {
         console.error("[API RequestActivation] Failed to send Telegram notification to admin for key activation:", telegramResult.error);
-        // Return 200 but with a specific status/message for frontend to handle
         return NextResponse.json({ 
             message: 'Запрос на активацию отправлен! Если активация не произойдет в течение 10-15 минут, пожалуйста, свяжитесь с поддержкой.',
-            status: 'pending_with_notification_issue' 
-        }, { status: 200 }); 
+            status: 'pending_with_notification_issue' // Custom status for frontend to interpret
+        }, { status: 200 }); // Return 200 OK as the request itself was processed
     }
 
     console.log('[API RequestActivation] Key activation request sent to admin.');
@@ -85,4 +84,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: `Внутренняя ошибка сервера: ${error.message}` }, { status: 500 });
   }
 }
+    
     
