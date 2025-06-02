@@ -197,12 +197,12 @@ export default function AccountDashboardPage() {
         }),
       });
       const result = await response.json();
-      if (!response.ok) {
+      if (!response.ok && result.status !== 'pending_with_notification_issue') { // Allow 200 with warning for notification issue
         throw new Error(result.message || 'Не удалось отправить запрос на активацию ключа.');
       }
-      toast({ title: "Запрос отправлен", description: result.message });
+      toast({ title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (с нюансом)" : "Запрос отправлен", description: result.message });
       setIsKeyModalOpen(false);
-      fetchActiveLicenses(); // Refresh the license list
+      fetchActiveLicenses(); 
     } catch (error: any) {
       toast({ title: "Ошибка", description: error.message, variant: "destructive" });
     } finally {
@@ -472,9 +472,11 @@ export default function AccountDashboardPage() {
           infoModalContentHtml={selectedLicenseForKeyModal.info_modal_content_html}
           infoModalSupportLinkText={selectedLicenseForKeyModal.info_modal_support_link_text}
           infoModalSupportLinkUrl={selectedLicenseForKeyModal.info_modal_support_link_url}
-          retrievalModalData={selectedLicenseForKeyModal} // Pass all license details
+          retrievalModalData={selectedLicenseForKeyModal} 
         />
       )}
     </div>
   );
 }
+
+    

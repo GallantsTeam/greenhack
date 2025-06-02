@@ -1303,6 +1303,10 @@ body {
   max-width: 20rem;
 }
 
+.max-w-\[150px\] {
+  max-width: 150px;
+}
+
 .flex-1 {
   flex: 1;
 }

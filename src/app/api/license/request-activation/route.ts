@@ -45,7 +45,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: `Этот предмет уже ${inventoryItem.activation_status === 'pending_admin_approval' ? 'ожидает одобрения' : 'активирован или истек'}.` }, { status: 400 });
     }
     
-    // Check if it was previously rejected and log it
     if (inventoryItem.activation_status === 'rejected') {
       console.log(`[API RequestActivation] Re-requesting activation for previously rejected item ID: ${inventoryItemId}. New key: ${enteredKey}`);
     }
@@ -71,11 +70,11 @@ export async function POST(request: NextRequest) {
 
     if (!telegramResult.success) {
         console.error("[API RequestActivation] Failed to send Telegram notification to admin for key activation:", telegramResult.error);
-        // Revert status? For now, proceed.
         return NextResponse.json({ 
-            message: 'Запрос на активацию отправлен, но произошла ошибка при уведомлении администратора. Пожалуйста, свяжитесь с поддержкой, если активация не произойдет в ближайшее время.',
-            warning: telegramResult.message 
-        }, { status: 207 }); 
+            message: 'Запрос на активацию отправлен! Если активация не произойдет в течение 10-15 минут, пожалуйста, свяжитесь с поддержкой.',
+            warning: 'Не удалось уведомить администратора через Telegram. Запрос все равно создан.',
+            status: 'pending_with_notification_issue' // Custom status to indicate success with a caveat
+        }, { status: 200 }); // Return 200 but with a warning for the client to handle
     }
 
     console.log('[API RequestActivation] Key activation request sent to admin.');
@@ -86,3 +85,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: `Внутренняя ошибка сервера: ${error.message}` }, { status: 500 });
   }
 }
+
+    
