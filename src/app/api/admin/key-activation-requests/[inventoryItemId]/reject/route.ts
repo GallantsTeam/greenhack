@@ -18,7 +18,7 @@ export async function PUT(
     const { rejection_reason } = await request.json().catch(() => ({ rejection_reason: 'Отклонено администратором без указания причины.' }));
 
     const result = await query(
-      'UPDATE user_inventory SET activation_status = ?, admin_notes = ?, updated_at = NOW() WHERE id = ? AND activation_status = ?',
+      'UPDATE user_inventory SET activation_status = ?, activation_status_reason = ?, updated_at = NOW() WHERE id = ? AND activation_status = ?',
       ['rejected', rejection_reason, inventoryItemId, 'pending_admin_approval']
     ) as OkPacket;
 

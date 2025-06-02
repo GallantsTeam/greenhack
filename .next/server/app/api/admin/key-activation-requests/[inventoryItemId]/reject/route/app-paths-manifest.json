@@ -1,0 +1,3 @@
+{
+  "/api/admin/key-activation-requests/[inventoryItemId]/reject/route": "app/api/admin/key-activation-requests/[inventoryItemId]/reject/route.js"
+}
