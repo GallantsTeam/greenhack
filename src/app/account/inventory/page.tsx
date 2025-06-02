@@ -4,13 +4,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
-import { Backpack, Loader2, PackageSearch, Trash2, Info, KeyRound, CalendarClock, Timer, Layers } from "lucide-react"; // Added Layers, removed PlayCircle
+import { Backpack, Loader2, PackageSearch, Trash2, Info, KeyRound, CalendarClock, Timer, Layers, AlertTriangle } from "lucide-react"; // Added AlertTriangle
 import { useAuth } from "@/contexts/AuthContext";
 import type { InventoryItemWithDetails } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation'; // Added useRouter
+import { useRouter } from 'next/navigation';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,19 +21,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"; // Kept for delete confirmation
+} from "@/components/ui/alert-dialog";
 import { Badge } from '@/components/ui/badge';
 
 
 export default function InventoryPage() {
   const { currentUser, fetchUserDetails } = useAuth();
   const { toast } = useToast();
-  const router = useRouter(); // Initialized useRouter
+  const router = useRouter();
   const [inventoryItems, setInventoryItems] = useState<InventoryItemWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [itemToDelete, setItemToDelete] = useState<InventoryItemWithDetails | null>(null);
-  // itemToActivate and setItemToActivate are removed
   const [isProcessingAction, setIsProcessingAction] = useState<number | null>(null);
 
   const fetchInventory = useCallback(async () => {
@@ -101,23 +100,27 @@ export default function InventoryPage() {
         });
         const data = await response.json();
         if (!response.ok) {
+            // This error will be caught by the catch block below
             throw new Error(data.message || `Не удалось обработать предмет.`);
         }
 
+        // This part is for non-key_request items or non-product prizes that activate directly
         if (!item.related_product_id && item.case_prize_id) {
-            // Non-product prize (e.g., balance) - API marks as used
             toast({ title: "Приз получен", description: `${item.product_name} уже был автоматически зачислен или не требует ручной активации. Он помечен как использованный.`, variant: "default" });
         } else {
-            // Product that requires activation
             toast({ title: "Успешно получен!", description: `${item.product_name} активирован и доступен на странице "Обзор".` });
         }
         
         fetchInventory(); 
-        if (currentUser?.id) fetchUserDetails(currentUser.id); // Refresh balance/details
-        router.push('/account'); // Navigate to overview page
+        if (currentUser?.id) fetchUserDetails(currentUser.id);
+        router.push('/account'); // Navigate to overview page on success
 
     } catch (error: any) {
-        toast({ title: "Ошибка", description: error.message, variant: "destructive" });
+        toast({ title: "Информация", description: error.message, variant: "destructive" });
+        // Check if the error message indicates a key_request type that needs manual activation
+        if (error.message && (error.message.includes("требуется запрос на активацию ключа") || error.message.includes("key_request"))) {
+            router.push('/account'); // Redirect to overview page for manual activation steps
+        }
     } finally {
         setIsProcessingAction(null);
     }
@@ -252,10 +255,14 @@ export default function InventoryPage() {
                       )}
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
+                           {/* Make sure this button is also flex-1 if "Получить" is present and hidden otherwise */}
                           <Button 
                             variant="outline" 
                             size="sm" 
-                            className="flex-1 border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive h-8 text-xs"
+                            className={cn(
+                              "border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive h-8 text-xs",
+                              (!item.is_used && (item.related_product_id || (!item.related_product_id && item.case_prize_id))) ? "flex-1" : "w-full" // Take full width if it's the only button
+                            )}
                             onClick={() => setItemToDelete(item)}
                             disabled={isProcessingAction === item.id}
                           >

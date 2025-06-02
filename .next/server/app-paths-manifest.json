@@ -1,5 +1,6 @@
 {
   "/account/inventory/page": "app/account/inventory/page.js",
+  "/api/inventory/activate/route": "app/api/inventory/activate/route.js",
   "/api/site-navigation/route": "app/api/site-navigation/route.js",
   "/api/site-settings-public/route": "app/api/site-settings-public/route.js",
   "/api/user/[userId]/details/route": "app/api/user/[userId]/details/route.js",
