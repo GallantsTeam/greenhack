@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -31,7 +30,6 @@ const UserNotificationBell: React.FC = () => {
     try {
       const response = await fetch(`/api/user/${currentUser.id}/notifications`);
       if (!response.ok) {
-        // Attempt to parse error message from API if available
         const errorData = await response.json().catch(() => ({ message: 'Не удалось загрузить уведомления (статус: ' + response.status + ').' }));
         throw new Error(errorData.message || 'Не удалось загрузить уведомления.');
       }
@@ -40,23 +38,18 @@ const UserNotificationBell: React.FC = () => {
       setUnreadCount(data.filter(n => !n.is_read).length);
     } catch (error: any) {
       console.error("Error fetching notifications:", error);
-      // toast({ variant: "destructive", title: "Ошибка", description: error.message }); // Commented out to avoid spamming toasts for this common scenario
     } finally {
       setIsLoading(false);
     }
-  }, [currentUser, toast]);
+  }, [currentUser]);
 
   useEffect(() => {
     fetchNotifications();
-    // Optional: Set up polling or WebSocket for real-time updates
-    // const intervalId = setInterval(fetchNotifications, 30000); // Poll every 30 seconds
-    // return () => clearInterval(intervalId);
   }, [currentUser, fetchNotifications]);
   
   useEffect(() => {
     if (isPopoverOpen && unreadCount > 0) {
-        // Optionally mark as read on open, or have a specific action
-        // For now, let's keep unread count until explicitly marked
+        // Consider if auto-mark as read on open is desired or manual action only
     }
   }, [isPopoverOpen, unreadCount]);
 
@@ -68,7 +61,7 @@ const UserNotificationBell: React.FC = () => {
         const errorData = await response.json().catch(() => ({ message: 'Не удалось отметить уведомление как прочитанное.' }));
         throw new Error(errorData.message);
       }
-      fetchNotifications(); // Re-fetch to update list and count
+      fetchNotifications(); 
     } catch (error: any) {
       toast({ variant: "destructive", title: "Ошибка", description: error.message });
     }
@@ -86,7 +79,7 @@ const UserNotificationBell: React.FC = () => {
         const errorData = await response.json().catch(() => ({ message: 'Не удалось отметить все уведомления как прочитанные.' }));
         throw new Error(errorData.message);
       }
-      fetchNotifications(); // Re-fetch
+      fetchNotifications(); 
     } catch (error: any) {
       toast({ variant: "destructive", title: "Ошибка", description: error.message });
     }
@@ -152,10 +145,14 @@ const UserNotificationBell: React.FC = () => {
                   )}
                 >
                   {notification.link_url ? (
-                    <Link href={notification.link_url} className="block" onClick={() => {
+                    <Link 
+                      href={notification.link_url} 
+                      className="block" 
+                      onClick={() => {
                         if (!notification.is_read) handleMarkAsRead(notification.id);
-                        setIsPopoverOpen(false);
-                    }}>
+                        setIsPopoverOpen(false); // Close popover on link click
+                      }}
+                    >
                       <p className={cn("text-sm text-foreground", !notification.is_read && "font-semibold")}>{notification.message}</p>
                       <p className="text-xs text-muted-foreground mt-1">{formatNotificationDate(notification.created_at)}</p>
                     </Link>
