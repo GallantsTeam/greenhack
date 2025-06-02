@@ -45,6 +45,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: `Этот предмет уже ${inventoryItem.activation_status === 'pending_admin_approval' ? 'ожидает одобрения' : 'активирован или истек'}.` }, { status: 400 });
     }
     
+    // Check if it was previously rejected and log it
+    if (inventoryItem.activation_status === 'rejected') {
+      console.log(`[API RequestActivation] Re-requesting activation for previously rejected item ID: ${inventoryItemId}. New key: ${enteredKey}`);
+    }
+    
     const userResults = await query('SELECT id, username FROM users WHERE id = ?', [userId]);
      if (userResults.length === 0) {
       return NextResponse.json({ message: 'Пользователь не найден.' }, { status: 404 });
