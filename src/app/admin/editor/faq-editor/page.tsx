@@ -204,10 +204,10 @@ export default function AdminFaqEditorPage() {
                     {item.question}
                   </div>
                   <div className="flex items-center gap-1 ml-auto opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200">
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); handleChangeOrder(item, 'up'); }} disabled={index === 0 || isLoading}><ChevronUp className="h-4 w-4"/></Button>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); handleChangeOrder(item, 'down'); }} disabled={index === faqItems.length - 1 || isLoading}><ChevronDown className="h-4 w-4"/></Button>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); handleOpenModal(item); }} disabled={isLoading}><Edit className="h-4 w-4"/></Button>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive/80" onClick={(e) => { e.stopPropagation(); setItemToDelete(item); }} disabled={isLoading}><Trash2 className="h-4 w-4"/></Button>
+                    <Button asChild variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); handleChangeOrder(item, 'up'); }} disabled={index === 0 || isLoading}><ChevronUp className="h-4 w-4"/></Button>
+                    <Button asChild variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); handleChangeOrder(item, 'down'); }} disabled={index === faqItems.length - 1 || isLoading}><ChevronDown className="h-4 w-4"/></Button>
+                    <Button asChild variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); handleOpenModal(item); }} disabled={isLoading}><Edit className="h-4 w-4"/></Button>
+                    <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive/80" onClick={(e) => { e.stopPropagation(); setItemToDelete(item); }} disabled={isLoading}><Trash2 className="h-4 w-4"/></Button>
                   </div>
                   {item.is_active ? <Eye className="h-4 w-4 text-primary/70 ml-2 shrink-0" /> : <EyeOff className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />}
                 </AccordionTrigger>

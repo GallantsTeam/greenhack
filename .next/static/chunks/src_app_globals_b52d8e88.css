@@ -1271,6 +1271,10 @@ body {
   max-width: var(--skeleton-width);
 }
 
+.max-w-\[150px\] {
+  max-width: 150px;
+}
+
 .max-w-\[200px\] {
   max-width: 200px;
 }
@@ -1301,10 +1305,6 @@ body {
 
 .max-w-xs {
   max-width: 20rem;
-}
-
-.max-w-\[150px\] {
-  max-width: 150px;
 }
 
 .flex-1 {

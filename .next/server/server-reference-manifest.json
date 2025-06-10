@@ -1,22 +1,5 @@
 {
-  "node": {
-    "6058d2186d06199210990ee590d0261587c858a217": {
-      "workers": {
-        "app/games/[gameId]/page": {
-          "moduleId": "[project]/.next-internal/server/app/games/[gameId]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/mysql.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false
-        },
-        "app/products/[slug]/page": {
-          "moduleId": "[project]/.next-internal/server/app/products/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/mysql.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/games/[gameId]/page": "rsc",
-        "app/products/[slug]/page": "rsc"
-      }
-    }
-  },
+  "node": {},
   "edge": {},
   "encryptionKey": "22X5k1vQ2HbWRVYBlLb/8ZNRljmFYuHfH25pRvmr/cM="
 }
