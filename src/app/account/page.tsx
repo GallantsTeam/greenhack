@@ -15,12 +15,12 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import KeyRegistrationModal from '@/components/KeyRegistrationModal';
-import { useRouter } from 'next/navigation'; // Added useRouter
+import { useRouter } from 'next/navigation';
 
 export default function AccountDashboardPage() {
   const { currentUser, fetchUserDetails, loading: authLoading } = useAuth();
   const { toast } = useToast();
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
   const [referrerDetails, setReferrerDetails] = useState<ReferrerDetails | null>(null);
   const [referredCount, setReferredCount] = useState<ReferredUsersCount | null>(null);
   const [activeLicenses, setActiveLicenses] = useState<ActiveLicense[]>([]);
@@ -181,12 +181,14 @@ export default function AccountDashboardPage() {
   };
 
   const handleHowToActivate = (license: ActiveLicense) => {
+    console.log("[AccountPage] handleHowToActivate called for license:", license);
     setSelectedLicenseForKeyModal(license);
     setIsKeyModalOpen(true);
   };
 
   const handleRegisterKeySubmit = async (enteredKey: string) => {
     if (!selectedLicenseForKeyModal || !currentUser) return;
+    console.log("[AccountPage] handleRegisterKeySubmit called with key:", enteredKey, "for license:", selectedLicenseForKeyModal);
     setIsSubmittingKey(true);
     try {
       const response = await fetch('/api/license/request-activation', {
@@ -207,7 +209,7 @@ export default function AccountDashboardPage() {
       toast({ 
         title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (ошибка уведомления)" : "Запрос отправлен", 
         description: result.message,
-        variant: "default" // Always default variant for this specific flow
+        variant: "default" 
       });
       
       setIsKeyModalOpen(false);
@@ -319,11 +321,15 @@ export default function AccountDashboardPage() {
                                 size="sm" 
                                 variant="outline" 
                                 onClick={() => {
+                                    console.log("[AccountPage] 'Инструкция по запуску' clicked for license:", license);
                                     if (license.how_to_run_link) {
+                                        console.log("[AccountPage] Opening external link:", license.how_to_run_link);
                                         window.open(license.how_to_run_link, '_blank');
                                     } else if (license.productSlug) {
+                                      console.log("[AccountPage] Navigating to internal instruction page:", `/how-to-run/${license.productSlug}`);
                                       router.push(`/how-to-run/${license.productSlug}`);
                                     } else {
+                                        console.log("[AccountPage] No link or slug, showing toast.");
                                         toast({
                                             title: "Инструкция не найдена",
                                             description: "Инструкция по запуску для этого товара скоро будет доступна или не настроена.",

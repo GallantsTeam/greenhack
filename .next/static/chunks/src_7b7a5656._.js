@@ -320,13 +320,10 @@ function AdminHowToRunEditorPage() {
         "AdminHowToRunEditorPage.useCallback[fetchProducts]": async ()=>{
             setIsLoadingProducts(true);
             try {
-                const response = await fetch('/api/admin/products'); // Assuming you have an endpoint to get all products
+                const response = await fetch('/api/admin/products');
                 if (!response.ok) throw new Error('Failed to fetch products');
                 const data = await response.json();
                 setProducts(data);
-                if (data.length > 0 && !selectedProductSlug) {
-                // setSelectedProductSlug(data[0].slug); // Optionally pre-select first product
-                }
             } catch (error) {
                 console.error("Error fetching products:", error);
                 toast({
@@ -339,8 +336,7 @@ function AdminHowToRunEditorPage() {
             }
         }
     }["AdminHowToRunEditorPage.useCallback[fetchProducts]"], [
-        toast,
-        selectedProductSlug
+        toast
     ]);
     const fetchGuide = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "AdminHowToRunEditorPage.useCallback[fetchGuide]": async (slug)=>{
@@ -375,7 +371,12 @@ function AdminHowToRunEditorPage() {
                         content: '<p>Начните писать инструкцию здесь...</p>'
                     });
                 } else {
-                    throw new Error('Failed to fetch guide for this product.');
+                    const errorData = await response.json().catch({
+                        "AdminHowToRunEditorPage.useCallback[fetchGuide]": ()=>({
+                                message: 'Failed to fetch guide for this product.'
+                            })
+                    }["AdminHowToRunEditorPage.useCallback[fetchGuide]"]);
+                    throw new Error(errorData.message);
                 }
             } catch (error) {
                 console.error("Error fetching guide:", error);
@@ -385,9 +386,12 @@ function AdminHowToRunEditorPage() {
                     variant: "destructive"
                 });
                 setCurrentGuide(null);
+                const selectedProductOnFailure = products.find({
+                    "AdminHowToRunEditorPage.useCallback[fetchGuide].selectedProductOnFailure": (p)=>p.slug === slug
+                }["AdminHowToRunEditorPage.useCallback[fetchGuide].selectedProductOnFailure"]);
                 form.reset({
                     product_slug: slug,
-                    title: '',
+                    title: selectedProductOnFailure ? `Инструкция для ${selectedProductOnFailure.name}` : '',
                     content: '<p>Начните писать инструкцию здесь...</p>'
                 });
             } finally{
@@ -454,7 +458,7 @@ function AdminHowToRunEditorPage() {
                 title: "Успех",
                 description: "Инструкция успешно сохранена."
             });
-            setCurrentGuide(result.guide); // Assuming API returns the saved guide
+            setCurrentGuide(result.guide);
         } catch (error) {
             toast({
                 title: "Ошибка сохранения",
@@ -518,14 +522,14 @@ function AdminHowToRunEditorPage() {
                                 className: "mr-2 h-5 w-5"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                lineNumber: 175,
+                                lineNumber: 178,
                                 columnNumber: 13
                             }, this),
                             "Редактор Инструкций по Запуску"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                        lineNumber: 174,
+                        lineNumber: 177,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -533,13 +537,13 @@ function AdminHowToRunEditorPage() {
                         children: "Создавайте и редактируйте инструкции по запуску для ваших товаров."
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                        lineNumber: 178,
+                        lineNumber: 181,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                lineNumber: 173,
+                lineNumber: 176,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -557,14 +561,14 @@ function AdminHowToRunEditorPage() {
                                             className: "mr-2 h-4 w-4 text-primary/80"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 185,
+                                            lineNumber: 188,
                                             columnNumber: 89
                                         }, this),
                                         "Товар"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 185,
+                                    lineNumber: 188,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -579,45 +583,60 @@ function AdminHowToRunEditorPage() {
                                                 placeholder: isLoadingProducts ? "Загрузка товаров..." : "Выберите товар..."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                                lineNumber: 192,
+                                                lineNumber: 195,
                                                 columnNumber: 17
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 191,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
-                                            children: products.length > 0 ? products.map((product)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
-                                                    value: product.slug,
-                                                    children: [
-                                                        product.name,
-                                                        " (",
-                                                        product.gameName,
-                                                        ")"
-                                                    ]
-                                                }, product.slug, true, {
-                                                    fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                                    lineNumber: 196,
-                                                    columnNumber: 19
-                                                }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
-                                                value: "",
-                                                disabled: true,
-                                                children: "Товары не найдены"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                                lineNumber: 197,
-                                                columnNumber: 22
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
                                             lineNumber: 194,
                                             columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                            children: isLoadingProducts ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center justify-center p-2 text-muted-foreground",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                        className: "h-4 w-4 animate-spin mr-2"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
+                                                        lineNumber: 200,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    "Загрузка..."
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
+                                                lineNumber: 199,
+                                                columnNumber: 19
+                                            }, this) : products.length > 0 ? products.map((product)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                    value: product.slug,
+                                                    children: [
+                                                        product.name,
+                                                        " (",
+                                                        product.gameName || 'N/A',
+                                                        ")"
+                                                    ]
+                                                }, product.slug, true, {
+                                                    fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
+                                                    lineNumber: 205,
+                                                    columnNumber: 21
+                                                }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "p-2 text-center text-sm text-muted-foreground",
+                                                children: "Товары не найдены."
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
+                                                lineNumber: 210,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
+                                            lineNumber: 197,
+                                            columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 186,
+                                    lineNumber: 189,
                                     columnNumber: 13
                                 }, this),
                                 form.formState.errors.product_slug && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -625,13 +644,13 @@ function AdminHowToRunEditorPage() {
                                     children: form.formState.errors.product_slug.message
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 200,
+                                    lineNumber: 216,
                                     columnNumber: 52
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                            lineNumber: 184,
+                            lineNumber: 187,
                             columnNumber: 11
                         }, this),
                         isLoadingGuide && selectedProductSlug && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -641,7 +660,7 @@ function AdminHowToRunEditorPage() {
                                     className: "h-6 w-6 animate-spin text-primary"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 205,
+                                    lineNumber: 221,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -649,13 +668,13 @@ function AdminHowToRunEditorPage() {
                                     children: "Загрузка инструкции..."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 206,
+                                    lineNumber: 222,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                            lineNumber: 204,
+                            lineNumber: 220,
                             columnNumber: 13
                         }, this),
                         !isLoadingGuide && selectedProductSlug && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -670,14 +689,14 @@ function AdminHowToRunEditorPage() {
                                                     className: "mr-2 h-4 w-4 text-primary/80"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                                    lineNumber: 213,
+                                                    lineNumber: 229,
                                                     columnNumber: 86
                                                 }, this),
                                                 "Заголовок инструкции"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 213,
+                                            lineNumber: 229,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -688,7 +707,7 @@ function AdminHowToRunEditorPage() {
                                             disabled: isSaving || isDeleting
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 214,
+                                            lineNumber: 230,
                                             columnNumber: 17
                                         }, this),
                                         form.formState.errors.title && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -696,13 +715,13 @@ function AdminHowToRunEditorPage() {
                                             children: form.formState.errors.title.message
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 215,
+                                            lineNumber: 231,
                                             columnNumber: 49
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 212,
+                                    lineNumber: 228,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -713,7 +732,7 @@ function AdminHowToRunEditorPage() {
                                             children: "HTML-контент инструкции"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 218,
+                                            lineNumber: 234,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -724,7 +743,7 @@ function AdminHowToRunEditorPage() {
                                             disabled: isSaving || isDeleting
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 219,
+                                            lineNumber: 235,
                                             columnNumber: 18
                                         }, this),
                                         form.formState.errors.content && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -732,13 +751,13 @@ function AdminHowToRunEditorPage() {
                                             children: form.formState.errors.content.message
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 226,
+                                            lineNumber: 242,
                                             columnNumber: 51
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 217,
+                                    lineNumber: 233,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -753,20 +772,20 @@ function AdminHowToRunEditorPage() {
                                                     className: "mr-2 h-4 w-4 animate-spin"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                                    lineNumber: 230,
+                                                    lineNumber: 246,
                                                     columnNumber: 31
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
                                                     className: "mr-2 h-4 w-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                                    lineNumber: 230,
+                                                    lineNumber: 246,
                                                     columnNumber: 82
                                                 }, this),
                                                 isSaving ? 'Сохранение...' : 'Сохранить инструкцию'
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 229,
+                                            lineNumber: 245,
                                             columnNumber: 17
                                         }, this),
                                         currentGuide && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -780,26 +799,26 @@ function AdminHowToRunEditorPage() {
                                                     className: "mr-2 h-4 w-4 animate-spin"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                                    lineNumber: 241,
+                                                    lineNumber: 257,
                                                     columnNumber: 37
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
                                                     className: "mr-2 h-4 w-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                                    lineNumber: 241,
+                                                    lineNumber: 257,
                                                     columnNumber: 88
                                                 }, this),
                                                 isDeleting ? 'Удаление...' : 'Удалить'
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                            lineNumber: 234,
+                                            lineNumber: 250,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 228,
+                                    lineNumber: 244,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -811,37 +830,37 @@ function AdminHowToRunEditorPage() {
                                     className: "mx-auto h-10 w-10 mb-2"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 250,
+                                    lineNumber: 266,
                                     columnNumber: 20
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     children: "Пожалуйста, выберите товар, чтобы создать или отредактировать инструкцию."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                                    lineNumber: 251,
+                                    lineNumber: 267,
                                     columnNumber: 20
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                            lineNumber: 249,
+                            lineNumber: 265,
                             columnNumber: 16
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                    lineNumber: 183,
+                    lineNumber: 186,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-                lineNumber: 182,
+                lineNumber: 185,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/admin/editor/how-to-run-editor/page.tsx",
-        lineNumber: 172,
+        lineNumber: 175,
         columnNumber: 5
     }, this);
 }
