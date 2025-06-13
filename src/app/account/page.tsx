@@ -313,15 +313,24 @@ export default function AccountDashboardPage() {
                         )}
                         
                         {license.activation_type === 'key_request' && license.activation_status === 'active' && (
-                            license.how_to_run_link ? (
-                                <Button size="sm" variant="outline" onClick={() => window.open(license.how_to_run_link!, '_blank')} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
-                                    Инструкция по запуску
-                                </Button>
-                            ) : (
-                                <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
-                                   <Info className="mr-1.5 h-4 w-4"/> Инструкция
-                                </Button>
-                            )
+                            <Button 
+                                size="sm" 
+                                variant="outline" 
+                                onClick={() => {
+                                    if (license.how_to_run_link) {
+                                        window.open(license.how_to_run_link, '_blank');
+                                    } else {
+                                        toast({
+                                            title: "В разработке",
+                                            description: "Страница с инструкцией по запуску скоро будет доступна.",
+                                            variant: "default"
+                                        });
+                                    }
+                                }} 
+                                className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0"
+                            >
+                                <Info className="mr-1.5 h-4 w-4"/> Инструкция по запуску
+                            </Button>
                         )}
                       </div>
                     </li>
@@ -498,7 +507,5 @@ export default function AccountDashboardPage() {
     </div>
   );
 }
-    
-
     
     
