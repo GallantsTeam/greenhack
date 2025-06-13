@@ -161,6 +161,11 @@ const Footer = ({ simplified = false }: { simplified?: boolean }) => {
                   data-ai-hint="marketplace logo"
                 />
               </a>
+              <div className="mt-2">
+                <a href="https://yougame.biz" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+                  Мы продаём на YOUGAME
+                </a>
+              </div>
             </div>
           )}
            {/* Placeholder if marketplace is not visible, to maintain grid structure on MD+ */}
