@@ -1510,7 +1510,6 @@ const UserNotificationBell = ()=>{
         try {
             const response = await fetch(`/api/user/${currentUser.id}/notifications`);
             if (!response.ok) {
-                // Attempt to parse error message from API if available
                 const errorData = await response.json().catch(()=>({
                         message: 'Не удалось загрузить уведомления (статус: ' + response.status + ').'
                     }));
@@ -1521,27 +1520,21 @@ const UserNotificationBell = ()=>{
             setUnreadCount(data.filter((n)=>!n.is_read).length);
         } catch (error) {
             console.error("Error fetching notifications:", error);
-        // toast({ variant: "destructive", title: "Ошибка", description: error.message }); // Commented out to avoid spamming toasts for this common scenario
         } finally{
             setIsLoading(false);
         }
     }, [
-        currentUser,
-        toast
+        currentUser
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         fetchNotifications();
-    // Optional: Set up polling or WebSocket for real-time updates
-    // const intervalId = setInterval(fetchNotifications, 30000); // Poll every 30 seconds
-    // return () => clearInterval(intervalId);
     }, [
         currentUser,
         fetchNotifications
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (isPopoverOpen && unreadCount > 0) {
-        // Optionally mark as read on open, or have a specific action
-        // For now, let's keep unread count until explicitly marked
+        // Consider if auto-mark as read on open is desired or manual action only
         }
     }, [
         isPopoverOpen,
@@ -1559,7 +1552,7 @@ const UserNotificationBell = ()=>{
                     }));
                 throw new Error(errorData.message);
             }
-            fetchNotifications(); // Re-fetch to update list and count
+            fetchNotifications();
         } catch (error) {
             toast({
                 variant: "destructive",
@@ -1586,7 +1579,7 @@ const UserNotificationBell = ()=>{
                     }));
                 throw new Error(errorData.message);
             }
-            fetchNotifications(); // Re-fetch
+            fetchNotifications();
         } catch (error) {
             toast({
                 variant: "destructive",
@@ -1624,7 +1617,7 @@ const UserNotificationBell = ()=>{
                             className: "h-4 w-4 sm:h-5 sm:w-5"
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 115,
+                            lineNumber: 108,
                             columnNumber: 11
                         }, this),
                         unreadCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1633,7 +1626,7 @@ const UserNotificationBell = ()=>{
                             children: unreadCount > 9 ? '9+' : unreadCount
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 117,
+                            lineNumber: 110,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1641,18 +1634,18 @@ const UserNotificationBell = ()=>{
                             children: "Открыть уведомления"
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 124,
+                            lineNumber: 117,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                    lineNumber: 114,
+                    lineNumber: 107,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                lineNumber: 113,
+                lineNumber: 106,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PopoverContent"], {
@@ -1667,7 +1660,7 @@ const UserNotificationBell = ()=>{
                                 children: "Уведомления"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                lineNumber: 129,
+                                lineNumber: 122,
                                 columnNumber: 11
                             }, this),
                             unreadCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1680,20 +1673,20 @@ const UserNotificationBell = ()=>{
                                         className: "mr-1.5 h-3.5 w-3.5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                        lineNumber: 132,
+                                        lineNumber: 125,
                                         columnNumber: 15
                                     }, this),
                                     "Прочитать все"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                lineNumber: 131,
+                                lineNumber: 124,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                        lineNumber: 128,
+                        lineNumber: 121,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$scroll$2d$area$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ScrollArea"], {
@@ -1704,19 +1697,19 @@ const UserNotificationBell = ()=>{
                                 className: "h-6 w-6 animate-spin text-primary"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                lineNumber: 140,
+                                lineNumber: 133,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 139,
+                            lineNumber: 132,
                             columnNumber: 13
                         }, this) : notifications.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             className: "text-center text-sm text-muted-foreground py-10",
                             children: "Нет новых уведомлений."
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 143,
+                            lineNumber: 136,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "divide-y divide-border",
@@ -1727,7 +1720,7 @@ const UserNotificationBell = ()=>{
                                         className: "block",
                                         onClick: ()=>{
                                             if (!notification.is_read) handleMarkAsRead(notification.id);
-                                            setIsPopoverOpen(false);
+                                            setIsPopoverOpen(false); // Close popover on link click
                                         },
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1735,7 +1728,7 @@ const UserNotificationBell = ()=>{
                                                 children: notification.message
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                                lineNumber: 159,
+                                                lineNumber: 156,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1743,13 +1736,13 @@ const UserNotificationBell = ()=>{
                                                 children: formatNotificationDate(notification.created_at)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                                lineNumber: 160,
+                                                lineNumber: 157,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                        lineNumber: 155,
+                                        lineNumber: 148,
                                         columnNumber: 21
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         onClick: ()=>{
@@ -1761,7 +1754,7 @@ const UserNotificationBell = ()=>{
                                                 children: notification.message
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                                lineNumber: 164,
+                                                lineNumber: 161,
                                                 columnNumber: 24
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1769,40 +1762,40 @@ const UserNotificationBell = ()=>{
                                                 children: formatNotificationDate(notification.created_at)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                                lineNumber: 165,
+                                                lineNumber: 162,
                                                 columnNumber: 24
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                        lineNumber: 163,
+                                        lineNumber: 160,
                                         columnNumber: 21
                                     }, this)
                                 }, notification.id, false, {
                                     fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                                    lineNumber: 147,
+                                    lineNumber: 140,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                            lineNumber: 145,
+                            lineNumber: 138,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                        lineNumber: 137,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-                lineNumber: 127,
+                lineNumber: 120,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/layout/UserNotificationBell.tsx",
-        lineNumber: 112,
+        lineNumber: 105,
         columnNumber: 5
     }, this);
 };
@@ -3430,7 +3423,6 @@ const EASING_FACTOR = 0.18;
 const CustomCursor = ()=>{
     const outerCircleRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
     const innerDotRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
-    // Initialize positions off-screen or at 0,0. They will be updated on first mouse move.
     const mousePosition = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])({
         x: 0,
         y: 0
@@ -3439,64 +3431,53 @@ const CustomCursor = ()=>{
         x: 0,
         y: 0
     });
-    const [isMounted, setIsMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false); // To control client-side only rendering
+    const [isMounted, setIsMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const animationFrameIdRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        // This effect runs once after the initial client render to mark the component as mounted.
         setIsMounted(true);
     }, []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        // This effect contains all the logic for cursor movement and DOM manipulation.
-        // It will only run if isMounted is true, meaning only on the client after the initial render.
         if (!isMounted) {
-            return; // Do nothing if not mounted on the client yet
+            return;
         }
         const outerEl = outerCircleRef.current;
         const dotEl = innerDotRef.current;
-        // This check should ideally not be necessary if isMounted logic is correct,
-        // but as a safeguard:
         if (!outerEl || !dotEl) {
             console.warn("CustomCursor refs not available even after mount.");
             return;
         }
-        // Set initial positions based on first mouse move after mount
-        // This ensures the cursor doesn't jump from (0,0)
-        let initialPositionsSet = false;
-        const setInitialPositions = (event)=>{
-            if (!initialPositionsSet) {
-                mousePosition.current = {
-                    x: event.clientX,
-                    y: event.clientY
-                };
-                dotLogicalPosition.current = {
-                    x: event.clientX,
-                    y: event.clientY
-                };
-                outerEl.style.transform = `translate(${mousePosition.current.x - OUTER_VISUAL_DIAMETER / 2}px, ${mousePosition.current.y - OUTER_VISUAL_DIAMETER / 2}px)`;
-                dotEl.style.transform = `translate(${dotLogicalPosition.current.x - INNER_DOT_DIAMETER / 2}px, ${dotLogicalPosition.current.y - INNER_DOT_DIAMETER / 2}px)`;
-                // Make them visible now
-                outerEl.style.opacity = '1';
-                dotEl.style.opacity = '1';
-                initialPositionsSet = true;
-            }
-        // We can remove this specific listener if it was only for one-time init,
-        // but handleMouseMove will continue to update mousePosition.current
+        // Make cursor visible and set initial position immediately on mount
+        outerEl.style.opacity = '1';
+        dotEl.style.opacity = '1';
+        let initialX = window.innerWidth / 2;
+        let initialY = window.innerHeight / 2;
+        // Attempt to use last known mouse position if available, otherwise center
+        // This part is tricky as mouse position isn't tracked before first move event
+        // We'll initialize to center, and first mousemove will correct it.
+        mousePosition.current = {
+            x: initialX,
+            y: initialY
         };
+        dotLogicalPosition.current = {
+            x: initialX,
+            y: initialY
+        };
+        outerEl.style.transform = `translate(${mousePosition.current.x - OUTER_VISUAL_DIAMETER / 2}px, ${mousePosition.current.y - OUTER_VISUAL_DIAMETER / 2}px)`;
+        dotEl.style.transform = `translate(${dotLogicalPosition.current.x - INNER_DOT_DIAMETER / 2}px, ${dotLogicalPosition.current.y - INNER_DOT_DIAMETER / 2}px)`;
         const handleMouseMove = (event)=>{
-            if (!initialPositionsSet) {
-                setInitialPositions(event);
-            }
             mousePosition.current = {
                 x: event.clientX,
                 y: event.clientY
             };
         };
         const updateCursorPositions = ()=>{
-            if (!outerEl || !dotEl || !initialPositionsSet) {
+            const currentOuterEl = outerCircleRef.current; // Re-access ref inside loop
+            const currentDotEl = innerDotRef.current; // Re-access ref inside loop
+            if (!currentOuterEl || !currentDotEl) {
                 animationFrameIdRef.current = requestAnimationFrame(updateCursorPositions);
                 return;
             }
-            outerEl.style.transform = `translate(${mousePosition.current.x - OUTER_VISUAL_DIAMETER / 2}px, ${mousePosition.current.y - OUTER_VISUAL_DIAMETER / 2}px)`;
+            currentOuterEl.style.transform = `translate(${mousePosition.current.x - OUTER_VISUAL_DIAMETER / 2}px, ${mousePosition.current.y - OUTER_VISUAL_DIAMETER / 2}px)`;
             dotLogicalPosition.current.x += (mousePosition.current.x - dotLogicalPosition.current.x) * EASING_FACTOR;
             dotLogicalPosition.current.y += (mousePosition.current.y - dotLogicalPosition.current.y) * EASING_FACTOR;
             const outerCenterX = mousePosition.current.x;
@@ -3504,7 +3485,6 @@ const CustomCursor = ()=>{
             const deltaX = dotLogicalPosition.current.x - outerCenterX;
             const deltaY = dotLogicalPosition.current.y - outerCenterY;
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            // Max distance the dot's center can be from the outer circle's center while staying inside
             const maxDotDistance = OUTER_VISUAL_DIAMETER / 2 - INNER_DOT_DIAMETER / 2 - OUTER_BORDER_WIDTH / 2;
             let finalDotX = dotLogicalPosition.current.x;
             let finalDotY = dotLogicalPosition.current.y;
@@ -3513,34 +3493,33 @@ const CustomCursor = ()=>{
                 finalDotX = outerCenterX + Math.cos(angle) * maxDotDistance;
                 finalDotY = outerCenterY + Math.sin(angle) * maxDotDistance;
             }
-            dotEl.style.transform = `translate(${finalDotX - INNER_DOT_DIAMETER / 2}px, ${finalDotY - INNER_DOT_DIAMETER / 2}px)`;
+            currentDotEl.style.transform = `translate(${finalDotX - INNER_DOT_DIAMETER / 2}px, ${finalDotY - INNER_DOT_DIAMETER / 2}px)`;
             animationFrameIdRef.current = requestAnimationFrame(updateCursorPositions);
         };
-        document.body.style.cursor = 'none'; // Hide system cursor
-        window.addEventListener('mousemove', handleMouseMove, true); // Use capture phase for initial position
+        document.body.style.cursor = 'none';
+        window.addEventListener('mousemove', handleMouseMove);
         animationFrameIdRef.current = requestAnimationFrame(updateCursorPositions);
         return ()=>{
-            document.body.style.cursor = 'auto'; // Restore system cursor
-            window.removeEventListener('mousemove', handleMouseMove, true);
+            document.body.style.cursor = 'auto';
+            window.removeEventListener('mousemove', handleMouseMove);
             if (animationFrameIdRef.current) {
                 cancelAnimationFrame(animationFrameIdRef.current);
             }
+        // Optionally reset opacity if the component were to unmount, though it's a global cursor
+        // if (outerEl) outerEl.style.opacity = '0';
+        // if (dotEl) dotEl.style.opacity = '0';
         };
     }, [
         isMounted
-    ]); // This effect depends on isMounted
-    // Render nothing on the server and during the first client render pass
+    ]);
     if (!isMounted) {
         return null;
     }
-    // Once mounted, render the cursor elements. Their styles are static here.
-    // JS will handle their opacity (already 0 by default) and transform.
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 ref: outerCircleRef,
-                className: "fixed rounded-full pointer-events-none" // Base classes
-                ,
+                className: "fixed rounded-full pointer-events-none",
                 style: {
                     width: `${OUTER_VISUAL_DIAMETER}px`,
                     height: `${OUTER_VISUAL_DIAMETER}px`,
@@ -3554,13 +3533,12 @@ const CustomCursor = ()=>{
                 }
             }, void 0, false, {
                 fileName: "[project]/src/components/CustomCursor.tsx",
-                lineNumber: 130,
+                lineNumber: 117,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 ref: innerDotRef,
-                className: "fixed rounded-full pointer-events-none" // Base classes
-                ,
+                className: "fixed rounded-full pointer-events-none",
                 style: {
                     width: `${INNER_DOT_DIAMETER}px`,
                     height: `${INNER_DOT_DIAMETER}px`,
@@ -3574,7 +3552,7 @@ const CustomCursor = ()=>{
                 }
             }, void 0, false, {
                 fileName: "[project]/src/components/CustomCursor.tsx",
-                lineNumber: 145,
+                lineNumber: 132,
                 columnNumber: 7
             }, this)
         ]
@@ -3598,7 +3576,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$t
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/contexts/AuthContext.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/utils.ts [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$CustomCursor$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/CustomCursor.tsx [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$CustomCursor$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/CustomCursor.tsx [app-ssr] (ecmascript)"); // Uncommented CustomCursor import
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 'use client';
 ;
@@ -3612,26 +3590,26 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 ;
 ;
-function RootLayout({ children }) {
+// This wrapper component is needed to use usePathname in a Server Component context (RootLayout)
+function RootLayoutClientWrapper({ children }) {
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
     const [isMounted, setIsMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         setIsMounted(true);
     }, []);
-    const safePathname = pathname || "";
-    const isCurrentAdminPage = safePathname.startsWith('/admin');
-    const isCurrentAuthPage = safePathname.startsWith('/auth');
-    const isHomePage = safePathname === '/';
-    const clientShouldShowHeaderFooter = !isCurrentAdminPage && !isCurrentAuthPage;
-    const clientFooterSimplified = safePathname.startsWith('/account');
+    const isAdminPage = isMounted && pathname?.startsWith('/admin');
+    const isAuthPage = isMounted && pathname?.startsWith('/auth');
+    const isHomePage = isMounted && pathname === '/';
+    const clientShouldShowHeaderFooter = !isAdminPage && !isAuthPage;
+    const clientFooterSimplified = isMounted && pathname?.startsWith('/account');
     let showPaddingTop = false;
     if (isMounted) {
-        showPaddingTop = clientShouldShowHeaderFooter && !isHomePage && !safePathname.startsWith('/games') && safePathname !== '/statuses' && safePathname !== '/reviews'; // Added reviews page check
+        showPaddingTop = clientShouldShowHeaderFooter && !isHomePage && !pathname?.startsWith('/games') && pathname !== '/statuses' && pathname !== '/reviews';
     }
-    const mainClasses = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("flex-grow flex flex-col", showPaddingTop ? "pt-14" : "", isCurrentAdminPage ? "overflow-y-hidden" : "overflow-y-auto");
+    const mainClasses = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("flex-grow flex flex-col", showPaddingTop ? "pt-14" : "", isAdminPage ? "overflow-y-hidden" : "overflow-y-auto");
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("html", {
         lang: "ru",
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("dark", __TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$exo_2_40ff2aa0$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].variable),
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])(__TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$exo_2_40ff2aa0$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].variable, isAdminPage ? "dark" : ""),
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("head", {
                 children: [
@@ -3640,7 +3618,7 @@ function RootLayout({ children }) {
                         href: "https://fonts.googleapis.com"
                     }, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
-                        lineNumber: 60,
+                        lineNumber: 55,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
@@ -3649,7 +3627,7 @@ function RootLayout({ children }) {
                         crossOrigin: "anonymous"
                     }, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
-                        lineNumber: 61,
+                        lineNumber: 56,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
@@ -3657,13 +3635,13 @@ function RootLayout({ children }) {
                         rel: "stylesheet"
                     }, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
-                        lineNumber: 62,
+                        lineNumber: 57,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/layout.tsx",
-                lineNumber: 59,
+                lineNumber: 54,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("body", {
@@ -3672,12 +3650,13 @@ function RootLayout({ children }) {
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$CustomCursor$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 70,
+                            lineNumber: 65,
                             columnNumber: 11
                         }, this),
+                        " ",
                         isMounted && clientShouldShowHeaderFooter && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$layout$2f$Header$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 72,
+                            lineNumber: 67,
                             columnNumber: 57
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -3685,37 +3664,46 @@ function RootLayout({ children }) {
                             children: children
                         }, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 74,
+                            lineNumber: 69,
                             columnNumber: 11
                         }, this),
                         isMounted && clientShouldShowHeaderFooter && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$layout$2f$Footer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                             simplified: clientFooterSimplified
                         }, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 78,
+                            lineNumber: 73,
                             columnNumber: 57
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$toaster$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Toaster"], {}, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 80,
+                            lineNumber: 75,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/layout.tsx",
-                    lineNumber: 69,
+                    lineNumber: 64,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/layout.tsx",
-                lineNumber: 64,
+                lineNumber: 59,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/layout.tsx",
-        lineNumber: 58,
+        lineNumber: 53,
         columnNumber: 5
+    }, this);
+}
+function RootLayout({ children }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(RootLayoutClientWrapper, {
+        children: children
+    }, void 0, false, {
+        fileName: "[project]/src/app/layout.tsx",
+        lineNumber: 88,
+        columnNumber: 10
     }, this);
 }
 }}),

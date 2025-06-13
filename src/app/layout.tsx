@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from '@/contexts/AuthContext';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-// import CustomCursor from '@/components/CustomCursor'; // Temporarily disable custom cursor
+import CustomCursor from '@/components/CustomCursor'; // Uncommented CustomCursor import
 import React, { useEffect, useState } from 'react';
 
 const exo2 = Exo_2({ 
@@ -62,7 +62,7 @@ function RootLayoutClientWrapper({ children }: { children: React.ReactNode }) {
         )}
       >
         <AuthProvider>
-          {/* <CustomCursor /> */} {/* Custom cursor is currently commented out globally */}
+          <CustomCursor /> {/* Uncommented CustomCursor usage */}
           
           {isMounted && clientShouldShowHeaderFooter && <Header />}
 
