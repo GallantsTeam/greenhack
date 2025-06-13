@@ -46,20 +46,17 @@ export default function AdminHowToRunEditorPage() {
   const fetchProducts = useCallback(async () => {
     setIsLoadingProducts(true);
     try {
-      const response = await fetch('/api/admin/products'); // Assuming you have an endpoint to get all products
+      const response = await fetch('/api/admin/products'); 
       if (!response.ok) throw new Error('Failed to fetch products');
       const data: Product[] = await response.json();
       setProducts(data);
-      if (data.length > 0 && !selectedProductSlug) {
-        // setSelectedProductSlug(data[0].slug); // Optionally pre-select first product
-      }
     } catch (error) {
       console.error("Error fetching products:", error);
       toast({ title: "Ошибка", description: "Не удалось загрузить список товаров.", variant: "destructive" });
     } finally {
       setIsLoadingProducts(false);
     }
-  }, [toast, selectedProductSlug]);
+  }, [toast]);
 
   const fetchGuide = useCallback(async (slug: string) => {
     if (!slug) {
@@ -87,13 +84,19 @@ export default function AdminHowToRunEditorPage() {
           content: '<p>Начните писать инструкцию здесь...</p>',
         });
       } else {
-        throw new Error('Failed to fetch guide for this product.');
+        const errorData = await response.json().catch(() => ({ message: 'Failed to fetch guide for this product.' }));
+        throw new Error(errorData.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching guide:", error);
       toast({ title: "Ошибка", description: `Не удалось загрузить инструкцию для ${slug}.`, variant: "destructive" });
       setCurrentGuide(null);
-      form.reset({ product_slug: slug, title: '', content: '<p>Начните писать инструкцию здесь...</p>' });
+      const selectedProductOnFailure = products.find(p => p.slug === slug);
+      form.reset({ 
+        product_slug: slug, 
+        title: selectedProductOnFailure ? `Инструкция для ${selectedProductOnFailure.name}` : '', 
+        content: '<p>Начните писать инструкцию здесь...</p>' 
+      });
     } finally {
       setIsLoadingGuide(false);
     }
@@ -132,7 +135,7 @@ export default function AdminHowToRunEditorPage() {
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || 'Не удалось сохранить инструкцию.');
       toast({ title: "Успех", description: "Инструкция успешно сохранена." });
-      setCurrentGuide(result.guide); // Assuming API returns the saved guide
+      setCurrentGuide(result.guide); 
     } catch (error: any) {
       toast({ title: "Ошибка сохранения", description: error.message, variant: "destructive" });
     } finally {
@@ -192,9 +195,22 @@ export default function AdminHowToRunEditorPage() {
                 <SelectValue placeholder={isLoadingProducts ? "Загрузка товаров..." : "Выберите товар..."} />
               </SelectTrigger>
               <SelectContent>
-                {products.length > 0 ? products.map(product => (
-                  <SelectItem key={product.slug} value={product.slug}>{product.name} ({product.gameName})</SelectItem>
-                )) : <SelectItem value="" disabled>Товары не найдены</SelectItem>}
+                {isLoadingProducts ? (
+                  <div className="flex items-center justify-center p-2 text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Загрузка...
+                  </div>
+                ) : products.length > 0 ? (
+                  products.map(product => (
+                    <SelectItem key={product.slug} value={product.slug}>
+                      {product.name} ({product.gameName || 'N/A'})
+                    </SelectItem>
+                  ))
+                ) : (
+                  <div className="p-2 text-center text-sm text-muted-foreground">
+                    Товары не найдены.
+                  </div>
+                )}
               </SelectContent>
             </Select>
             {form.formState.errors.product_slug && <p className="text-sm text-destructive mt-1">{form.formState.errors.product_slug.message}</p>}
