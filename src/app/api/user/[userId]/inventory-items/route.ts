@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/mysql';
 import type { InventoryItemWithDetails } from '@/types';
+import type { OkPacket } from 'mysql2';
 
 export async function GET(
   request: NextRequest,
@@ -15,6 +16,21 @@ export async function GET(
   }
 
   try {
+    // --- Auto-delete expired items for this user ---
+    const deleteResult = await query(
+      `DELETE FROM user_inventory
+       WHERE user_id = ?
+         AND expires_at IS NOT NULL
+         AND expires_at < NOW()
+         AND (is_used = TRUE OR activation_status = 'active')`,
+      [parseInt(userId)]
+    ) as OkPacket;
+
+    if (deleteResult.affectedRows > 0) {
+      console.log(`[API Inventory] Successfully deleted ${deleteResult.affectedRows} expired items for user ${userId}.`);
+    }
+    // --- End auto-delete ---
+
     const results = await query(
       `SELECT 
          ui.id, 
@@ -31,9 +47,9 @@ export async function GET(
          ui.purchase_id,
          ui.case_opening_id,
          COALESCE(ppo.duration_days, cp.duration_days) as duration_days, 
-         ppo.mode_label, -- Changed from is_pvp
-         ui.activated_at, -- Added activated_at
-         ui.activation_status -- Added activation_status
+         ppo.mode_label,
+         ui.activated_at,
+         ui.activation_status
        FROM user_inventory ui
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
        LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id 
@@ -57,7 +73,7 @@ export async function GET(
       purchase_id: row.purchase_id,
       case_opening_id: row.case_opening_id,
       duration_days: row.duration_days ? parseInt(row.duration_days, 10) : null,
-      mode_label: row.mode_label || null, // Use mode_label
+      mode_label: row.mode_label || null,
       activated_at: row.activated_at,
       activation_status: row.activation_status || 'available',
     }));
@@ -65,7 +81,6 @@ export async function GET(
     return NextResponse.json(inventoryItems);
   } catch (error: any) {
     console.error(`API Error fetching inventory items for user ${userId}:`, error);
-    // Provide a more specific error message in the JSON payload
     const errorMessage = error.message || 'An unexpected error occurred on the server while fetching inventory.';
     return NextResponse.json({ message: `Failed to retrieve inventory. Server error: ${errorMessage}` }, { status: 500 });
   }
