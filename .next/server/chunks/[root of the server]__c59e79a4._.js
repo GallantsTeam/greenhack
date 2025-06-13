@@ -246,6 +246,18 @@ async function GET(request, { params }) {
         });
     }
     try {
+        // --- Auto-delete expired items for this user ---
+        const deleteResult = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`DELETE FROM user_inventory
+       WHERE user_id = ?
+         AND expires_at IS NOT NULL
+         AND expires_at < NOW()
+         AND (is_used = TRUE OR activation_status = 'active')`, [
+            parseInt(userId)
+        ]);
+        if (deleteResult.affectedRows > 0) {
+            console.log(`[API Inventory] Successfully deleted ${deleteResult.affectedRows} expired items for user ${userId}.`);
+        }
+        // --- End auto-delete ---
         const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
          ui.id, 
          ui.user_id, 
@@ -261,9 +273,9 @@ async function GET(request, { params }) {
          ui.purchase_id,
          ui.case_opening_id,
          COALESCE(ppo.duration_days, cp.duration_days) as duration_days, 
-         ppo.mode_label, -- Changed from is_pvp
-         ui.activated_at, -- Added activated_at
-         ui.activation_status -- Added activation_status
+         ppo.mode_label,
+         ui.activated_at,
+         ui.activation_status
        FROM user_inventory ui
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
        LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id 
@@ -293,7 +305,6 @@ async function GET(request, { params }) {
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(inventoryItems);
     } catch (error) {
         console.error(`API Error fetching inventory items for user ${userId}:`, error);
-        // Provide a more specific error message in the JSON payload
         const errorMessage = error.message || 'An unexpected error occurred on the server while fetching inventory.';
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             message: `Failed to retrieve inventory. Server error: ${errorMessage}`

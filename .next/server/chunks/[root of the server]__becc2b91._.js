@@ -251,18 +251,18 @@ async function GET(request) {
          p.name as product_direct_name,
          ui.product_name as inventory_item_product_name,
          ui.activation_code,
-         ui.updated_at as request_date, -- Use updated_at as request_date when pending
-         ui.activated_at, -- This will be populated when approved
-         ui.activation_status_reason as status_reason, -- For rejected status
+         ui.updated_at as request_date, 
+         ui.activated_at, 
+         ui.activation_status_reason as status_reason, 
          COALESCE(ppo.duration_days, cp.duration_days) as duration_days,
          ppo.mode_label,
-         ui.activation_status -- Explicitly select activation_status
+         ui.activation_status 
        FROM user_inventory ui
        JOIN users u ON ui.user_id = u.id
        LEFT JOIN products p ON ui.related_product_id = p.id
        LEFT JOIN product_pricing_options ppo ON ui.product_pricing_option_id = ppo.id
        LEFT JOIN case_prizes cp ON ui.case_prize_id = cp.id
-       WHERE 1=1`; // Start with a true condition
+       WHERE 1=1`;
         const queryParams = [];
         if (statusFilter && [
             'pending_admin_approval',
@@ -272,7 +272,7 @@ async function GET(request) {
             sqlQuery += ` AND ui.activation_status = ?`;
             queryParams.push(statusFilter);
         } else {
-            // Default to pending if no valid status is provided, or remove this to get all if preferred
+            // Default to pending if no valid status is provided
             sqlQuery += ` AND ui.activation_status = 'pending_admin_approval'`;
         }
         sqlQuery += ' ORDER BY ui.updated_at DESC';

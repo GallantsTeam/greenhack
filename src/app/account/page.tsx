@@ -198,16 +198,14 @@ export default function AccountDashboardPage() {
       });
       const result = await response.json();
       
-      // Check if the response is OK OR if it's the specific "pending_with_notification_issue" status
       if (!response.ok && result.status !== 'pending_with_notification_issue') { 
         throw new Error(result.message || 'Не удалось отправить запрос на активацию ключа.');
       }
       
-      // Display the message from the API regardless of ok status if it's pending_with_notification_issue
       toast({ 
-        title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (уведомление)" : "Запрос отправлен", 
+        title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (ошибка уведомления)" : "Запрос отправлен", 
         description: result.message,
-        variant: result.status === 'pending_with_notification_issue' ? "default" : "default" // or "warning" if preferred
+        variant: result.status === 'pending_with_notification_issue' ? "default" : "default"
       });
       
       setIsKeyModalOpen(false);
@@ -317,7 +315,7 @@ export default function AccountDashboardPage() {
                         {license.activation_type === 'key_request' && license.activation_status === 'active' && (
                             license.how_to_run_link ? (
                                 <Button size="sm" variant="outline" onClick={() => window.open(license.how_to_run_link!, '_blank')} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">
-                                    Как запускать?
+                                    Инструкция по запуску
                                 </Button>
                             ) : (
                                 <Button size="sm" variant="outline" onClick={() => handleHowToActivate(license)} className="border-primary text-primary hover:bg-primary/10 flex-grow sm:flex-grow-0">

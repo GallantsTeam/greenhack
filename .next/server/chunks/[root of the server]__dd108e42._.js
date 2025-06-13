@@ -690,11 +690,10 @@ async function POST(request) {
             console.error("[API RequestActivation] Failed to send Telegram notification to admin for key activation:", telegramResult.error);
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 message: 'Запрос на активацию отправлен! Если активация не произойдет в течение 10-15 минут, пожалуйста, свяжитесь с поддержкой.',
-                warning: 'Не удалось уведомить администратора через Telegram. Запрос все равно создан.',
-                status: 'pending_with_notification_issue' // Custom status to indicate success with a caveat
+                status: 'pending_with_notification_issue' // Custom status for frontend to interpret
             }, {
                 status: 200
-            }); // Return 200 but with a warning for the client to handle
+            }); // Return 200 OK as the request itself was processed
         }
         console.log('[API RequestActivation] Key activation request sent to admin.');
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({

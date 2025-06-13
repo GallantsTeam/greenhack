@@ -610,47 +610,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$telegram$2e$ts
 ;
 ;
 ;
-// import { sendEmail } from '@/lib/email'; // Placeholder for email notification
-const SETTINGS_ROW_ID = 1;
-async function getClientBotToken() {
-    try {
-        const settingsResults = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT client_bot_token FROM site_telegram_settings WHERE id = ? LIMIT 1', [
-            SETTINGS_ROW_ID
-        ]);
-        if (settingsResults.length > 0 && settingsResults[0].client_bot_token) {
-            return settingsResults[0].client_bot_token;
-        }
-        return null;
-    } catch (error) {
-        console.error("[ApproveKeyActivation] Error fetching client_bot_token:", error);
-        return null;
-    }
-}
-async function getNotificationSettings() {
-    try {
-        const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('SELECT * FROM site_notification_settings WHERE id = ? LIMIT 1', [
-            SETTINGS_ROW_ID
-        ]);
-        if (results.length > 0) {
-            const settings = results[0];
-            return {
-                id: settings.id,
-                notify_on_registration: Boolean(settings.notify_on_registration),
-                notify_on_balance_deposit: Boolean(settings.notify_on_balance_deposit),
-                notify_on_product_purchase: Boolean(settings.notify_on_product_purchase),
-                notify_on_support_reply: Boolean(settings.notify_on_support_reply),
-                notify_on_software_activation: Boolean(settings.notify_on_software_activation),
-                notify_on_license_expiry_soon: Boolean(settings.notify_on_license_expiry_soon),
-                notify_on_promotions: Boolean(settings.notify_on_promotions),
-                updated_at: settings.updated_at
-            };
-        }
-        return null;
-    } catch (error) {
-        console.error("[ApproveKeyActivation] Error fetching site_notification_settings:", error);
-        return null;
-    }
-}
 async function PUT(request, { params }) {
     // TODO: Add admin authentication check
     const inventoryItemId = parseInt(params.inventoryItemId, 10);
@@ -703,25 +662,22 @@ async function PUT(request, { params }) {
             'pending_admin_approval'
         ]);
         if (result.affectedRows > 0) {
-            const clientBotToken = await getClientBotToken();
-            const notificationSettings = await getNotificationSettings();
+            const { telegramSettings, siteNotificationSettings } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$telegram$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getTelegramSettingsFromDb"])();
+            const clientBotToken = telegramSettings?.client_bot_token;
             const userMessage = `Уважаемый пользователь, ваш ключ для "${item.product_name}"${item.duration_days ? ` на ${item.duration_days} дн.` : ''}${item.mode_label ? ` [${item.mode_label}]` : ''} был успешно активирован! Если вы не знаете как запустить софт, воспользуйтесь кнопкой "Как запускать?" в личном кабинете или напишите в техническую поддержку. Приятной игры!`;
-            // Send Telegram notification to user if telegram_id and client_bot_token are available
             if (item.user_telegram_id && clientBotToken) {
                 console.log(`[ApproveKeyActivation] Sending Telegram notification to user ${item.user_telegram_id}...`);
                 await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$telegram$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["sendTelegramMessage"])(clientBotToken, item.user_telegram_id, userMessage, 'HTML');
             } else {
                 console.log(`[ApproveKeyActivation] User ${item.user_telegram_id} Telegram ID or Client Bot Token not available. Skipping Telegram notification.`);
             }
-            // Add to user_notifications table in the database
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$mysql$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])('INSERT INTO user_notifications (user_id, message, link_url) VALUES (?, ?, ?)', [
                 item.user_db_id,
                 userMessage,
                 '/account/inventory'
             ]);
             console.log(`[ApproveKeyActivation] Added notification to user_notifications for user ${item.user_db_id}.`);
-            // Optional: Send email notification if enabled
-            // if (notificationSettings?.notify_on_software_activation && item.user_email) {
+            // if (siteNotificationSettings?.notify_on_software_activation && item.user_email) {
             //   await sendEmail({
             //     to: item.user_email,
             //     subject: `Ваш ключ для ${item.product_name} активирован!`,
