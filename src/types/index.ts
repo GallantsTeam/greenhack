@@ -580,5 +580,15 @@ export interface FaqSidebarNavItem {
   created_at?: string;
   updated_at?: string;
 }
+
+// New type for How To Run Guides
+export interface HowToRunGuide {
+  product_slug: string;
+  title: string;
+  content: string;      // HTML content
+  product_name?: string; // Optional: For display in admin, joined from products table
+  created_at?: string;
+  updated_at?: string;
+}
     
     

@@ -2129,6 +2129,10 @@ body {
   background-color: #eab3081a;
 }
 
+.bg-destructive\/90 {
+  background-color: hsl(var(--destructive) / .9);
+}
+
 .bg-\[radial-gradient\(ellipse_at_bottom_right\,_var\(--tw-gradient-stops\)\)\] {
   background-image: radial-gradient(ellipse at bottom right, var(--tw-gradient-stops));
 }
@@ -3454,6 +3458,10 @@ body {
 
 .hover\:bg-transparent:hover {
   background-color: #0000;
+}
+
+.hover\:bg-destructive:hover {
+  background-color: hsl(var(--destructive));
 }
 
 .hover\:text-accent-foreground:hover {

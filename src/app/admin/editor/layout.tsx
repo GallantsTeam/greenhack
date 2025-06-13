@@ -3,7 +3,7 @@
 
 import { ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { PencilRuler, MessageCircle, FileText, PlusSquare, Link as LinkIconLucide, ShoppingBag, LayoutDashboard, LayoutGrid, Star, HelpCircle, ShieldCheck, ListFilter } from 'lucide-react'; 
+import { PencilRuler, MessageCircle, FileText, PlusSquare, Link as LinkIconLucide, ShoppingBag, LayoutDashboard, LayoutGrid, Star, HelpCircle, ShieldCheck, ListFilter, BookOpen } from 'lucide-react'; 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; 
 import { cn } from '@/lib/utils';
@@ -14,7 +14,8 @@ const editorNavItems = [
   { href: '/admin/editor/reviews-page-settings', label: 'Настройки Отзывов', icon: Star, baseRoute: '/admin/editor/reviews-page-settings' },
   { href: '/admin/editor/faq-editor', label: 'Редактор FAQ (Вопросы)', icon: HelpCircle, baseRoute: '/admin/editor/faq-editor' },
   { href: '/admin/editor/faq-sidebar-editor', label: 'Редактор FAQ (Сайдбар)', icon: ListFilter, baseRoute: '/admin/editor/faq-sidebar-editor' },
-  { href: '/admin/editor/offer-editor', label: 'Оферта и Правила', icon: ShieldCheck, baseRoute: '/admin/editor/offer-editor' }, // Changed label
+  { href: '/admin/editor/offer-editor', label: 'Оферта и Правила', icon: ShieldCheck, baseRoute: '/admin/editor/offer-editor' },
+  { href: '/admin/editor/how-to-run-editor', label: 'Инструкции по запуску', icon: BookOpen, baseRoute: '/admin/editor/how-to-run-editor' },
   { href: '/admin/editor/footer-contacts', label: 'Контакты в футере', icon: MessageCircle, baseRoute: '/admin/editor/footer-contacts' },
   { href: '/admin/editor/footer-marketplace', label: 'Marketplace в футере', icon: ShoppingBag, baseRoute: '/admin/editor/footer-marketplace' },
   { href: '/admin/editor/custom-links', label: 'Доп. ссылки в футере', icon: LinkIconLucide, baseRoute: '/admin/editor/custom-links' },
