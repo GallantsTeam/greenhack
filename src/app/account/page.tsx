@@ -15,10 +15,12 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import KeyRegistrationModal from '@/components/KeyRegistrationModal';
+import { useRouter } from 'next/navigation'; // Added useRouter
 
 export default function AccountDashboardPage() {
   const { currentUser, fetchUserDetails, loading: authLoading } = useAuth();
   const { toast } = useToast();
+  const router = useRouter(); // Initialize router
   const [referrerDetails, setReferrerDetails] = useState<ReferrerDetails | null>(null);
   const [referredCount, setReferredCount] = useState<ReferredUsersCount | null>(null);
   const [activeLicenses, setActiveLicenses] = useState<ActiveLicense[]>([]);
@@ -205,7 +207,7 @@ export default function AccountDashboardPage() {
       toast({ 
         title: result.status === 'pending_with_notification_issue' ? "Запрос отправлен (ошибка уведомления)" : "Запрос отправлен", 
         description: result.message,
-        variant: result.status === 'pending_with_notification_issue' ? "default" : "default"
+        variant: "default" // Always default variant for this specific flow
       });
       
       setIsKeyModalOpen(false);
@@ -319,10 +321,12 @@ export default function AccountDashboardPage() {
                                 onClick={() => {
                                     if (license.how_to_run_link) {
                                         window.open(license.how_to_run_link, '_blank');
+                                    } else if (license.productSlug) {
+                                      router.push(`/how-to-run/${license.productSlug}`);
                                     } else {
                                         toast({
-                                            title: "В разработке",
-                                            description: "Страница с инструкцией по запуску скоро будет доступна.",
+                                            title: "Инструкция не найдена",
+                                            description: "Инструкция по запуску для этого товара скоро будет доступна или не настроена.",
                                             variant: "default"
                                         });
                                     }

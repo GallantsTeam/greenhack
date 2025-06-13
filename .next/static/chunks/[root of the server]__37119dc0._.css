@@ -3228,6 +3228,10 @@ body {
   color: rgb(161 98 7 / var(--tw-text-opacity, 1));
 }
 
+.text-destructive-foreground\/90 {
+  color: hsl(var(--destructive-foreground) / .9);
+}
+
 .underline-offset-4 {
   text-underline-offset: 4px;
 }
