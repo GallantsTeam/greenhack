@@ -27,7 +27,7 @@ export const getAllCategories = async (): Promise<Category[]> => {
     return results.map((row: any) => ({
       id: row.id, 
       name: row.name,
-      slug: String(row.slug).trim(), // Trimmed slug
+      slug: String(row.slug).trim(),
       description: row.description,
       min_price: parseFloat(row.min_price) || 0,
       imageUrl: (row.imageUrl || `https://placehold.co/800x400.png?text=${encodeURIComponent(row.name)}`).trim(),
@@ -65,14 +65,14 @@ export const getCategoryBySlug = async (slug: string): Promise<Category | undefi
          (SELECT COUNT(*) FROM products p WHERE p.game_slug = g.slug) as product_count
        FROM games g
        WHERE g.slug = ?`,
-      [slug.trim()] // Trim slug before query
+      [String(slug).trim()] 
     );
     if (results.length === 0) return undefined;
     const row = results[0];
     return {
       id: row.id,
       name: row.name,
-      slug: String(row.slug).trim(), // Trimmed slug
+      slug: String(row.slug).trim(), 
       description: row.description,
       min_price: parseFloat(row.min_price) || 0,
       imageUrl: (row.imageUrl || `https://placehold.co/800x400.png?text=${encodeURIComponent(row.name)}`).trim(),
@@ -116,6 +116,8 @@ export const getAllProducts = async (): Promise<Product[]> => {
          p.retrieval_modal_support_link_text,
          p.retrieval_modal_support_link_url,
          p.retrieval_modal_how_to_run_link,
+         p.activation_type, p.loader_download_url, p.info_modal_content_html, 
+         p.info_modal_support_link_text, p.info_modal_support_link_url,
          p.created_at, p.updated_at,
          (SELECT MIN(ppo.price_rub) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_rub_payment_visible = TRUE) as min_price_rub_calculated,
          (SELECT MIN(ppo.price_gh) FROM product_pricing_options ppo WHERE ppo.product_id = p.id AND ppo.is_gh_payment_visible = TRUE) as min_price_gh_calculated,
@@ -124,14 +126,14 @@ export const getAllProducts = async (): Promise<Product[]> => {
          g.platform as gamePlatform
        FROM products p
        LEFT JOIN games g ON p.game_slug = g.slug 
-       ORDER BY p.name ASC`
+       ORDER BY p.created_at DESC, p.name ASC`
     );
     
     return results.map((row: any) => ({
-      id: String(row.id).trim(), // Trimmed id (product slug)
+      id: String(row.id).trim(), 
       name: row.name,
-      slug: String(row.slug).trim(), // Trimmed slug
-      game_slug: String(row.game_slug).trim(), // Trimmed game_slug
+      slug: String(row.slug).trim(), 
+      game_slug: String(row.game_slug).trim(), 
       image_url: row.image_url ? String(row.image_url).trim() : null,
       imageUrl: (row.image_url || `https://placehold.co/300x350.png?text=${encodeURIComponent(row.name)}`).trim(),
       status: (row.status ? String(row.status).toLowerCase() : 'unknown') as Product['status'],
@@ -145,13 +147,13 @@ export const getAllProducts = async (): Promise<Product[]> => {
       data_ai_hint: row.data_ai_hint || `${String(row.name).toLowerCase()} product`,
       mode: row.mode,
       gallery_image_urls: row.gallery_image_urls ? String(row.gallery_image_urls).split(',').map((url: string) => url.trim()).filter(Boolean) : [],
-      functions_aim_title: row.functions_aim_title,
+      functions_aim_title: row.functions_aim_title || 'Aimbot Функции',
       functions_aim: row.functions_aim ? String(row.functions_aim).split(',').map((fn: string) => fn.trim()).filter(Boolean) : [],
       functions_aim_description: row.functions_aim_description,
-      functions_esp_title: row.functions_esp_title,
+      functions_esp_title: row.functions_esp_title || 'ESP/Wallhack Функции',
       functions_wallhack: row.functions_wallhack ? String(row.functions_wallhack).split(',').map((fn: string) => fn.trim()).filter(Boolean) : [],
       functions_esp_description: row.functions_esp_description,
-      functions_misc_title: row.functions_misc_title,
+      functions_misc_title: row.functions_misc_title || 'Прочие Функции',
       functions_misc: row.functions_misc ? String(row.functions_misc).split(',').map((fn: string) => fn.trim()).filter(Boolean) : [],
       functions_misc_description: row.functions_misc_description,
       system_os: row.system_os,
@@ -170,6 +172,11 @@ export const getAllProducts = async (): Promise<Product[]> => {
       retrieval_modal_support_link_text: row.retrieval_modal_support_link_text, 
       retrieval_modal_support_link_url: row.retrieval_modal_support_link_url,   
       retrieval_modal_how_to_run_link: row.retrieval_modal_how_to_run_link,
+      activation_type: row.activation_type || 'info_modal',
+      loader_download_url: row.loader_download_url,
+      info_modal_content_html: row.info_modal_content_html,
+      info_modal_support_link_text: row.info_modal_support_link_text,
+      info_modal_support_link_url: row.info_modal_support_link_url,
       created_at: row.created_at,
       updated_at: row.updated_at,
       gameName: row.gameName,
@@ -209,6 +216,8 @@ export const getProductBySlug = async (slug: string): Promise<Product | undefine
          p.retrieval_modal_support_link_text,
          p.retrieval_modal_support_link_url,
          p.retrieval_modal_how_to_run_link,
+         p.activation_type, p.loader_download_url, p.info_modal_content_html, 
+         p.info_modal_support_link_text, p.info_modal_support_link_url,
          p.created_at, p.updated_at,
          COALESCE(g.name, p.game_slug) as gameName,
          g.logo_url as gameLogoUrl,
@@ -216,26 +225,25 @@ export const getProductBySlug = async (slug: string): Promise<Product | undefine
        FROM products p
        LEFT JOIN games g ON p.game_slug = g.slug 
        WHERE p.slug = ?`,
-      [slug.trim()] // Trim slug before query
+      [String(slug).trim()] 
     );
     if (productResults.length === 0) return undefined;
     const row = productResults[0];
 
     const pricingOptionsResults = await query(
       'SELECT * FROM product_pricing_options WHERE product_id = ? ORDER BY duration_days ASC, mode_label ASC',
-      [String(row.id).trim()] // Trim product.id when fetching options
+      [String(row.id).trim()] 
     );
     
     const pricing_options: ProductPricingOption[] = Array.isArray(pricingOptionsResults) ? pricingOptionsResults.map((opt: any) => ({
       id: opt.id, 
-      product_id: String(opt.product_id).trim(), // Trim product_id in options
+      product_id: String(opt.product_id).trim(), 
       duration_days: parseInt(opt.duration_days, 10),
       price_rub: parseFloat(opt.price_rub),
       price_gh: parseFloat(opt.price_gh),
       payment_link: opt.payment_link || null,
       mode_label: opt.mode_label || null, 
       created_at: opt.created_at,
-      // Added new fields with defaults
       is_rub_payment_visible: opt.is_rub_payment_visible === undefined ? true : Boolean(opt.is_rub_payment_visible),
       is_gh_payment_visible: opt.is_gh_payment_visible === undefined ? true : Boolean(opt.is_gh_payment_visible),
       custom_payment_1_label: opt.custom_payment_1_label || null,
@@ -253,10 +261,10 @@ export const getProductBySlug = async (slug: string): Promise<Product | undefine
 
 
     return {
-      id: String(row.id).trim(), // Trimmed id (product slug)
+      id: String(row.id).trim(), 
       name: row.name,
-      slug: String(row.slug).trim(), // Trimmed slug
-      game_slug: String(row.game_slug).trim(), // Trimmed game_slug
+      slug: String(row.slug).trim(), 
+      game_slug: String(row.game_slug).trim(), 
       image_url: row.image_url ? String(row.image_url).trim() : null,
       imageUrl: (row.image_url || `https://placehold.co/600x400.png?text=${encodeURIComponent(row.name)}`).trim(),
       status: (row.status ? String(row.status).toLowerCase() : 'unknown') as Product['status'],
@@ -296,6 +304,11 @@ export const getProductBySlug = async (slug: string): Promise<Product | undefine
       retrieval_modal_support_link_text: row.retrieval_modal_support_link_text, 
       retrieval_modal_support_link_url: row.retrieval_modal_support_link_url,   
       retrieval_modal_how_to_run_link: row.retrieval_modal_how_to_run_link,
+      activation_type: row.activation_type || 'info_modal',
+      loader_download_url: row.loader_download_url,
+      info_modal_content_html: row.info_modal_content_html,
+      info_modal_support_link_text: row.info_modal_support_link_text,
+      info_modal_support_link_url: row.info_modal_support_link_url,
       created_at: row.created_at,
       updated_at: row.updated_at,
       gameName: row.gameName,
@@ -326,13 +339,13 @@ export const getProductsByCategorySlug = async (gameSlug: string): Promise<Produ
        LEFT JOIN games g ON p.game_slug = g.slug 
        WHERE p.game_slug = ?
        ORDER BY p.name ASC`,
-      [gameSlug.trim()] // Trim gameSlug before query
+      [String(gameSlug).trim()] 
     );
     return results.map((row: any) => ({
-      id: String(row.id).trim(), // Trimmed id (product slug)
+      id: String(row.id).trim(), 
       name: row.name,
-      slug: String(row.slug).trim(), // Trimmed slug
-      game_slug: String(row.game_slug).trim(), // Trimmed game_slug
+      slug: String(row.slug).trim(), 
+      game_slug: String(row.game_slug).trim(), 
       image_url: row.image_url ? String(row.image_url).trim() : null,
       imageUrl: (row.image_url || `https://placehold.co/300x350.png?text=${encodeURIComponent(row.name)}`).trim(),
       status: (row.status ? String(row.status).toLowerCase() : 'unknown') as Product['status'],
@@ -357,20 +370,20 @@ export const getProductsByCategorySlug = async (gameSlug: string): Promise<Produ
 // --- Case Data Fetching ---
 export const getCaseById = async (caseId: string): Promise<CaseItem | null> => {
   try {
-    const caseResults = await query('SELECT * FROM cases WHERE id = ? AND is_active = TRUE', [caseId.trim()]); // Trim caseId
+    const caseResults = await query('SELECT * FROM cases WHERE id = ? AND is_active = TRUE', [String(caseId).trim()]); 
     if (caseResults.length === 0) {
       console.warn(`Case with ID ${caseId} not found or not active.`);
       return null;
     }
     const caseRow = caseResults[0];
 
-    const prizeResults = await query('SELECT * FROM case_prizes WHERE case_id = ?', [caseId.trim()]); // Trim caseId
+    const prizeResults = await query('SELECT * FROM case_prizes WHERE case_id = ?', [String(caseId).trim()]); 
     const prizes: Prize[] = prizeResults.map((pRow: any) => ({
-      id: String(pRow.id).trim(), // Trimmed prize id
-      case_id: String(pRow.case_id).trim(), // Trimmed case_id in prize
+      id: String(pRow.id).trim(), 
+      case_id: String(pRow.case_id).trim(), 
       name: pRow.name,
       prize_type: pRow.prize_type,
-      related_product_id: pRow.related_product_id ? String(pRow.related_product_id).trim() : null, // Trimmed related_product_id
+      related_product_id: pRow.related_product_id ? String(pRow.related_product_id).trim() : null, 
       duration_days: pRow.duration_days ? parseInt(pRow.duration_days, 10) : null,
       days: pRow.duration_days ? parseInt(pRow.duration_days, 10) : null, 
       balance_gh_amount: pRow.balance_gh_amount ? parseFloat(pRow.balance_gh_amount) : undefined,
@@ -383,7 +396,7 @@ export const getCaseById = async (caseId: string): Promise<CaseItem | null> => {
     }));
 
     return {
-      id: String(caseRow.id).trim(), // Trimmed case id
+      id: String(caseRow.id).trim(), 
       name: caseRow.name,
       image_url: caseRow.image_url ? String(caseRow.image_url).trim() : null,
       imageUrl: (caseRow.image_url || `https://placehold.co/300x300.png?text=Case`).trim(), 

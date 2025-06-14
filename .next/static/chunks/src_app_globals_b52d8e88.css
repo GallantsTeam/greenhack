@@ -2013,6 +2013,10 @@ body {
   background-color: hsl(var(--destructive) / .1);
 }
 
+.bg-destructive\/90 {
+  background-color: hsl(var(--destructive) / .9);
+}
+
 .bg-green-500\/10 {
   background-color: #22c55e1a;
 }
@@ -2127,10 +2131,6 @@ body {
 
 .bg-yellow-500\/10 {
   background-color: #eab3081a;
-}
-
-.bg-destructive\/90 {
-  background-color: hsl(var(--destructive) / .9);
 }
 
 .bg-\[radial-gradient\(ellipse_at_bottom_right\,_var\(--tw-gradient-stops\)\)\] {
@@ -2616,6 +2616,10 @@ body {
   color: hsl(var(--destructive-foreground));
 }
 
+.text-destructive-foreground\/90 {
+  color: hsl(var(--destructive-foreground) / .9);
+}
+
 .text-destructive\/70 {
   color: hsl(var(--destructive) / .7);
 }
@@ -2786,10 +2790,6 @@ body {
 .text-yellow-700 {
   --tw-text-opacity: 1;
   color: rgb(161 98 7 / var(--tw-text-opacity, 1));
-}
-
-.text-destructive-foreground\/90 {
-  color: hsl(var(--destructive-foreground) / .9);
 }
 
 .underline-offset-4 {
@@ -3380,6 +3380,10 @@ body {
   background-color: hsl(var(--card) / .5);
 }
 
+.hover\:bg-destructive:hover {
+  background-color: hsl(var(--destructive));
+}
+
 .hover\:bg-destructive\/10:hover {
   background-color: hsl(var(--destructive) / .1);
 }
@@ -3462,10 +3466,6 @@ body {
 
 .hover\:bg-transparent:hover {
   background-color: #0000;
-}
-
-.hover\:bg-destructive:hover {
-  background-color: hsl(var(--destructive));
 }
 
 .hover\:text-accent-foreground:hover {
